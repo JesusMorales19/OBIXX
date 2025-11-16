@@ -443,8 +443,8 @@ class _VerMasScreenState extends State<VerMasScreen> {
         imagenesBase64: imagenes,
         disponibilidad: disponibilidad,
         especialidad: especialidad,
-        latitud: trabajo['latitud'] as double?,
-        longitud: trabajo['longitud'] as double?,
+        latitud: trabajo['latitud'] is double ? trabajo['latitud'] as double : (trabajo['latitud'] != null ? double.tryParse(trabajo['latitud'].toString()) : null),
+        longitud: trabajo['longitud'] is double ? trabajo['longitud'] as double : (trabajo['longitud'] != null ? double.tryParse(trabajo['longitud'].toString()) : null),
         showApplyButton: idTrabajo != null,
         canApply: puedeAplicar,
         isApplying: idTrabajo != null &&

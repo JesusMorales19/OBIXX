@@ -614,6 +614,7 @@ export const generarNomina = async (req, res) => {
 
     const trabajo = trabajoResult.rows[0];
     const presupuestoTotal = trabajo.presupuesto || 0;
+    const monedaPresupuesto = trabajo.moneda_presupuesto || 'MXN';
 
     // Obtener gastos extras del período
     const gastosExtrasResult = await query(
@@ -738,6 +739,7 @@ export const generarNomina = async (req, res) => {
         nombre: `${trabajador.nombre} ${trabajador.apellido}`,
         horas_trabajadas: totalHoras,
         monto_pagado: montoPagado,
+        moneda: trabajador.moneda || 'MXN',
       });
     }
 
@@ -824,6 +826,7 @@ export const generarNomina = async (req, res) => {
         fin: periodo_fin,
       },
       presupuesto: presupuestoTotal,
+      monedaPresupuesto,
       totalPagado: totalPagado,
       totalGastosExtras: totalGastosExtras,
       gastosExtras: detalleGastosExtras,
@@ -970,7 +973,7 @@ const generarPDFNomina = async (datos) => {
             .font('Helvetica')
             .text(trabajador.nombre, 60, yPos + 8)
             .text(`${trabajador.horas_trabajadas.toFixed(2)} hrs`, 280, yPos + 8)
-            .text(`$${trabajador.monto_pagado.toFixed(2)}`, 380, yPos + 8, { align: 'right', width: 170 });
+            .text(`$${trabajador.monto_pagado.toFixed(2)} ${trabajador.moneda || datos.monedaPresupuesto || ''}`, 380, yPos + 8, { align: 'right', width: 170 });
 
           yPos += 25;
         });
@@ -1006,7 +1009,7 @@ const generarPDFNomina = async (datos) => {
           .font('Helvetica-Bold')
           .text('FECHA', 60, yPos + 8)
           .text('DESCRIPCIÓN', 150, yPos + 8)
-          .text('MONTO', 450, yPos + 8, { align: 'right' });
+          .text(`MONTO (${datos.monedaPresupuesto || 'MXN'})`, 430, yPos + 8, { align: 'right' });
 
         yPos += 25;
 
@@ -1025,7 +1028,7 @@ const generarPDFNomina = async (datos) => {
             .font('Helvetica')
             .text(fechaGasto, 60, yPos + 8)
             .text(gasto.descripcion || 'Sin descripción', 150, yPos + 8, { width: 280 })
-            .text(`$${parseFloat(gasto.monto || 0).toFixed(2)}`, 450, yPos + 8, { align: 'right', width: 112 });
+            .text(`$${parseFloat(gasto.monto || 0).toFixed(2)} ${datos.monedaPresupuesto || ''}`, 450, yPos + 8, { align: 'right', width: 112 });
 
           yPos += 25;
         });
@@ -1036,8 +1039,8 @@ const generarPDFNomina = async (datos) => {
           .fillColor('#000000')
           .fontSize(11)
           .font('Helvetica-Bold')
-          .text('Total Gastos Extras:', 50, yPos)
-          .text(`$${parseFloat(datos.totalGastosExtras || 0).toFixed(2)}`, 450, yPos, { align: 'right', width: 112 });
+          .text(`Total Gastos Extras (${datos.monedaPresupuesto || 'MXN'}):`, 50, yPos)
+          .text(`$${parseFloat(datos.totalGastosExtras || 0).toFixed(2)} ${datos.monedaPresupuesto || ''}`, 450, yPos, { align: 'right', width: 112 });
 
         yPos += 20;
       }
@@ -1065,36 +1068,36 @@ const generarPDFNomina = async (datos) => {
         .fillColor('#000000')
         .fontSize(11)
         .font('Helvetica')
-        .text('Presupuesto Total:', 50, yPos)
+        .text(`Presupuesto Total (${datos.monedaPresupuesto || 'MXN'}):`, 50, yPos)
         .font('Helvetica-Bold')
-        .text(`$${parseFloat(datos.presupuesto).toFixed(2)}`, 400, yPos, { align: 'right', width: 112 });
+        .text(`$${parseFloat(datos.presupuesto).toFixed(2)} ${datos.monedaPresupuesto || ''}`, 400, yPos, { align: 'right', width: 112 });
 
       yPos += 25;
 
       doc
         .font('Helvetica')
-        .text('Total Pagado a Trabajadores:', 50, yPos)
+        .text(`Total Pagado a Trabajadores (${datos.monedaPresupuesto || 'MXN'}):`, 50, yPos)
         .font('Helvetica-Bold')
-        .text(`$${parseFloat(datos.totalPagado).toFixed(2)}`, 400, yPos, { align: 'right', width: 112 });
+        .text(`$${parseFloat(datos.totalPagado).toFixed(2)} ${datos.monedaPresupuesto || ''}`, 400, yPos, { align: 'right', width: 112 });
 
       yPos += 25;
 
       if (datos.totalGastosExtras && datos.totalGastosExtras > 0) {
         doc
           .font('Helvetica')
-          .text('Total Gastos Extras:', 50, yPos)
+          .text(`Total Gastos Extras (${datos.monedaPresupuesto || 'MXN'}):`, 50, yPos)
           .font('Helvetica-Bold')
-          .text(`$${parseFloat(datos.totalGastosExtras).toFixed(2)}`, 400, yPos, { align: 'right', width: 112 });
+          .text(`$${parseFloat(datos.totalGastosExtras).toFixed(2)} ${datos.monedaPresupuesto || ''}`, 400, yPos, { align: 'right', width: 112 });
 
         yPos += 25;
       }
 
       doc
         .font('Helvetica')
-        .text('Saldo Restante:', 50, yPos)
+        .text(`Saldo Restante (${datos.monedaPresupuesto || 'MXN'}):`, 50, yPos)
         .fillColor(colorVerde)
         .font('Helvetica-Bold')
-        .text(`$${parseFloat(datos.saldoRestante).toFixed(2)}`, 400, yPos, { align: 'right', width: 112 });
+        .text(`$${parseFloat(datos.saldoRestante).toFixed(2)} ${datos.monedaPresupuesto || ''}`, 400, yPos, { align: 'right', width: 112 });
 
       // Pie de página
       const pageHeight = doc.page.height;

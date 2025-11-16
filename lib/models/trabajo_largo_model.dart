@@ -46,7 +46,7 @@ class TrabajoLargoModel {
   /// Construir desde la respuesta del backend (trabajos cercanos / listados)
   factory TrabajoLargoModel.fromJson(Map<String, dynamic> json) {
     return TrabajoLargoModel(
-      idTrabajoLargo: json['id_trabajo_largo'] as int?,
+      idTrabajoLargo: FormatService.parseInt(json['id_trabajo_largo']),
       emailContratista: json['email_contratista'] ?? json['emailContratista'] ?? '',
       titulo: json['titulo'] ?? '',
       descripcion: json['descripcion'] ?? '',

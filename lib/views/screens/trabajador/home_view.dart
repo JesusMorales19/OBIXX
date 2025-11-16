@@ -25,6 +25,7 @@ class _HomeViewEmployeeState extends State<HomeViewEmployee> with WidgetsBinding
   bool _isLoading = true;
   bool _tieneSolicitudPendiente = false;
   int _numeroSolicitudesActivas = 0;
+  bool _tieneAsignacionActiva = false;
   Set<String> _trabajosAplicados = {}; // Set de claves "tipoTrabajo-idTrabajo"
   String? _emailTrabajador;
   String? _claveAplicando;
@@ -92,6 +93,7 @@ class _HomeViewEmployeeState extends State<HomeViewEmployee> with WidgetsBinding
         () => ApiService.obtenerSolicitudPendienteTrabajador(emailTrabajador),
         () => ApiService.obtenerNumeroSolicitudesActivas(emailTrabajador),
         () => ApiService.obtenerSolicitudesActivasTrabajador(emailTrabajador),
+        () => ApiService.obtenerTrabajoActualTrabajador(emailTrabajador),
       ],
       errorMessage: 'Error al cargar trabajos cercanos',
       showError: false,
@@ -102,6 +104,7 @@ class _HomeViewEmployeeState extends State<HomeViewEmployee> with WidgetsBinding
     final solicitudResponse = results[2];
     final numeroSolicitudesResult = results[3];
     final solicitudesActivasResult = results[4];
+    final trabajoActualResult = results[5];
 
     final solicitudData = solicitudResponse?['data'];
     final bool tieneSolicitud = solicitudData != null;
@@ -127,6 +130,7 @@ class _HomeViewEmployeeState extends State<HomeViewEmployee> with WidgetsBinding
       _tieneSolicitudPendiente = tieneSolicitud;
       _numeroSolicitudesActivas = numeroSolicitudes;
       _trabajosAplicados = trabajosAplicadosSet;
+      _tieneAsignacionActiva = (trabajoActualResult?['data']?['data']) != null;
       if (!tieneSolicitud) {
         _claveAplicando = null;
       }
@@ -286,6 +290,7 @@ class _HomeViewEmployeeState extends State<HomeViewEmployee> with WidgetsBinding
                                         final puedeAplicar = idTrabajoCorto != null &&
                                             !yaAplico &&
                                             _numeroSolicitudesActivas < 3 &&
+                                            !_tieneAsignacionActiva &&
                                             _claveAplicando == null &&
                                             trabajo.estado == 'activo' &&
                                             (trabajo.vacantesDisponibles ?? 0) > 0;
@@ -349,6 +354,7 @@ class _HomeViewEmployeeState extends State<HomeViewEmployee> with WidgetsBinding
                                     final puedeAplicar = idTrabajoLargo != null &&
                                         !yaAplico &&
                                         _numeroSolicitudesActivas < 3 &&
+                                        !_tieneAsignacionActiva &&
                                         _claveAplicando == null &&
                                         trabajo.estado == 'activo' &&
                                         (trabajo.vacantesDisponibles ?? 0) > 0;

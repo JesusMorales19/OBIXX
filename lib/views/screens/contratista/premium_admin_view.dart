@@ -250,7 +250,8 @@ class _PremiumAdminViewState extends State<PremiumAdminView> {
   }
 
   Widget _buildTrabajoCard(Map<String, dynamic> trabajo) {
-    final idTrabajo = trabajo['id_trabajo_largo'] as int;
+    final rawId = trabajo['id_trabajo_largo'];
+    final idTrabajo = rawId is int ? rawId : int.tryParse(rawId?.toString() ?? '') ?? 0;
     final titulo = trabajo['titulo']?.toString() ?? 'Sin título';
     final descripcion = trabajo['descripcion']?.toString() ?? '';
     final presupuesto = trabajo['presupuesto'];

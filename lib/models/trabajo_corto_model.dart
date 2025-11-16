@@ -56,7 +56,7 @@ class TrabajoCortoModel {
     }
 
     return TrabajoCortoModel(
-      idTrabajoCorto: json['id_trabajo_corto'] as int?,
+      idTrabajoCorto: FormatService.parseInt(json['id_trabajo_corto']),
       emailContratista: json['email_contratista'] ?? json['emailContratista'] ?? '',
       titulo: json['titulo'] ?? '',
       descripcion: json['descripcion'] ?? '',

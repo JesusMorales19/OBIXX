@@ -122,7 +122,7 @@ class _SeeMoreEmployeesState extends State<SeeMoreEmployees> {
             'isAssignedToCurrent': asignadoPorMi,
             'isAssignedToOther': asignadoAOtro,
             'assignedJobType': t['tipo_trabajo_asignado'],
-            'assignedJobId': t['id_trabajo_asignado'],
+            'assignedJobId': FormatService.parseInt(t['id_trabajo_asignado']),
           };
         }).toList();
         _isLoading = false;

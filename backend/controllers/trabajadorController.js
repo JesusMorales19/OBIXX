@@ -10,15 +10,8 @@ const ensureCascadeConstraints = async () => {
   }
 
   const statements = [
-    `ALTER TABLE favoritos DROP CONSTRAINT IF EXISTS fk_trabajador`,
-    `ALTER TABLE favoritos ADD CONSTRAINT fk_trabajador FOREIGN KEY (email_trabajador) REFERENCES trabajadores(email) ON DELETE CASCADE ON UPDATE CASCADE`,
-
-    `ALTER TABLE asignaciones_trabajo DROP CONSTRAINT IF EXISTS fk_asignacion_trabajador`,
-    `ALTER TABLE asignaciones_trabajo ADD CONSTRAINT fk_asignacion_trabajador FOREIGN KEY (email_trabajador) REFERENCES trabajadores(email) ON DELETE CASCADE ON UPDATE CASCADE`,
-
-    `ALTER TABLE calificaciones_trabajadores DROP CONSTRAINT IF EXISTS fk_calificacion_trabajador`,
-    `ALTER TABLE calificaciones_trabajadores ADD CONSTRAINT fk_calificacion_trabajador FOREIGN KEY (email_trabajador) REFERENCES trabajadores(email) ON DELETE CASCADE ON UPDATE CASCADE`,
-
+    // En el esquema actual usamos vistas para varias relaciones;
+    // no podemos ALTER vistas. Solo aseguramos campos locales.
     `ALTER TABLE trabajadores ADD COLUMN IF NOT EXISTS descripcion TEXT`,
   ];
 

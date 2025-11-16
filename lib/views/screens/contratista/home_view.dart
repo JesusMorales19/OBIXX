@@ -137,7 +137,7 @@ class _HomeViewContractorState extends State<HomeViewContractor> {
             'isAssignedToCurrent': asignadoPorMi,
             'isAssignedToOther': asignadoAOtro,
             'assignedJobType': t['tipo_trabajo_asignado'],
-            'assignedJobId': t['id_trabajo_asignado'],
+            'assignedJobId': FormatService.parseInt(t['id_trabajo_asignado']),
           };
         }).toList();
         _isLoadingWorkers = false;
@@ -820,7 +820,7 @@ class _RegistroCortoPlazoModalState extends State<RegistroCortoPlazoModal> {
                   label: 'Especialidad requerida',
                   icon: Icons.handyman,
                   value: especialidad,
-                  items: ['Albañil', 'Electricista', 'Carpintero', 'Plomero', 'Pintor'],
+                  items: ['Albañil', 'Electricista', 'Carpintero', 'Plomero', 'Pintor', 'Herrero', 'Azulejero', 'Chalan', 'Segunda cuchara', 'Techador', 'Tecnico HVAC', 'Yesero'],
                   onChanged: (v) => setState(() => especialidad = v),
                 ),
                 const SizedBox(height: 25),

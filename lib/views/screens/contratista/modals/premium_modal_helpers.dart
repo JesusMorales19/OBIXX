@@ -244,7 +244,8 @@ class PremiumModalHelpers {
       // Reiniciar horas de los trabajadores y gastos extras para este período
       String mensajeHoras = '';
       try {
-        final idTrabajoLargo = nomina['id_trabajo_largo'] as int?;
+        final rawIdTrabajo = nomina['id_trabajo_largo'];
+        final idTrabajoLargo = rawIdTrabajo is int ? rawIdTrabajo : int.tryParse(rawIdTrabajo?.toString() ?? '');
         final emailContratista = nomina['email_contratista'] as String?;
         final periodoInicioRaw = nomina['periodo_inicio'];
         final periodoFinRaw = nomina['periodo_fin'];

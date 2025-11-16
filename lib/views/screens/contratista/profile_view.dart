@@ -180,7 +180,8 @@ class _ProfileViewState extends State<ProfileView> {
       final data = premiumResult['data'] as Map<String, dynamic>? ?? premiumResult;
       setState(() {
         _tienePremium = data['tienePremium'] == true;
-        _idPlanActivo = data['id_plan_activo'] as int?;
+        final rawIdPlan = data['id_plan_activo'];
+        _idPlanActivo = rawIdPlan is int ? rawIdPlan : int.tryParse(rawIdPlan?.toString() ?? '');
         _periodicidadActiva = data['periodicidad_activa'] as String?;
       });
     }

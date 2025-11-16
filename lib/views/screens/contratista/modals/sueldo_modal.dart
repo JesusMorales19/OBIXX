@@ -124,7 +124,7 @@ class SueldoModal {
 
                               if (monto <= 0) {
                                 CustomNotification.showError(
-                                  context,
+                                  modalContext,
                                   'Ingresa un monto válido',
                                 );
                                 return;
@@ -132,7 +132,7 @@ class SueldoModal {
 
                               final result = await ApiWrapper.safeCallWithResult<Map<String, dynamic>>(
                                 call: () => ApiService.configurarSueldo(
-                                  idAsignacion: trabajador['id_asignacion'],
+                                  idAsignacion: FormatService.parseInt(trabajador['id_asignacion']),
                                   idTrabajoLargo: idTrabajo,
                                   emailTrabajador: trabajador['email_trabajador'],
                                   emailContratista: emailContratista,
@@ -147,7 +147,7 @@ class SueldoModal {
                               if (result['success'] == true) {
                                 Navigator.of(modalContext).pop();
                                 CustomNotification.showSuccess(
-                                  context,
+                                  modalContext,
                                   'Sueldo configurado exitosamente',
                                 );
                               }

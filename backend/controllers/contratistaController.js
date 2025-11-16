@@ -10,20 +10,7 @@ const ensureCascadeConstraints = async () => {
   }
 
   const statements = [
-    `ALTER TABLE favoritos DROP CONSTRAINT IF EXISTS fk_contratista`,
-    `ALTER TABLE favoritos ADD CONSTRAINT fk_contratista FOREIGN KEY (email_contratista) REFERENCES contratistas(email) ON DELETE CASCADE ON UPDATE CASCADE`,
-
-    `ALTER TABLE asignaciones_trabajo DROP CONSTRAINT IF EXISTS fk_asignacion_contratista`,
-    `ALTER TABLE asignaciones_trabajo ADD CONSTRAINT fk_asignacion_contratista FOREIGN KEY (email_contratista) REFERENCES contratistas(email) ON DELETE CASCADE ON UPDATE CASCADE`,
-
-    `ALTER TABLE calificaciones_trabajadores DROP CONSTRAINT IF EXISTS fk_calificacion_contratista`,
-    `ALTER TABLE calificaciones_trabajadores ADD CONSTRAINT fk_calificacion_contratista FOREIGN KEY (email_contratista) REFERENCES contratistas(email) ON DELETE CASCADE ON UPDATE CASCADE`,
-
-    `ALTER TABLE trabajos_largo_plazo DROP CONSTRAINT IF EXISTS fk_trabajos_largo_contratista`,
-    `ALTER TABLE trabajos_largo_plazo ADD CONSTRAINT fk_trabajos_largo_contratista FOREIGN KEY (email_contratista) REFERENCES contratistas(email) ON DELETE CASCADE ON UPDATE CASCADE`,
-
-    `ALTER TABLE trabajos_corto_plazo DROP CONSTRAINT IF EXISTS fk_tc_contratista`,
-    `ALTER TABLE trabajos_corto_plazo ADD CONSTRAINT fk_tc_contratista FOREIGN KEY (email_contratista) REFERENCES contratistas(email) ON DELETE CASCADE ON UPDATE CASCADE`,
+    // No alterar vistas. Solo asegurar columnas locales cuando apliquen.
   ];
 
   for (const statement of statements) {

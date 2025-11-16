@@ -94,7 +94,8 @@ export const registrarCalificacion = async (req, res) => {
       }
     }
 
-    const insertResult = await client.query(
+    // Insertar en la vista (sin RETURNING por trigger INSTEAD OF)
+    await client.query(
       `INSERT INTO calificaciones_trabajadores (
          email_contratista,
          email_trabajador,
@@ -102,8 +103,7 @@ export const registrarCalificacion = async (req, res) => {
          estrellas,
          resena
        )
-       VALUES ($1, $2, $3, $4, $5)
-       RETURNING id_calificacion, fecha_calificacion`,
+       VALUES ($1, $2, $3, $4, $5)`,
       [
         emailContratista,
         emailTrabajador,
@@ -111,6 +111,17 @@ export const registrarCalificacion = async (req, res) => {
         estrellasNumber,
         resena,
       ]
+    );
+
+    // Recuperar el registro insertado
+    const insertResult = await client.query(
+      `SELECT id_calificacion, fecha_calificacion
+         FROM calificaciones_trabajadores
+        WHERE email_contratista = $1
+          AND email_trabajador = $2
+        ORDER BY fecha_calificacion DESC, id_calificacion DESC
+        LIMIT 1`,
+      [emailContratista, emailTrabajador]
     );
 
     const promedioResult = await client.query(

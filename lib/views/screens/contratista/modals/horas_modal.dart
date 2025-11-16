@@ -88,10 +88,34 @@ class HorasModal {
                           label: 'Seleccionar Trabajador',
                           icon: Icons.person,
                           value: idAsignacionSeleccionada,
-                          items: trabajadores.map((t) => t['id_asignacion'] as int).toList(),
+                          items: (() {
+                            final ids = trabajadores.map((t) {
+                              final v = t['id_asignacion'];
+                              final parsed = v is int ? v : int.tryParse(v?.toString() ?? '');
+                              return parsed;
+                            }).where((e) => e != null).cast<int>().toList();
+                            if (idAsignacionSeleccionada == null && ids.isNotEmpty) {
+                              idAsignacionSeleccionada = ids.first;
+                              final firstTrab = trabajadores.firstWhere(
+                                (t) {
+                                  final v = t['id_asignacion'];
+                                  final parsed = v is int ? v : int.tryParse(v?.toString() ?? '');
+                                  return parsed == idAsignacionSeleccionada;
+                                },
+                                orElse: () => trabajadores.first,
+                              );
+                              emailTrabajadorSeleccionado = firstTrab['email_trabajador'];
+                            }
+                            return ids;
+                          })(),
                           itemBuilder: (id) {
                             final trabajador = trabajadores.firstWhere(
-                              (t) => t['id_asignacion'] == id,
+                              (t) {
+                                final v = t['id_asignacion'];
+                                final parsed = v is int ? v : int.tryParse(v?.toString() ?? '');
+                                return parsed == id;
+                              },
+                              orElse: () => trabajadores.first,
                             );
                             return '${trabajador['nombre']} ${trabajador['apellido']}';
                           },
@@ -99,7 +123,12 @@ class HorasModal {
                             setModalState(() {
                               idAsignacionSeleccionada = value;
                               final trabajador = trabajadores.firstWhere(
-                                (t) => t['id_asignacion'] == value,
+                                (t) {
+                                  final v = t['id_asignacion'];
+                                  final parsed = v is int ? v : int.tryParse(v?.toString() ?? '');
+                                  return parsed == value;
+                                },
+                                orElse: () => trabajadores.first,
                               );
                               emailTrabajadorSeleccionado = trabajador['email_trabajador'];
                             });
@@ -165,7 +194,7 @@ class HorasModal {
                             onPressed: () async {
                               if (idAsignacionSeleccionada == null || emailTrabajadorSeleccionado == null) {
                                 CustomNotification.showError(
-                                  context,
+                                  modalContext,
                                   'Selecciona un trabajador',
                                 );
                                 return;
@@ -174,7 +203,7 @@ class HorasModal {
                               final horas = FormatService.parseDouble(horasController.text);
                               if (horas <= 0) {
                                 CustomNotification.showError(
-                                  context,
+                                  modalContext,
                                   'Ingresa horas válidas',
                                 );
                                 return;
@@ -196,7 +225,7 @@ class HorasModal {
                               if (result['success'] == true) {
                                 Navigator.of(modalContext).pop();
                                 CustomNotification.showSuccess(
-                                  context,
+                                  modalContext,
                                   'Horas registradas exitosamente',
                                 );
                               }

@@ -43,7 +43,8 @@ export const registrarTrabajoCortoPlazo = async (req, res) => {
       return handleValidationError(res, 'Contratista no encontrado', 404);
     }
 
-    const trabajoResult = await query(
+    // Insertar primero (la vista puede no soportar RETURNING debido a INSTEAD OF)
+    await query(
       `INSERT INTO trabajos_corto_plazo (
         email_contratista,
         titulo,
@@ -57,8 +58,7 @@ export const registrarTrabajoCortoPlazo = async (req, res) => {
         vacantes_disponibles,
         disponibilidad,
         especialidad
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'activo', $9, $10, $11)
-      RETURNING *`,
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'activo', $9, $10, $11)`,
       [
         emailContratista,
         titulo,
@@ -74,7 +74,17 @@ export const registrarTrabajoCortoPlazo = async (req, res) => {
       ]
     );
 
-    const trabajo = trabajoResult.rows[0];
+    // Recuperar el registro recién creado
+    const fetchResult = await query(
+      `SELECT *
+         FROM trabajos_corto_plazo
+        WHERE email_contratista = $1
+        ORDER BY id_trabajo_corto DESC
+        LIMIT 1`,
+      [emailContratista]
+    );
+
+    const trabajo = fetchResult.rows[0];
 
     if (Array.isArray(imagenes) && imagenes.length > 0) {
       const insertPromises = imagenes
@@ -113,18 +123,21 @@ export const obtenerTrabajosCortoPorContratista = async (req, res) => {
     const result = await query(
       `SELECT 
         tcp.*,
-        COALESCE(
-          json_agg(json_build_object(
-            'id_imagen', tci.id_imagen,
-            'imagen_base64', tci.imagen_base64
-          ) ORDER BY tci.id_imagen)
-          FILTER (WHERE tci.id_imagen IS NOT NULL),
-          '[]'::json
-        ) AS imagenes
+        COALESCE(img.imagenes, '[]'::json) AS imagenes
        FROM trabajos_corto_plazo tcp
-       LEFT JOIN trabajos_corto_plazo_imagenes tci ON tcp.id_trabajo_corto = tci.id_trabajo_corto
+       LEFT JOIN (
+         SELECT 
+           id_trabajo_corto,
+           json_agg(
+             json_build_object(
+               'id_imagen', id_imagen,
+               'imagen_base64', imagen_base64
+             ) ORDER BY id_imagen
+           ) AS imagenes
+         FROM trabajos_corto_plazo_imagenes
+         GROUP BY id_trabajo_corto
+       ) AS img ON img.id_trabajo_corto = tcp.id_trabajo_corto
        WHERE tcp.email_contratista = $1
-       GROUP BY tcp.id_trabajo_corto
        ORDER BY tcp.created_at DESC`,
       [emailContratista]
     );

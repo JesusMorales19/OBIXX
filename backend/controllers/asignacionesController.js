@@ -127,10 +127,23 @@ export const asignarTrabajo = async (req, res) => {
     const nombreContratista = `${contratistaInfo.rows[0]?.nombre ?? ''} ${contratistaInfo.rows[0]?.apellido ?? ''}`.trim();
 
     // Insertar asignación
-    const asignacionResult = await client.query(
+    // Insert sin RETURNING porque la vista puede usar INSTEAD OF
+    await client.query(
       `INSERT INTO asignaciones_trabajo (email_contratista, email_trabajador, tipo_trabajo, id_trabajo)
-       VALUES ($1, $2, $3, $4)
-       RETURNING id_asignacion, fecha_asignacion` ,
+       VALUES ($1, $2, $3, $4)`,
+      [emailContratista, emailTrabajador, tipoTrabajo, idTrabajo]
+    );
+
+    // Recuperar la asignación recién creada
+    const asignacionResult = await client.query(
+      `SELECT id_asignacion, fecha_asignacion
+         FROM asignaciones_trabajo
+        WHERE email_contratista = $1
+          AND email_trabajador = $2
+          AND tipo_trabajo = $3
+          AND id_trabajo = $4
+        ORDER BY fecha_asignacion DESC, id_asignacion DESC
+        LIMIT 1`,
       [emailContratista, emailTrabajador, tipoTrabajo, idTrabajo]
     );
 
@@ -813,28 +826,30 @@ export const finalizarTrabajo = async (req, res) => {
         });
       }
 
-      await client.query(
-        `INSERT INTO calificaciones_trabajadores (
-           email_contratista,
-           email_trabajador,
-           id_asignacion,
-           estrellas,
-           resena
-         )
-         VALUES ($1, $2, $3, $4, $5)
-         ON CONFLICT (id_asignacion)
-         DO UPDATE
-           SET estrellas = EXCLUDED.estrellas,
-               resena = EXCLUDED.resena,
-               fecha_calificacion = CURRENT_TIMESTAMP`,
-        [
-          emailContratista,
-          emailTrabajador,
-          idAsignacionNumber,
-          estrellasNumber,
-          resena,
-        ]
+      // Upsert manual porque la vista no soporta ON CONFLICT
+      const upd = await client.query(
+        `UPDATE calificaciones_trabajadores
+            SET estrellas = $4,
+                resena = $5,
+                fecha_calificacion = CURRENT_TIMESTAMP
+          WHERE email_contratista = $1
+            AND email_trabajador = $2
+            AND id_asignacion = $3`,
+        [emailContratista, emailTrabajador, idAsignacionNumber, estrellasNumber, resena]
       );
+      if (upd.rowCount === 0) {
+        await client.query(
+          `INSERT INTO calificaciones_trabajadores (
+             email_contratista,
+             email_trabajador,
+             id_asignacion,
+             estrellas,
+             resena
+           )
+           VALUES ($1, $2, $3, $4, $5)`,
+          [emailContratista, emailTrabajador, idAsignacionNumber, estrellasNumber, resena]
+        );
+      }
 
       const promedioResult = await client.query(
         `SELECT AVG(estrellas)::numeric(4,2) AS promedio

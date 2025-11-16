@@ -122,7 +122,8 @@ export const aplicarATrabajo = async (req, res) => {
       return handleValidationError(res, 'Ya has aplicado a este trabajo. Espera la respuesta del contratista.');
     }
 
-    const solicitudInsert = await client.query(
+    // Insertar sin RETURNING (la vista usa INSTEAD OF)
+    await client.query(
       `INSERT INTO solicitudes_trabajo (
           email_trabajador,
           email_contratista,
@@ -130,8 +131,7 @@ export const aplicarATrabajo = async (req, res) => {
           id_trabajo,
           expira_en
         )
-        VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP + ($5 || ' minutes')::interval)
-        RETURNING id_solicitud, expira_en`,
+        VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP + ($5 || ' minutes')::interval)`,
       [
         emailTrabajador,
         trabajo.email_contratista,
@@ -141,7 +141,19 @@ export const aplicarATrabajo = async (req, res) => {
       ]
     );
 
-    const solicitud = solicitudInsert.rows[0];
+    // Recuperar la solicitud creada
+    const solicitudFetch = await client.query(
+      `SELECT id_solicitud, expira_en
+         FROM solicitudes_trabajo
+        WHERE email_trabajador = $1
+          AND tipo_trabajo = $2
+          AND id_trabajo = $3
+        ORDER BY id_solicitud DESC
+        LIMIT 1`,
+      [emailTrabajador, tipoTrabajo, idTrabajo]
+    );
+
+    const solicitud = solicitudFetch.rows[0];
 
     // Actualizar estado del trabajador solo si tiene 3 solicitudes pendientes
     // o si ya tiene una asignación activa
