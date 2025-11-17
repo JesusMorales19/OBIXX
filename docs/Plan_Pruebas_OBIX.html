@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>OBIX - Plan de Pruebas Manuales (Integración)</title>
+  <style>
+    body { font-family: "Segoe UI", Roboto, Arial, sans-serif; color: #111827; margin: 32px; line-height: 1.35; }
+    h1, h2, h3 { color: #0f766e; }
+    h1 { margin-bottom: 4px; }
+    h2 { margin-top: 28px; border-bottom: 2px solid #0f766e22; padding-bottom: 6px; }
+    .meta { color: #6b7280; margin-top: 0; }
+    .card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin: 12px 0 20px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .mono { font-family: Consolas, "Courier New", monospace; color: #374151; }
+    ul { margin-top: 6px; }
+    li { margin: 4px 0; }
+    .evidencia { border: 1px dashed #d1d5db; padding: 10px; border-radius: 6px; background: #f9fafb; }
+    .placeholder { color: #6b7280; font-style: italic; }
+    .small { font-size: 12px; color: #6b7280; }
+  </style>
+</head>
+<body>
+  <h1>OBIX - Plan de Pruebas Manuales</h1>
+  <p class="meta">Tipo: Pruebas de Integración End-to-End (con dispositivo físico)</p>
+
+  <div class="card">
+    <strong>Entorno</strong>
+    <ul>
+      <li>App: Flutter (Android/iOS) en dispositivo físico.</li>
+      <li>Backend (API REST): <span class="mono">https://obix.onrender.com/api</span></li>
+      <li>Base de datos: PostgreSQL (Render).</li>
+      <li>Usuarios de ejemplo: Contratista (C1) y Trabajador (T1).</li>
+    </ul>
+  </div>
+
+  <h2>Funcionalidad 1 — Postulación y Asignación de Trabajo</h2>
+  <div class="card">
+    <p><strong>Funcionalidad:</strong> Postulación de trabajador y asignación por contratista.</p>
+    <p><strong>Tipo de prueba:</strong> Integración E2E (positivo + regla de bloqueo).</p>
+    <p><strong>Objetivo:</strong> Verificar que T1 puede postularse y que C1 recibe la notificación; si C1 acepta, se crea la asignación y la app de T1 bloquea nuevas postulaciones mientras la asignación está activa.</p>
+    <p><strong>Entorno:</strong> App Flutter + API OBIX + PostgreSQL Render.</p>
+
+    <p><strong>Pasos:</strong></p>
+    <ol>
+      <li>Iniciar sesión como <em>Trabajador T1</em> y abrir la pantalla principal (registra/actualiza token FCM).</li>
+      <li>Ir a “Trabajos cercanos” y elegir un trabajo con vacantes &gt; 0.</li>
+      <li>Pulsar <em>Aplicar</em> y confirmar.</li>
+      <li>Esperar notificación push en la app del <em>Contratista C1</em> informando de la nueva solicitud. Abrir la app como C1.</li>
+      <li>Desde C1, entrar al trabajo → ver “Solicitudes” → seleccionar T1 → pulsar <em>Aceptar/Asignar</em>.</li>
+      <li>Volver a la app de T1, abrir “Trabajos cercanos” y comprobar que el botón <em>Aplicar</em> aparece deshabilitado.</li>
+    </ol>
+
+    <p><strong>Resultado esperado:</strong></p>
+    <ul>
+      <li>Se crea solicitud con estado <em>pendiente</em>, C1 recibe notificación push.</li>
+      <li>Al aceptar, se crea una <em>asignación activa</em> para T1.</li>
+      <li>T1 visualiza botones de <em>Aplicar deshabilitados</em> mientras tenga asignación activa.</li>
+    </ul>
+
+    <p><strong>Resultado obtenido:</strong> Se obtuvieron los resultados esperados.</p>
+
+    <p><strong>Evidencia:</strong></p>
+    <div class="evidencia">
+      <ul>
+        <li><strong>E1</strong>: Home de T1 tras login.</li>
+        <li><strong>E2</strong>: Lista de trabajos (T1) con botón <em>Aplicar</em> habilitado (antes de postular).</li>
+        <li><strong>E3</strong>: Confirmación de postulación exitosa en T1.</li>
+        <li><strong>E4</strong>: Notificación recibida en C1 (push) y pantalla de solicitudes mostrando T1.</li>
+        <li><strong>E5</strong>: Mensaje de “Asignación exitosa” en C1.</li>
+        <li><strong>E6</strong>: Lista de trabajos en T1 con <em>Aplicar</em> deshabilitado tras la asignación.</li>
+      </ul>
+      <p class="small">Pega aquí las capturas E1–E6 en orden.</p>
+    </div>
+
+    <p><strong>Defectos detectados:</strong> Ninguno observado durante la ejecución.</p>
+    <p><strong>Acción tomada:</strong> No aplica.</p>
+    <p><strong>Notas sobre debug vs release:</strong> En release las notificaciones pueden tardar unos segundos; esperar antes de reintentar. Si el botón no se deshabilita al instante, refrescar la pantalla.</p>
+  </div>
+
+  <h2>Funcionalidad 2 — Nómina (Configurar sueldo, Registrar horas y Generar PDF)</h2>
+  <div class="card">
+    <p><strong>Funcionalidad:</strong> Configurar sueldo de un trabajador asignado, registrar horas y generar PDF de nómina.</p>
+    <p><strong>Tipo de prueba:</strong> Integración E2E (positivo).</p>
+    <p><strong>Objetivo:</strong> Validar que se guarda la configuración de pago, se registran horas y el PDF muestra montos con moneda (MXN/USD) en filas y totales.</p>
+    <p><strong>Entorno:</strong> App Flutter (C1) + API OBIX + PostgreSQL Render.</p>
+
+    <p><strong>Pasos:</strong></p>
+    <ol>
+      <li>Iniciar sesión como <em>Contratista C1</em>.</li>
+      <li>Ir a <em>Premium → Configurar sueldo</em>. Elegir la asignación de T1, definir periodicidad, tarifa y moneda → Guardar.</li>
+      <li>Ir a <em>Premium → Registrar horas</em>. Seleccionar la asignación, ingresar fecha, horas y descripción → Guardar.</li>
+      <li>(Opcional) Ir a <em>Premium → Gastos</em>. Agregar gasto con fecha y monto → Guardar.</li>
+      <li>Ir a <em>Premium → Nómina</em>. Seleccionar periodo y generar PDF.</li>
+    </ol>
+
+    <p><strong>Resultado esperado:</strong></p>
+    <ul>
+      <li>Se guarda configuración en <em>configuración de pagos</em> con la moneda seleccionada.</li>
+      <li>Se registran horas (y gastos si aplica).</li>
+      <li>El PDF generado muestra símbolo de moneda (MXN/USD) en montos por trabajador, total de gastos y resumen financiero.</li>
+    </ul>
+
+    <p><strong>Resultado obtenido:</strong> Se obtuvieron los resultados esperados.</p>
+
+    <p><strong>Evidencia:</strong></p>
+    <div class="evidencia">
+      <ul>
+        <li><strong>E1</strong>: Pantalla "Configurar sueldo" con datos llenos (antes de Guardar) y mensaje de éxito.</li>
+        <li><strong>E2</strong>: Pantalla "Registrar horas" con datos llenos y confirmación.</li>
+        <li><strong>E3</strong>: (Opcional) Pantalla "Gastos" con nuevo gasto y confirmación.</li>
+        <li><strong>E4</strong>: Pantalla "Nómina" antes de generar.</li>
+        <li><strong>E5</strong>: PDF generado (1–3 capturas): lista de trabajadores con montos y moneda, total de gastos con moneda, resumen financiero con presupuesto/total/saldo y moneda.</li>
+      </ul>
+      <p class="small">Pega aquí las capturas E1–E5 en orden.</p>
+    </div>
+
+    <p><strong>Defectos detectados:</strong> Ninguno observado durante la ejecución.</p>
+    <p><strong>Acción tomada:</strong> No aplica.</p>
+    <p><strong>Notas sobre debug vs release:</strong> La generación de PDF puede tardar; no cierres la pantalla hasta ver la confirmación.</p>
+  </div>
+
+  <h2>Anexos (Opcional)</h2>
+  <div class="card">
+    <p>Si deseas adjuntar verificaciones en base de datos (pgAdmin):</p>
+    <ul>
+      <li>Solicitud creada: <span class="mono">SELECT * FROM solicitudes_trabajo_n ORDER BY created_at DESC LIMIT 1;</span></li>
+      <li>Asignación activa: <span class="mono">SELECT * FROM asignaciones_trabajo_n ORDER BY fecha_asignacion DESC LIMIT 1;</span></li>
+      <li>Horas registradas: <span class="mono">SELECT * FROM horas_laborales ORDER BY id_hora DESC LIMIT 1;</span></li>
+    </ul>
+    <div class="evidencia"><span class="placeholder">Pega aquí capturas de pgAdmin si las usas.</span></div>
+  </div>
+
+  <p class="small">Este documento es HTML y puede abrirse/guardarse en Microsoft Word (Archivo → Guardar como… → .docx).</p>
+</body>
+</html>
+
+

@@ -10,6 +10,7 @@ import '../../../services/api_service.dart';
 import '../../../services/storage_service.dart';
 import '../../../services/format_service.dart';
 import '../../../services/api_wrapper.dart';
+import '../../../core/utils/responsive.dart';
 
 
 class JobsActive extends StatefulWidget {
@@ -300,24 +301,52 @@ class _JobsActiveState extends State<JobsActive> with WidgetsBindingObserver {
         child: Column(
           children: [
             const HeaderBar(tipoUsuario: 'contratista'),
-            const SizedBox(height: 10),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 8,
+                tablet: 10,
+                desktop: 12,
+              ),
+            ),
 
             // Línea con inner shadow debajo del título
             const DividerWithShadow(),
 
-            const SizedBox(height: 10),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 8,
+                tablet: 10,
+                desktop: 12,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: Responsive.getHorizontalPadding(context),
+              ),
               child: Text(
                 'Trabajos Activos',
                 style: TextStyle(
-                  fontSize: 30,
+                  fontSize: Responsive.getResponsiveFontSize(
+                    context,
+                    mobile: 26,
+                    tablet: 28,
+                    desktop: 30,
+                  ),
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            const SizedBox(height: 40),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 25,
+                tablet: 30,
+                desktop: 40,
+              ),
+            ),
 
             // Barra de búsqueda y selector
             SearchAndFilterBar(
@@ -327,24 +356,38 @@ class _JobsActiveState extends State<JobsActive> with WidgetsBindingObserver {
               onSearchChanged: (_) => _filterJobs(),
             ),
 
-            const SizedBox(height: 40),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 25,
+                tablet: 30,
+                desktop: 40,
+              ),
+            ),
 
             // Lista scrollable de trabajos
             Expanded(
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : _filteredJobs.isEmpty
-                      ? const Center(
+                      ? Center(
                           child: Text(
                             'No tienes trabajos registrados',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: Responsive.getResponsiveFontSize(
+                                context,
+                                mobile: 14,
+                                tablet: 15,
+                                desktop: 16,
+                              ),
                               color: Colors.grey,
                             ),
                           ),
                         )
                   : SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: Responsive.getHorizontalPadding(context),
+                      ),
                       child: Column(
                         children: _filteredJobs.map((job) {
                           if (job['type'] == 'largo') {

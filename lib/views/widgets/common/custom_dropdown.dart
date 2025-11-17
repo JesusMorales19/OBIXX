@@ -34,6 +34,8 @@ class CustomDropdown<T> extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 15),
       child: DropdownButtonFormField<T>(
         value: value,
+        isDense: true,
+        isExpanded: true,
         decoration: InputDecoration(
           prefixIcon: Icon(icon, color: defaultIconColor),
           labelText: label,
@@ -53,9 +55,19 @@ class CustomDropdown<T> extends StatelessWidget {
             value: item,
             child: Text(
               itemBuilder?.call(item) ?? item.toString(),
+              overflow: TextOverflow.ellipsis,
             ),
           );
         }).toList(),
+        selectedItemBuilder: (BuildContext context) {
+          return items.map((item) {
+            return Text(
+              itemBuilder?.call(item) ?? item.toString(),
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(color: Colors.black),
+            );
+          }).toList();
+        },
         onChanged: onChanged,
         validator: validator,
       ),

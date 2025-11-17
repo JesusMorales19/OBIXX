@@ -7,6 +7,7 @@ import 'package:integradora/services/storage_service.dart';
 import 'package:integradora/services/format_service.dart';
 import 'package:integradora/views/widgets/custom_notification.dart';
 import 'review_card.dart';
+import '../../../../core/utils/responsive.dart';
 
 void showProfileModal(
   BuildContext context,
@@ -36,7 +37,14 @@ void showProfileModal(
         maxChildSize: 0.9,
         builder: (_, scrollController) => SingleChildScrollView(
           controller: scrollController,
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(
+            Responsive.getResponsiveSpacing(
+              context,
+              mobile: 15,
+              tablet: 18,
+              desktop: 20,
+            ),
+          ),
           child: _ProfileContent(
             name: name,
             edad: edad,
@@ -421,20 +429,50 @@ class _ProfileContentState extends State<_ProfileContent> {
 
     if (_errorData != null) {
       return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: EdgeInsets.symmetric(
+          vertical: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 6,
+            tablet: 7,
+            desktop: 8,
+          ),
+        ),
         child: Text(
           _errorData!,
-          style: const TextStyle(color: Colors.redAccent),
+          style: TextStyle(
+            color: Colors.redAccent,
+            fontSize: Responsive.getResponsiveFontSize(
+              context,
+              mobile: 12,
+              tablet: 13,
+              desktop: 14,
+            ),
+          ),
         ),
       );
     }
 
     if (_reviews.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 8),
+      return Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 6,
+            tablet: 7,
+            desktop: 8,
+          ),
+        ),
         child: Text(
           'Aún no hay reseñas para este trabajador.',
-          style: TextStyle(color: Colors.black54, fontSize: 13),
+          style: TextStyle(
+            color: Colors.black54,
+            fontSize: Responsive.getResponsiveFontSize(
+              context,
+              mobile: 12,
+              tablet: 12.5,
+              desktop: 13,
+            ),
+          ),
         ),
       );
     }
@@ -472,24 +510,56 @@ class _ProfileContentState extends State<_ProfileContent> {
     return Column(
       children: [
         Container(
-          width: 50,
-          height: 5,
+          width: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 45,
+            tablet: 47,
+            desktop: 50,
+          ),
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 4,
+            tablet: 4.5,
+            desktop: 5,
+          ),
           decoration: BoxDecoration(
             color: Colors.grey.shade300,
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        const SizedBox(height: 20),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 15,
+            tablet: 18,
+            desktop: 20,
+          ),
+        ),
         Stack(
           clipBehavior: Clip.none, // permite que el corazón sobresalga
           children: [
-            CircleAvatar(radius: 80, backgroundImage: _obtenerImagenTrabajador()),
+            CircleAvatar(
+              radius: Responsive.getResponsiveFontSize(
+                context,
+                mobile: 70,
+                tablet: 75,
+                desktop: 80,
+              ),
+              backgroundImage: _obtenerImagenTrabajador(),
+            ),
             Positioned(
               bottom: -10,
               right: -10,
               child: isLoadingFavorite
                 ? Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: EdgeInsets.all(
+                      Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 10,
+                        tablet: 11,
+                        desktop: 12,
+                      ),
+                    ),
                     child: const CircularProgressIndicator(strokeWidth: 3),
                   )
                 : IconButton(
@@ -505,77 +575,195 @@ class _ProfileContentState extends State<_ProfileContent> {
                                 end: Alignment.centerRight,
                               ).createShader(bounds);
                             },
-                            child: const Icon(
+                            child: Icon(
                               Icons.favorite,
                               color: Colors.white,
-                              size: 50,
+                              size: Responsive.getResponsiveFontSize(
+                                context,
+                                mobile: 45,
+                                tablet: 47,
+                                desktop: 50,
+                              ),
                             ),
                           )
-                        : const Icon(
+                        : Icon(
                             Icons.favorite_border,
                             color: Colors.grey,
-                            size: 50,
+                            size: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 45,
+                              tablet: 47,
+                              desktop: 50,
+                            ),
                           ),
                     onPressed: _toggleFavorito,
                   ),
             ),
           ],
         ),
-        const SizedBox(height: 20),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 15,
+            tablet: 18,
+            desktop: 20,
+          ),
+        ),
         Text(
           widget.name,
-          style: const TextStyle(
-            fontSize: 20,
+          style: TextStyle(
+            fontSize: Responsive.getResponsiveFontSize(
+              context,
+              mobile: 18,
+              tablet: 19,
+              desktop: 20,
+            ),
             fontWeight: FontWeight.bold,
-            color: Color(0xFF1F4E79),
+            color: const Color(0xFF1F4E79),
           ),
         ),
         Text(
           '$categoriaMostrar  •  $edadMostrar años',
-          style: const TextStyle(color: Colors.grey, fontSize: 14),
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: Responsive.getResponsiveFontSize(
+              context,
+              mobile: 12,
+              tablet: 13,
+              desktop: 14,
+            ),
+          ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 6,
+            tablet: 7,
+            desktop: 8,
+          ),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.email, color: Colors.grey, size: 16),
-            const SizedBox(width: 4),
+            Icon(
+              Icons.email,
+              color: Colors.grey,
+              size: Responsive.getResponsiveFontSize(
+                context,
+                mobile: 14,
+                tablet: 15,
+                desktop: 16,
+              ),
+            ),
+            SizedBox(
+              width: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 3,
+                tablet: 3.5,
+                desktop: 4,
+              ),
+            ),
             Text(
               widget.emailTrabajador,
-              style: const TextStyle(color: Colors.grey, fontSize: 12),
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: Responsive.getResponsiveFontSize(
+                  context,
+                  mobile: 11,
+                  tablet: 11.5,
+                  desktop: 12,
+                ),
+              ),
             ),
           ],
         ),
-        const SizedBox(height: 10),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 8,
+            tablet: 9,
+            desktop: 10,
+          ),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.star, color: Colors.amber, size: 20),
+            Icon(
+              Icons.star,
+              color: Colors.amber,
+              size: Responsive.getResponsiveFontSize(
+                context,
+                mobile: 18,
+                tablet: 19,
+                desktop: 20,
+              ),
+            ),
             Text(
               ' ${ratingMostrar.toStringAsFixed(1)}  |  $experienciaMostrar años exp.',
-              style: const TextStyle(fontSize: 14),
+              style: TextStyle(
+                fontSize: Responsive.getResponsiveFontSize(
+                  context,
+                  mobile: 12,
+                  tablet: 13,
+                  desktop: 14,
+                ),
+              ),
             ),
           ],
         ),
-        const SizedBox(height: 15),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 12,
+            tablet: 13,
+            desktop: 15,
+          ),
+        ),
         Text(
           descripcionMostrar,
           textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 14, color: Colors.black87),
+          style: TextStyle(
+            fontSize: Responsive.getResponsiveFontSize(
+              context,
+              mobile: 12,
+              tablet: 13,
+              desktop: 14,
+            ),
+            color: Colors.black87,
+          ),
         ),
-        const SizedBox(height: 25),
-        const Align(
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 20,
+            tablet: 22,
+            desktop: 25,
+          ),
+        ),
+        Align(
           alignment: Alignment.centerLeft,
           child: Text(
             'Reviews',
             style: TextStyle(
-              color: Color(0xFFE67E22),
-              fontSize: 18,
+              color: const Color(0xFFE67E22),
+              fontSize: Responsive.getResponsiveFontSize(
+                context,
+                mobile: 16,
+                tablet: 17,
+                desktop: 18,
+              ),
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
-        const SizedBox(height: 10),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 8,
+            tablet: 9,
+            desktop: 10,
+          ),
+        ),
         _buildReviewsSection(),
       ],
     );

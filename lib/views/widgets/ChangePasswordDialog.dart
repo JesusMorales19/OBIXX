@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'custom_notification.dart';
 import '../../services/validation_service.dart';
+import '../../core/utils/responsive.dart';
 
 class ChangePasswordDialogModern {
   static void show(
@@ -30,7 +31,14 @@ class ChangePasswordDialogModern {
             ),
             backgroundColor: Colors.transparent,
             child: Container(
-              padding: const EdgeInsets.all(25),
+              padding: EdgeInsets.all(
+                Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 18,
+                  tablet: 21,
+                  desktop: 25,
+                ),
+              ),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(25),
@@ -48,15 +56,27 @@ class ChangePasswordDialogModern {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
+                      Text(
                         'Cambiar Contraseña',
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 20,
+                            tablet: 22,
+                            desktop: 24,
+                          ),
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF1F4E79),
+                          color: const Color(0xFF1F4E79),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 15,
+                          tablet: 18,
+                          desktop: 20,
+                        ),
+                      ),
                       TextFormField(
                         controller: currentController,
                         obscureText: obscureCurrent,
@@ -66,10 +86,24 @@ class ChangePasswordDialogModern {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          prefixIcon: const Icon(Icons.lock_person_outlined),
+                          prefixIcon: Icon(
+                            Icons.lock_person_outlined,
+                            size: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 20,
+                              tablet: 21,
+                              desktop: 22,
+                            ),
+                          ),
                           suffixIcon: IconButton(
                             icon: Icon(
                               obscureCurrent ? Icons.visibility_off : Icons.visibility,
+                              size: Responsive.getResponsiveFontSize(
+                                context,
+                                mobile: 20,
+                                tablet: 21,
+                                desktop: 22,
+                              ),
                             ),
                             onPressed: toggleCurrent,
                           ),
@@ -81,7 +115,14 @@ class ChangePasswordDialogModern {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 15),
+                      SizedBox(
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 12,
+                          tablet: 13,
+                          desktop: 15,
+                        ),
+                      ),
                       TextFormField(
                         controller: passwordController,
                         obscureText: obscureNew,
@@ -91,10 +132,24 @@ class ChangePasswordDialogModern {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          prefixIcon: const Icon(Icons.lock_outline),
+                          prefixIcon: Icon(
+                            Icons.lock_outline,
+                            size: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 20,
+                              tablet: 21,
+                              desktop: 22,
+                            ),
+                          ),
                           suffixIcon: IconButton(
                             icon: Icon(
                               obscureNew ? Icons.visibility_off : Icons.visibility,
+                              size: Responsive.getResponsiveFontSize(
+                                context,
+                                mobile: 20,
+                                tablet: 21,
+                                desktop: 22,
+                              ),
                             ),
                             onPressed: toggleNew,
                           ),
@@ -120,7 +175,14 @@ class ChangePasswordDialogModern {
                           return null;
                         }
                       ),
-                      const SizedBox(height: 15),
+                      SizedBox(
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 12,
+                          tablet: 13,
+                          desktop: 15,
+                        ),
+                      ),
                       TextFormField(
                         controller: confirmController,
                         obscureText: obscureConfirm,
@@ -130,10 +192,24 @@ class ChangePasswordDialogModern {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          prefixIcon: const Icon(Icons.lock_outline),
+                          prefixIcon: Icon(
+                            Icons.lock_outline,
+                            size: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 20,
+                              tablet: 21,
+                              desktop: 22,
+                            ),
+                          ),
                           suffixIcon: IconButton(
                             icon: Icon(
                               obscureConfirm ? Icons.visibility_off : Icons.visibility,
+                              size: Responsive.getResponsiveFontSize(
+                                context,
+                                mobile: 20,
+                                tablet: 21,
+                                desktop: 22,
+                              ),
                             ),
                             onPressed: toggleConfirm,
                           ),
@@ -148,7 +224,14 @@ class ChangePasswordDialogModern {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 25),
+                      SizedBox(
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 20,
+                          tablet: 22,
+                          desktop: 25,
+                        ),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -156,21 +239,55 @@ class ChangePasswordDialogModern {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.grey[300],
                               foregroundColor: Colors.black,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 15),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: Responsive.getResponsiveSpacing(
+                                  context,
+                                  mobile: 25,
+                                  tablet: 27,
+                                  desktop: 30,
+                                ),
+                                vertical: Responsive.getResponsiveSpacing(
+                                  context,
+                                  mobile: 12,
+                                  tablet: 13,
+                                  desktop: 15,
+                                ),
+                              ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                               ),
                             ),
                             onPressed: () => Navigator.pop(context),
-                            child: const Text('Cancelar'),
+                            child: Text(
+                              'Cancelar',
+                              style: TextStyle(
+                                fontSize: Responsive.getResponsiveFontSize(
+                                  context,
+                                  mobile: 14,
+                                  tablet: 15,
+                                  desktop: 16,
+                                ),
+                              ),
+                            ),
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.orange,
                               foregroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 15),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: Responsive.getResponsiveSpacing(
+                                  context,
+                                  mobile: 25,
+                                  tablet: 27,
+                                  desktop: 30,
+                                ),
+                                vertical: Responsive.getResponsiveSpacing(
+                                  context,
+                                  mobile: 12,
+                                  tablet: 13,
+                                  desktop: 15,
+                                ),
+                              ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                               ),
@@ -191,7 +308,17 @@ class ChangePasswordDialogModern {
                                 );
                               }
                             },
-                            child: const Text('Guardar'),
+                            child: Text(
+                              'Guardar',
+                              style: TextStyle(
+                                fontSize: Responsive.getResponsiveFontSize(
+                                  context,
+                                  mobile: 14,
+                                  tablet: 15,
+                                  desktop: 16,
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),

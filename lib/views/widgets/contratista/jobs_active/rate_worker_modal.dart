@@ -3,6 +3,7 @@ import '../../../../services/api_service.dart';
 import '../../../../services/api_wrapper.dart';
 import '../../../widgets/custom_notification.dart';
 import '../../common/custom_text_field.dart';
+import '../../../../core/utils/responsive.dart';
 
 class _CalificarTrabajadorModal extends StatefulWidget {
   final String nombre;
@@ -46,10 +47,30 @@ class _CalificarTrabajadorModalState extends State<_CalificarTrabajadorModal> {
   Widget build(BuildContext context) {
     return Dialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-          insetPadding: const EdgeInsets.symmetric(horizontal: 30, vertical: 140),
+          insetPadding: EdgeInsets.symmetric(
+            horizontal: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 20,
+              tablet: 25,
+              desktop: 30,
+            ),
+            vertical: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 80,
+              tablet: 110,
+              desktop: 140,
+            ),
+          ),
           backgroundColor: Colors.transparent,
           child: Container(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(
+              Responsive.getResponsiveSpacing(
+                context,
+                mobile: 15,
+                tablet: 18,
+                desktop: 20,
+              ),
+            ),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
                 colors: [Color.fromARGB(255, 255, 255, 255), Color.fromARGB(255, 255, 255, 255)],
@@ -70,13 +91,25 @@ class _CalificarTrabajadorModalState extends State<_CalificarTrabajadorModal> {
               children: [
                 Text(
                   "Califica a ${widget.nombre}",
-                  style: const TextStyle(
-                    fontSize: 22,
+                  style: TextStyle(
+                    fontSize: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 20,
+                      tablet: 21,
+                      desktop: 22,
+                    ),
                     fontWeight: FontWeight.normal,
                     color: Colors.black
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 15,
+                    tablet: 18,
+                    desktop: 20,
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(5, (index) {
@@ -226,22 +259,50 @@ class _CalificarTrabajadorModalState extends State<_CalificarTrabajadorModal> {
                           }
                         },
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 14),
-                    backgroundColor: Color(0xFF1F4E79),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 40,
+                        tablet: 45,
+                        desktop: 50,
+                      ),
+                      vertical: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 12,
+                        tablet: 13,
+                        desktop: 14,
+                      ),
+                    ),
+                    backgroundColor: const Color(0xFF1F4E79),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                   ),
                   child: isSubmitting
-                      ? const SizedBox(
-                          width: 22,
-                          height: 22,
-                          child: CircularProgressIndicator(strokeWidth: 2),
+                      ? SizedBox(
+                          width: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 20,
+                            tablet: 21,
+                            desktop: 22,
+                          ),
+                          height: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 20,
+                            tablet: 21,
+                            desktop: 22,
+                          ),
+                          child: const CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : const Text(
+                      : Text(
                           "Enviar",
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 14,
+                              tablet: 15,
+                              desktop: 16,
+                            ),
                           ),
                         ),
                 )

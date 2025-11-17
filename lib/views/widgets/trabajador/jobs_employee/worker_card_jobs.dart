@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../custom_notification.dart';
 import '../../../widgets/trabajador/jobs_employee/end_contract_dialog.dart';
+import '../../../../core/utils/responsive.dart';
 
 class WorkerCardJobs extends StatelessWidget {
   final bool esTrabajoLargo;
@@ -62,17 +63,23 @@ class WorkerCardJobs extends StatelessWidget {
     return '${rating.toStringAsFixed(1)}/5.0';
   }
 
-  List<Widget> _buildStars() {
+  List<Widget> _buildStars(BuildContext context) {
     final rating = calificacionTrabajador ?? 0;
     final estrellasLlenas = rating.floor();
     final tieneMedia = (rating - estrellasLlenas) >= 0.5;
+    final starSize = Responsive.getResponsiveFontSize(
+      context,
+      mobile: 14,
+      tablet: 15,
+      desktop: 16,
+    );
     return List.generate(5, (index) {
       if (index < estrellasLlenas) {
-        return const Icon(Icons.star, size: 16, color: Colors.amber);
+        return Icon(Icons.star, size: starSize, color: Colors.amber);
       } else if (index == estrellasLlenas && tieneMedia) {
-        return const Icon(Icons.star_half, size: 16, color: Colors.amber);
+        return Icon(Icons.star_half, size: starSize, color: Colors.amber);
       }
-      return const Icon(Icons.star_border, size: 16, color: Colors.amber);
+      return Icon(Icons.star_border, size: starSize, color: Colors.amber);
     });
   }
 
@@ -93,46 +100,118 @@ class WorkerCardJobs extends StatelessWidget {
     }
   }
 
-  List<Widget> _buildDetalleTrabajo() {
+  List<Widget> _buildDetalleTrabajo(BuildContext context) {
     final List<Widget> items = [];
 
-    items.add(_infoRow('Nombre del trabajo:', tituloTrabajo));
-    items.add(const Divider(color: Colors.black26, height: 2));
+    items.add(_infoRow(context, 'Nombre del trabajo:', tituloTrabajo));
+    items.add(Divider(
+      color: Colors.black26,
+      height: Responsive.getResponsiveSpacing(
+        context,
+        mobile: 1.5,
+        tablet: 1.75,
+        desktop: 2,
+      ),
+    ));
 
-    items.add(_infoRow('Contratista:', nombreContratista));
-    items.add(const Divider(color: Colors.black26, height: 2));
+    items.add(_infoRow(context, 'Contratista:', nombreContratista));
+    items.add(Divider(
+      color: Colors.black26,
+      height: Responsive.getResponsiveSpacing(
+        context,
+        mobile: 1.5,
+        tablet: 1.75,
+        desktop: 2,
+      ),
+    ));
 
     if (esTrabajoLargo) {
       if (frecuenciaPago != null && frecuenciaPago!.isNotEmpty) {
-        items.add(_infoRow('Frecuencia de pago:', frecuenciaPago!));
-        items.add(const Divider(color: Colors.black26, height: 2));
+        items.add(_infoRow(context, 'Frecuencia de pago:', frecuenciaPago!));
+        items.add(Divider(
+          color: Colors.black26,
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 1.5,
+            tablet: 1.75,
+            desktop: 2,
+          ),
+        ));
       }
       if (tipoObra != null && tipoObra!.isNotEmpty) {
-        items.add(_infoRow('Tipo de obra:', tipoObra!));
-        items.add(const Divider(color: Colors.black26, height: 2));
+        items.add(_infoRow(context, 'Tipo de obra:', tipoObra!));
+        items.add(Divider(
+          color: Colors.black26,
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 1.5,
+            tablet: 1.75,
+            desktop: 2,
+          ),
+        ));
       }
       if (fechaFinal != null && fechaFinal!.isNotEmpty) {
-        items.add(_infoRow('Fecha final:', fechaFinal!));
-        items.add(const Divider(color: Colors.black26, height: 2));
+        items.add(_infoRow(context, 'Fecha final:', fechaFinal!));
+        items.add(Divider(
+          color: Colors.black26,
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 1.5,
+            tablet: 1.75,
+            desktop: 2,
+          ),
+        ));
       }
     } else {
       if (rangoPrecio != null && rangoPrecio!.isNotEmpty) {
-        items.add(_infoRow('Rango de precio:', rangoPrecio!));
-        items.add(const Divider(color: Colors.black26, height: 2));
+        items.add(_infoRow(context, 'Rango de precio:', rangoPrecio!));
+        items.add(Divider(
+          color: Colors.black26,
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 1.5,
+            tablet: 1.75,
+            desktop: 2,
+          ),
+        ));
       }
       if (especialidad != null && especialidad!.isNotEmpty) {
-        items.add(_infoRow('Especialidad:', especialidad!));
-        items.add(const Divider(color: Colors.black26, height: 2));
+        items.add(_infoRow(context, 'Especialidad:', especialidad!));
+        items.add(Divider(
+          color: Colors.black26,
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 1.5,
+            tablet: 1.75,
+            desktop: 2,
+          ),
+        ));
       }
       if (disponibilidad != null && disponibilidad!.isNotEmpty) {
-        items.add(_infoRow('Disponibilidad:', disponibilidad!));
-        items.add(const Divider(color: Colors.black26, height: 2));
+        items.add(_infoRow(context, 'Disponibilidad:', disponibilidad!));
+        items.add(Divider(
+          color: Colors.black26,
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 1.5,
+            tablet: 1.75,
+            desktop: 2,
+          ),
+        ));
       }
     }
 
     if (direccion != null && direccion!.isNotEmpty) {
-      items.add(_infoRow('Dirección:', direccion!));
-      items.add(const Divider(color: Colors.black26, height: 2));
+      items.add(_infoRow(context, 'Dirección:', direccion!));
+      items.add(Divider(
+        color: Colors.black26,
+        height: Responsive.getResponsiveSpacing(
+          context,
+          mobile: 1.5,
+          tablet: 1.75,
+          desktop: 2,
+        ),
+      ));
     }
 
     return items;
@@ -141,8 +220,28 @@ class WorkerCardJobs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      padding: const EdgeInsets.all(18),
+      margin: EdgeInsets.symmetric(
+        horizontal: Responsive.getResponsiveSpacing(
+          context,
+          mobile: 12,
+          tablet: 14,
+          desktop: 16,
+        ),
+        vertical: Responsive.getResponsiveSpacing(
+          context,
+          mobile: 8,
+          tablet: 9,
+          desktop: 10,
+        ),
+      ),
+      padding: EdgeInsets.all(
+        Responsive.getResponsiveSpacing(
+          context,
+          mobile: 15,
+          tablet: 16,
+          desktop: 18,
+        ),
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -159,22 +258,46 @@ class WorkerCardJobs extends StatelessWidget {
         children: [
           Text(
             esTrabajoLargo ? 'Trabajo de largo plazo' : 'Trabajo de corto plazo',
-            style: const TextStyle(
-              fontSize: 13,
+            style: TextStyle(
+              fontSize: Responsive.getResponsiveFontSize(
+                context,
+                mobile: 11,
+                tablet: 12,
+                desktop: 13,
+              ),
               color: Colors.green,
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: 6),
-          Text(
-            tituloTrabajo,
-            style: const TextStyle(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF1F4E79),
+          SizedBox(
+            height: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 5,
+              tablet: 5.5,
+              desktop: 6,
             ),
           ),
-          const SizedBox(height: 12),
+          Text(
+            tituloTrabajo,
+            style: TextStyle(
+              fontSize: Responsive.getResponsiveFontSize(
+                context,
+                mobile: 17,
+                tablet: 18,
+                desktop: 19,
+              ),
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF1F4E79),
+            ),
+          ),
+          SizedBox(
+            height: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 10,
+              tablet: 11,
+              desktop: 12,
+            ),
+          ),
 
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,26 +307,72 @@ class WorkerCardJobs extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ..._buildDetalleTrabajo(),
-                    const SizedBox(height: 12),
+                    ..._buildDetalleTrabajo(context),
+                    SizedBox(
+                      height: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 10,
+                        tablet: 11,
+                        desktop: 12,
+                      ),
+                    ),
                     // Mostrar ubicación: botón de Maps si hay coordenadas, dirección si no hay coordenadas pero hay dirección
                     if (latitud != null && longitud != null)
                       ElevatedButton.icon(
                         onPressed: () => _abrirMapa(context),
-                        icon: const Icon(Icons.map_outlined),
-                        label: const Text('Ver ubicación'),
+                        icon: Icon(
+                          Icons.map_outlined,
+                          size: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 18,
+                            tablet: 19,
+                            desktop: 20,
+                          ),
+                        ),
+                        label: Text(
+                          'Ver ubicación',
+                          style: TextStyle(
+                            fontSize: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 12,
+                              tablet: 13,
+                              desktop: 14,
+                            ),
+                          ),
+                        ),
                       )
                     else if (direccion != null && direccion!.isNotEmpty)
                       Row(
                         children: [
-                          const Icon(Icons.location_on, color: Color(0xFF1F4E79), size: 18),
-                          const SizedBox(width: 6),
+                          Icon(
+                            Icons.location_on,
+                            color: const Color(0xFF1F4E79),
+                            size: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 16,
+                              tablet: 17,
+                              desktop: 18,
+                            ),
+                          ),
+                          SizedBox(
+                            width: Responsive.getResponsiveSpacing(
+                              context,
+                              mobile: 5,
+                              tablet: 5.5,
+                              desktop: 6,
+                            ),
+                          ),
                           Expanded(
                             child: Text(
                               direccion!,
-                              style: const TextStyle(
-                                color: Color(0xFF1F4E79),
-                                fontSize: 14,
+                              style: TextStyle(
+                                color: const Color(0xFF1F4E79),
+                                fontSize: Responsive.getResponsiveFontSize(
+                                  context,
+                                  mobile: 12,
+                                  tablet: 13,
+                                  desktop: 14,
+                                ),
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -214,17 +383,40 @@ class WorkerCardJobs extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(width: 20),
+              SizedBox(
+                width: Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 15,
+                  tablet: 17,
+                  desktop: 20,
+                ),
+              ),
 
               Expanded(
                 flex: 1,
                 child: Column(
                   children: [
                     Transform.translate(
-                      offset: const Offset(0, -12),
+                      offset: Offset(
+                        0,
+                        -Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 10,
+                          tablet: 11,
+                          desktop: 12,
+                        ),
+                      ),
                       child: Container(
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.green, width: 4),
+                          border: Border.all(
+                            color: Colors.green,
+                            width: Responsive.getResponsiveSpacing(
+                              context,
+                              mobile: 3,
+                              tablet: 3.5,
+                              desktop: 4,
+                            ),
+                          ),
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
@@ -235,35 +427,71 @@ class WorkerCardJobs extends StatelessWidget {
                           ],
                         ),
                         child: CircleAvatar(
-                          radius: 50,
+                          radius: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 45,
+                            tablet: 47,
+                            desktop: 50,
+                          ),
                           backgroundImage: _obtenerImagen(),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(
+                      height: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 5,
+                        tablet: 5.5,
+                        desktop: 6,
+                      ),
+                    ),
                     Text(
                       nombreTrabajador,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontSize: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 14,
+                          tablet: 15,
+                          desktop: 16,
+                        ),
                         color: Colors.black87,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(
+                      height: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 3,
+                        tablet: 3.5,
+                        desktop: 4,
+                      ),
+                    ),
                     Text(
                       _calificacionTexto(),
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 12,
+                        fontSize: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 11,
+                          tablet: 11.5,
+                          desktop: 12,
+                        ),
                         color: Colors.black87,
                       ),
                     ),
-                    const SizedBox(height: 3),
+                    SizedBox(
+                      height: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 2,
+                        tablet: 2.5,
+                        desktop: 3,
+                      ),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: _buildStars(),
+                      children: _buildStars(context),
                     ),
                   ],
                 ),
@@ -271,7 +499,14 @@ class WorkerCardJobs extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 18),
+          SizedBox(
+            height: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 15,
+              tablet: 16,
+              desktop: 18,
+            ),
+          ),
 
           // Botón Cancelar Contrato
           Center(
@@ -285,16 +520,34 @@ class WorkerCardJobs extends StatelessWidget {
                 elevation: 6,
                 backgroundColor: Colors.redAccent,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                padding: EdgeInsets.symmetric(
+                  horizontal: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 25,
+                    tablet: 27,
+                    desktop: 30,
+                  ),
+                  vertical: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 10,
+                    tablet: 11,
+                    desktop: 12,
+                  ),
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: const Text(
+              child: Text(
                 "Cancelar contrato",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: Responsive.getResponsiveFontSize(
+                    context,
+                    mobile: 14,
+                    tablet: 15,
+                    desktop: 16,
+                  ),
                 ),
               ),
             ),
@@ -305,25 +558,52 @@ class WorkerCardJobs extends StatelessWidget {
   }
 
   // Helper fila texto
-  Widget _infoRow(String label, String value) {
+  Widget _infoRow(BuildContext context, String label, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3),
+      padding: EdgeInsets.symmetric(
+        vertical: Responsive.getResponsiveSpacing(
+          context,
+          mobile: 2,
+          tablet: 2.5,
+          desktop: 3,
+        ),
+      ),
       child: RichText(
         text: TextSpan(
-          style: const TextStyle(fontSize: 14, color: Colors.black87),
+          style: TextStyle(
+            fontSize: Responsive.getResponsiveFontSize(
+              context,
+              mobile: 12,
+              tablet: 13,
+              desktop: 14,
+            ),
+            color: Colors.black87,
+          ),
           children: [
             TextSpan(
               text: "$label ",
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.black54,
                 fontWeight: FontWeight.w600,
+                fontSize: Responsive.getResponsiveFontSize(
+                  context,
+                  mobile: 12,
+                  tablet: 13,
+                  desktop: 14,
+                ),
               ),
             ),
             TextSpan(
               text: value,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w400,
-                color: Color(0xFF555555),
+                color: const Color(0xFF555555),
+                fontSize: Responsive.getResponsiveFontSize(
+                  context,
+                  mobile: 12,
+                  tablet: 13,
+                  desktop: 14,
+                ),
               ),
             ),
           ],

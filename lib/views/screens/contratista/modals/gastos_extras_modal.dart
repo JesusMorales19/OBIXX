@@ -7,6 +7,7 @@ import '../../../../services/format_service.dart';
 import '../../../widgets/custom_notification.dart';
 import '../../../widgets/common/custom_text_field.dart';
 import '../../../widgets/common/loading_button.dart';
+import '../../../../core/utils/responsive.dart';
 
 class GastosExtrasModal {
   static void mostrar(
@@ -39,22 +40,52 @@ class GastosExtrasModal {
                   color: Colors.white,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
                 ),
-                height: MediaQuery.of(modalContext).size.height * 0.4,
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(modalContext).size.height * 0.6,
+                ),
                 child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20, top: 100, bottom: 8),
+                    padding: EdgeInsets.only(
+                      left: Responsive.getHorizontalPadding(context),
+                      right: Responsive.getHorizontalPadding(context),
+                      top: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 20,
+                        tablet: 24,
+                        desktop: 28,
+                      ),
+                      bottom: MediaQuery.of(modalContext).padding.bottom + Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 20,
+                        tablet: 24,
+                        desktop: 28,
+                      ),
+                    ),
                     child: Column(
-                      mainAxisSize: MainAxisSize.max,
+                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Registrar Gasto Extra',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 18,
+                              tablet: 20,
+                              desktop: 22,
+                            ),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        SizedBox(
+                          height: Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 10,
+                            tablet: 11,
+                            desktop: 12,
+                          ),
+                        ),
                         CustomTextField(
                           controller: fechaController,
                           label: 'Fecha del Gasto',
@@ -72,7 +103,14 @@ class GastosExtrasModal {
                             }
                           },
                         ),
-                        const SizedBox(height: 12),
+                        SizedBox(
+                          height: Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 10,
+                            tablet: 11,
+                            desktop: 12,
+                          ),
+                        ),
                         CustomTextField(
                           controller: montoController,
                           label: 'Monto',

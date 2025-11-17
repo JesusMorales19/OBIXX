@@ -4,6 +4,7 @@ import '../../../../services/storage_service.dart';
 import '../../../../services/format_service.dart';
 import '../../../../models/asignacion_trabajo_model.dart';
 import '../../custom_notification.dart';
+import '../../../../core/utils/responsive.dart';
 
 class AsignarTrabajoModal extends StatefulWidget {
   final String trabajadorNombre;
@@ -220,10 +221,25 @@ class _AsignarTrabajoModalState extends State<AsignarTrabajoModal> {
 
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-      insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 100),
+      insetPadding: EdgeInsets.symmetric(
+        horizontal: Responsive.getHorizontalPadding(context),
+        vertical: Responsive.getResponsiveSpacing(
+          context,
+          mobile: 60,
+          tablet: 80,
+          desktop: 100,
+        ),
+      ),
       backgroundColor: Colors.transparent,
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(
+          Responsive.getResponsiveSpacing(
+            context,
+            mobile: 15,
+            tablet: 18,
+            desktop: 20,
+          ),
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(25),
@@ -240,19 +256,38 @@ class _AsignarTrabajoModalState extends State<AsignarTrabajoModal> {
           children: [
             Text(
               'Asignar a ${widget.trabajadorNombre}',
-              style: const TextStyle(
-                color: Color(0xFF1F4E79),
-                fontSize: 20,
+              style: TextStyle(
+                color: const Color(0xFF1F4E79),
+                fontSize: Responsive.getResponsiveFontSize(
+                  context,
+                  mobile: 18,
+                  tablet: 20,
+                  desktop: 22,
+                ),
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 15,
+                tablet: 18,
+                desktop: 20,
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: ['Corto plazo', 'Largo plazo'].map((cat) {
                 final bool isSelected = cat == selectedCategory;
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 6,
+                      tablet: 7,
+                      desktop: 8,
+                    ),
+                  ),
                   child: ChoiceChip(
                     label: Text(cat),
                     selected: isSelected,
@@ -270,7 +305,14 @@ class _AsignarTrabajoModalState extends State<AsignarTrabajoModal> {
                 );
               }).toList(),
             ),
-            const SizedBox(height: 20),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 15,
+                tablet: 18,
+                desktop: 20,
+              ),
+            ),
             if (_isProcessing)
               const Padding(
                 padding: EdgeInsets.only(bottom: 12.0),

@@ -264,7 +264,7 @@ export const obtenerTrabajosAdministracion = async (req, res) => {
       });
     }
 
-    // Obtener trabajos activos de largo plazo
+    // Obtener trabajos activos y en proceso de largo plazo (excluir solo terminados)
     const trabajosResult = await query(
       `SELECT 
          id_trabajo_largo,
@@ -279,7 +279,7 @@ export const obtenerTrabajosAdministracion = async (req, res) => {
          created_at
        FROM trabajos_largo_plazo
        WHERE email_contratista = $1 
-       AND estado = 'activo'
+       AND estado NOT IN ('completado', 'finalizado', 'cancelado')
        ORDER BY created_at DESC`,
       [email]
     );

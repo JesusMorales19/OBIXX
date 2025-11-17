@@ -5,6 +5,7 @@ import 'package:integradora/views/widgets/contratista/home_view/assign_modal_wor
 import 'package:url_launcher/url_launcher.dart';
 import 'profile_modal.dart';
 import '../../custom_notification.dart';
+import '../../../../core/utils/responsive.dart';
 
 class WorkerCard extends StatelessWidget {
   final String name;
@@ -62,12 +63,17 @@ class WorkerCard extends StatelessWidget {
     }
   }
 
-  Widget _buildAvatar() {
+  Widget _buildAvatar(BuildContext context) {
     final bytes = _decodeImage(fotoPerfil);
     final hasImage = bytes != null;
 
     return CircleAvatar(
-      radius: 30,
+      radius: Responsive.getResponsiveFontSize(
+        context,
+        mobile: 25,
+        tablet: 27,
+        desktop: 30,
+      ),
       backgroundColor: hasImage
           ? Colors.transparent
           : const Color(0xFFFFF3E0),
@@ -77,9 +83,14 @@ class WorkerCard extends StatelessWidget {
       child: !hasImage
           ? Text(
               name.isNotEmpty ? name[0].toUpperCase() : '?',
-              style: const TextStyle(
-                fontSize: 24,
-                color: Color(0xFF1F4E79),
+              style: TextStyle(
+                fontSize: Responsive.getResponsiveFontSize(
+                  context,
+                  mobile: 20,
+                  tablet: 22,
+                  desktop: 24,
+                ),
+                color: const Color(0xFF1F4E79),
                 fontWeight: FontWeight.bold,
               ),
             )
@@ -123,8 +134,22 @@ class WorkerCard extends StatelessWidget {
     final bool puedeContratar = disponible && !isAssignedToCurrent && !isAssignedToOther;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 20),
-      padding: const EdgeInsets.all(15),
+      margin: EdgeInsets.only(
+        bottom: Responsive.getResponsiveSpacing(
+          context,
+          mobile: 15,
+          tablet: 18,
+          desktop: 20,
+        ),
+      ),
+      padding: EdgeInsets.all(
+        Responsive.getResponsiveSpacing(
+          context,
+          mobile: 12,
+          tablet: 13,
+          desktop: 15,
+        ),
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -140,59 +165,140 @@ class WorkerCard extends StatelessWidget {
         children: [
           Column(
             children: [
-              _buildAvatar(),
-              const SizedBox(height: 4),
+              _buildAvatar(context),
+              SizedBox(
+                height: Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 3,
+                  tablet: 3.5,
+                  desktop: 4,
+                ),
+              ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                padding: EdgeInsets.symmetric(
+                  horizontal: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 4,
+                    tablet: 4.5,
+                    desktop: 5,
+                  ),
+                  vertical: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 0.5,
+                    tablet: 0.75,
+                    desktop: 1,
+                  ),
+                ),
                 decoration: BoxDecoration(
                   color: statusColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
                   status,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 9,
+                    fontSize: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 8,
+                      tablet: 8.5,
+                      desktop: 9,
+                    ),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(width: 10),
+          SizedBox(
+            width: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 8,
+              tablet: 9,
+              desktop: 10,
+            ),
+          ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   name,
-                  style: const TextStyle(
-                    color: Color(0xFF1F4E79),
+                  style: TextStyle(
+                    color: const Color(0xFF1F4E79),
                     fontWeight: FontWeight.bold,
-                    fontSize: 13,
+                    fontSize: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 12,
+                      tablet: 12.5,
+                      desktop: 13,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 3,
+                    tablet: 3.5,
+                    desktop: 4,
+                  ),
+                ),
                 Text(
                   '$experiencia años experiencia',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.grey,
-                    fontSize: 11,
+                    fontSize: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 10,
+                      tablet: 10.5,
+                      desktop: 11,
+                    ),
                     fontWeight: FontWeight.w300,
                   ),
                 ),
-                const SizedBox(height: 6),
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 5,
+                    tablet: 5.5,
+                    desktop: 6,
+                  ),
+                ),
                 Row(
                   children: [
                     ...List.generate(
                       fullStars,
-                      (index) => const Icon(Icons.star, color: Colors.amber, size: 13),
+                      (index) => Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                        size: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 12,
+                          tablet: 12.5,
+                          desktop: 13,
+                        ),
+                      ),
                     ),
                     if (hasHalfStar)
-                      const Icon(Icons.star_half, color: Colors.amber, size: 13),
+                      Icon(
+                        Icons.star_half,
+                        color: Colors.amber,
+                        size: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 12,
+                          tablet: 12.5,
+                          desktop: 13,
+                        ),
+                      ),
                     Text(
                       '  ${rating.toStringAsFixed(1)} / 5.0',
-                      style: const TextStyle(fontSize: 11),
+                      style: TextStyle(
+                        fontSize: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 10,
+                          tablet: 10.5,
+                          desktop: 11,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -202,7 +308,14 @@ class WorkerCard extends StatelessWidget {
           Column(
             children: [
               _buildPrimaryButton(context),
-              const SizedBox(height: 4),
+              SizedBox(
+                height: Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 3,
+                  tablet: 3.5,
+                  desktop: 4,
+                ),
+              ),
               _buildSecondaryButton(context, puedeContratar),
             ],
           ),
@@ -212,10 +325,24 @@ class WorkerCard extends StatelessWidget {
   }
 
   Widget _buildPrimaryButton(BuildContext context) {
+    final buttonWidth = (Responsive.isMobile(context) ? 85.0 : 90.0);
+    final buttonHeight = Responsive.getResponsiveSpacing(
+      context,
+      mobile: 28,
+      tablet: 29,
+      desktop: 30,
+    );
+    final fontSize = Responsive.getResponsiveFontSize(
+      context,
+      mobile: 10,
+      tablet: 10.5,
+      desktop: 11,
+    );
+
     if (isAssignedToCurrent) {
       return SizedBox(
-        width: 90,
-        height: 30,
+        width: buttonWidth,
+        height: buttonHeight,
         child: TextButton(
           onPressed: onCancelAssignment == null
               ? null
@@ -224,17 +351,17 @@ class WorkerCard extends StatelessWidget {
                 },
           style: TextButton.styleFrom(
             backgroundColor: Colors.red.shade50,
-            minimumSize: const Size(90, 30),
+            minimumSize: Size(buttonWidth, buttonHeight),
             padding: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
           ),
-          child: const Text(
+          child: Text(
             'Cancelar',
             style: TextStyle(
               color: Colors.red,
-              fontSize: 11,
+              fontSize: fontSize,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -243,8 +370,8 @@ class WorkerCard extends StatelessWidget {
     }
 
     return SizedBox(
-      width: 90,
-      height: 30,
+      width: buttonWidth,
+      height: buttonHeight,
       child: TextButton(
         onPressed: () {
           showProfileModal(
@@ -264,17 +391,17 @@ class WorkerCard extends StatelessWidget {
         },
         style: TextButton.styleFrom(
           backgroundColor: Colors.grey.shade100,
-          minimumSize: const Size(90, 30),
+          minimumSize: Size(buttonWidth, buttonHeight),
           padding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
         ),
-        child: const Text(
+        child: Text(
           'Ver perfil',
           style: TextStyle(
             color: Colors.black87,
-            fontSize: 11,
+            fontSize: fontSize,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -283,10 +410,24 @@ class WorkerCard extends StatelessWidget {
   }
 
   Widget _buildSecondaryButton(BuildContext context, bool puedeContratar) {
+    final buttonWidth = (Responsive.isMobile(context) ? 85.0 : 90.0);
+    final buttonHeight = Responsive.getResponsiveSpacing(
+      context,
+      mobile: 28,
+      tablet: 29,
+      desktop: 30,
+    );
+    final fontSize = Responsive.getResponsiveFontSize(
+      context,
+      mobile: 10,
+      tablet: 10.5,
+      desktop: 11,
+    );
+
     if (isAssignedToCurrent) {
       return SizedBox(
-        width: 90,
-        height: 30,
+        width: buttonWidth,
+        height: buttonHeight,
         child: ElevatedButton(
           onPressed: () => _contactarTrabajador(context),
           style: ElevatedButton.styleFrom(
@@ -296,11 +437,11 @@ class WorkerCard extends StatelessWidget {
             ),
             padding: EdgeInsets.zero,
           ),
-          child: const Text(
+          child: Text(
             'Contactar',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 11,
+              fontSize: fontSize,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -310,8 +451,8 @@ class WorkerCard extends StatelessWidget {
 
     if (!puedeContratar) {
       return SizedBox(
-        width: 90,
-        height: 30,
+        width: buttonWidth,
+        height: buttonHeight,
         child: ElevatedButton(
           onPressed: null,
           style: ElevatedButton.styleFrom(
@@ -322,11 +463,11 @@ class WorkerCard extends StatelessWidget {
             ),
             padding: EdgeInsets.zero,
           ),
-          child: const Text(
+          child: Text(
             'Contratar',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 11,
+              fontSize: fontSize,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -335,8 +476,8 @@ class WorkerCard extends StatelessWidget {
     }
 
     return SizedBox(
-      width: 90,
-      height: 30,
+      width: buttonWidth,
+      height: buttonHeight,
       child: ElevatedButton(
         onPressed: () {
           showAsignarTrabajoModal(
@@ -355,11 +496,11 @@ class WorkerCard extends StatelessWidget {
           ),
           padding: EdgeInsets.zero,
         ),
-        child: const Text(
+        child: Text(
           'Contratar',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 11,
+            fontSize: fontSize,
             fontWeight: FontWeight.bold,
           ),
         ),

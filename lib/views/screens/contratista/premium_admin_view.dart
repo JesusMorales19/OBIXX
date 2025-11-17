@@ -8,6 +8,7 @@ import '../../widgets/header_bar.dart';
 import '../../widgets/custom_notification.dart';
 import 'modals/premium_modals.dart';
 import 'profile_view.dart';
+import '../../../core/utils/responsive.dart';
 
 class PremiumAdminView extends StatefulWidget {
   const PremiumAdminView({Key? key}) : super(key: key);
@@ -102,38 +103,88 @@ class _PremiumAdminViewState extends State<PremiumAdminView> {
     return Column(
       children: [
         const HeaderBar(tipoUsuario: 'contratista'),
-        const SizedBox(height: 40),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 25,
+            tablet: 30,
+            desktop: 40,
+          ),
+        ),
         Expanded(
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: EdgeInsets.all(
+                Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 20,
+                  tablet: 22,
+                  desktop: 24,
+                ),
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     Icons.lock_outline,
-                    size: 80,
+                    size: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 70,
+                      tablet: 75,
+                      desktop: 80,
+                    ),
                     color: Colors.grey[400],
                   ),
-                  const SizedBox(height: 24),
-                  const Text(
+                  SizedBox(
+                    height: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 18,
+                      tablet: 21,
+                      desktop: 24,
+                    ),
+                  ),
+                  Text(
                     'Funcionalidad Premium',
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: Responsive.getResponsiveFontSize(
+                        context,
+                        mobile: 22,
+                        tablet: 23,
+                        desktop: 24,
+                      ),
                       fontWeight: FontWeight.bold,
                       color: Colors.black87,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 12,
+                      tablet: 14,
+                      desktop: 16,
+                    ),
+                  ),
                   Text(
                     'Necesitas una suscripción premium para acceder a las herramientas de administración avanzadas.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: Responsive.getResponsiveFontSize(
+                        context,
+                        mobile: 14,
+                        tablet: 15,
+                        desktop: 16,
+                      ),
                       color: Colors.grey[600],
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  SizedBox(
+                    height: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 25,
+                      tablet: 28,
+                      desktop: 32,
+                    ),
+                  ),
                   ElevatedButton(
                     onPressed: () async {
                       // Navegar al perfil y abrir modal de planes
@@ -151,19 +202,34 @@ class _PremiumAdminViewState extends State<PremiumAdminView> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF1F4E79),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 16,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 25,
+                          tablet: 28,
+                          desktop: 32,
+                        ),
+                        vertical: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 12,
+                          tablet: 14,
+                          desktop: 16,
+                        ),
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Ver Planes Premium',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 14,
+                          tablet: 15,
+                          desktop: 16,
+                        ),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -181,37 +247,79 @@ class _PremiumAdminViewState extends State<PremiumAdminView> {
     return Column(
       children: [
         const HeaderBar(tipoUsuario: 'contratista'),
-        const SizedBox(height: 15),
-        const Divider(
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 10,
+            tablet: 12,
+            desktop: 15,
+          ),
+        ),
+        Divider(
           color: Colors.black26,
           thickness: 1,
-          indent: 20,
-          endIndent: 20,
+          indent: Responsive.getHorizontalPadding(context),
+          endIndent: Responsive.getHorizontalPadding(context),
         ),
-        const SizedBox(height: 20),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 15,
+            tablet: 18,
+            desktop: 20,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Responsive.getHorizontalPadding(context),
+          ),
           child: Text(
             'Administración Premium',
             style: TextStyle(
-              fontSize: 30,
+              fontSize: Responsive.getResponsiveFontSize(
+                context,
+                mobile: 26,
+                tablet: 28,
+                desktop: 30,
+              ),
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 6,
+            tablet: 7,
+            desktop: 8,
+          ),
+        ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(
+            horizontal: Responsive.getHorizontalPadding(context),
+          ),
           child: Text(
             'Gestiona tus trabajos de largo plazo',
             style: TextStyle(
-              fontSize: 14,
+              fontSize: Responsive.getResponsiveFontSize(
+                context,
+                mobile: 13,
+                tablet: 13.5,
+                desktop: 14,
+              ),
               color: Colors.grey[600],
             ),
           ),
         ),
-        const SizedBox(height: 20),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 15,
+            tablet: 18,
+            desktop: 20,
+          ),
+        ),
         Expanded(
           child: _trabajos.isEmpty
               ? Center(
@@ -223,11 +331,23 @@ class _PremiumAdminViewState extends State<PremiumAdminView> {
                         size: 64,
                         color: Colors.grey[400],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 12,
+                          tablet: 14,
+                          desktop: 16,
+                        ),
+                      ),
                       Text(
                         'No tienes trabajos activos',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 16,
+                            tablet: 17,
+                            desktop: 18,
+                          ),
                           color: Colors.grey[600],
                         ),
                       ),
@@ -237,7 +357,15 @@ class _PremiumAdminViewState extends State<PremiumAdminView> {
               : RefreshIndicator(
                   onRefresh: _cargarDatos,
                   child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: Responsive.getHorizontalPadding(context),
+                      vertical: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 8,
+                        tablet: 9,
+                        desktop: 10,
+                      ),
+                    ),
                     itemCount: _trabajos.length,
                     itemBuilder: (context, index) {
                       return _buildTrabajoCard(_trabajos[index]);

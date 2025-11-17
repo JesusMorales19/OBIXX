@@ -13,6 +13,7 @@ import '../../../services/validation_service.dart';
 import '../../../utils/image_utils.dart';
 import '../../../utils/context_helper.dart';
 import '../login/login_view.dart';
+import '../../../core/utils/responsive.dart';
 
 class RegisterContratista extends StatefulWidget {
   const RegisterContratista({super.key});
@@ -38,8 +39,16 @@ class _RegisterContratistaState extends State<RegisterContratista> {
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
-  // Ancho uniforme para todos los campos
-  static const double fieldWidth = 320;
+  // Ancho uniforme para todos los campos (se calculará dinámicamente)
+  double _getFieldWidth(BuildContext context) {
+    if (Responsive.isMobile(context)) {
+      return double.infinity;
+    } else if (Responsive.isTablet(context)) {
+      return 400;
+    } else {
+      return 450;
+    }
+  }
 
   // Estados para errores de validación
   String? _nombreError;
@@ -317,26 +326,66 @@ class _RegisterContratistaState extends State<RegisterContratista> {
           Container(color: const Color(0xFFF9FAFB)),
           const BackgroundHeader(),
           SafeArea(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 30),
-                  Image.asset('assets/images/logo_obix.png', height: 280),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Card(
+            child: ResponsiveContainer(
+              padding: EdgeInsets.symmetric(
+                horizontal: Responsive.getHorizontalPadding(context),
+                vertical: 20,
+              ),
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 20,
+                        tablet: 30,
+                        desktop: 40,
+                      ),
+                    ),
+                    Image.asset(
+                      'assets/images/logo_obix.png',
+                      height: Responsive.getResponsiveFontSize(
+                        context,
+                        mobile: 180,
+                        tablet: 230,
+                        desktop: 280,
+                      ),
+                    ),
+                    SizedBox(
+                      height: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 10,
+                        tablet: 15,
+                        desktop: 20,
+                      ),
+                    ),
+                    Card(
                       elevation: 10,
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(25),
+                        padding: EdgeInsets.all(
+                          Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 20,
+                            tablet: 25,
+                            desktop: 30,
+                          ),
+                        ),
                         child: SizedBox(
-                          height: 600,
+                          width: Responsive.isMobile(context) 
+                              ? double.infinity 
+                              : 500,
+                          height: Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 550,
+                            tablet: 600,
+                            desktop: 650,
+                          ),
                           child: PageView(
                             controller: _pageController,
                             physics: const NeverScrollableScrollPhysics(),
@@ -348,9 +397,16 @@ class _RegisterContratistaState extends State<RegisterContratista> {
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 40),
-                ],
+                    SizedBox(
+                      height: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 30,
+                        tablet: 35,
+                        desktop: 40,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -362,18 +418,41 @@ class _RegisterContratistaState extends State<RegisterContratista> {
   Widget _buildStep1() {
     return Column(
       children: [
-        const Text(
+        Text(
           "Registro de Contratista",
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Color(0xFFE67E22),
-            fontSize: 34,
+            color: const Color(0xFFE67E22),
+            fontSize: Responsive.getResponsiveFontSize(
+              context,
+              mobile: 28,
+              tablet: 32,
+              desktop: 34,
+            ),
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 6),
-        Container(width: 600, height: 2, color: Colors.grey[300]),
-        const SizedBox(height: 20),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 6,
+            tablet: 8,
+            desktop: 10,
+          ),
+        ),
+        Container(
+          width: double.infinity,
+          height: 2,
+          color: Colors.grey[300],
+        ),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 15,
+            tablet: 20,
+            desktop: 25,
+          ),
+        ),
         GestureDetector(
           onTap: _mostrarModalSeleccionImagen,
           child: Stack(
@@ -392,27 +471,46 @@ class _RegisterContratistaState extends State<RegisterContratista> {
                 bottom: 0,
                 right: 0,
                 child: Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(
+                    Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 6,
+                      tablet: 7,
+                      desktop: 8,
+                    ),
+                  ),
                   decoration: const BoxDecoration(
                     color: Color(0xFFE67E22),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.edit,
                     color: Colors.white,
-                    size: 20,
+                    size: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 18,
+                      tablet: 19,
+                      desktop: 20,
+                    ),
                   ),
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 20),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 15,
+            tablet: 20,
+            desktop: 25,
+          ),
+        ),
         InputField(
           controller: nombreController,
           hintText: "Nombre",
           icon: Icons.person,
-          width: fieldWidth,
+          width: _getFieldWidth(context),
           errorText: _nombreError,
           onChanged: (value) {
             if (value.trim().isNotEmpty && value.trim().length >= 2) {
@@ -420,12 +518,19 @@ class _RegisterContratistaState extends State<RegisterContratista> {
             }
           },
         ),
-        const SizedBox(height: 20),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 15,
+            tablet: 20,
+            desktop: 25,
+          ),
+        ),
         InputField(
           controller: apellidoController,
           hintText: "Apellido",
           icon: Icons.person_outline,
-          width: fieldWidth,
+          width: _getFieldWidth(context),
           errorText: _apellidoError,
           onChanged: (value) {
             if (value.trim().isNotEmpty && value.trim().length >= 2) {
@@ -433,12 +538,19 @@ class _RegisterContratistaState extends State<RegisterContratista> {
             }
           },
         ),
-        const SizedBox(height: 20),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 15,
+            tablet: 20,
+            desktop: 25,
+          ),
+        ),
         DateField(
           controller: fechaController,
           hintText: "Fecha de Nacimiento (DD/MM/AAAA)",
           icon: Icons.calendar_today,
-          width: fieldWidth,
+          width: _getFieldWidth(context),
           errorText: _fechaError,
           initialDate: DateTime.now().subtract(const Duration(days: 365 * 18)),
           firstDate: DateTime(1900),
@@ -449,7 +561,14 @@ class _RegisterContratistaState extends State<RegisterContratista> {
             }
           },
         ),
-        const SizedBox(height: 40),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 30,
+            tablet: 35,
+            desktop: 40,
+          ),
+        ),
         NextButton(
           text: "Siguiente",
           onPressed: _nextStep,
@@ -466,7 +585,7 @@ class _RegisterContratistaState extends State<RegisterContratista> {
           controller: correoController,
           hintText: "Correo",
           icon: Icons.email,
-          width: fieldWidth,
+          width: _getFieldWidth(context),
           keyboardType: TextInputType.emailAddress,
           errorText: _correoError,
           onChanged: (value) {
@@ -475,21 +594,35 @@ class _RegisterContratistaState extends State<RegisterContratista> {
             }
           },
         ),
-        const SizedBox(height: 30),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 20,
+            tablet: 25,
+            desktop: 30,
+          ),
+        ),
         CustomDropdown(
           label: "Género",
           items: ["Masculino", "Femenino"],
-          width: fieldWidth,
+          width: _getFieldWidth(context),
           onChanged: (value) {
             setState(() => _generoSeleccionado = value);
           },
         ),
-        const SizedBox(height: 30),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 20,
+            tablet: 25,
+            desktop: 30,
+          ),
+        ),
         InputField(
           controller: telefonoController,
           hintText: "Teléfono (10 dígitos)",
           icon: Icons.phone,
-          width: fieldWidth,
+          width: _getFieldWidth(context),
           keyboardType: TextInputType.phone,
           errorText: _telefonoError,
           onChanged: (value) {
@@ -498,7 +631,14 @@ class _RegisterContratistaState extends State<RegisterContratista> {
             }
           },
         ),
-        const SizedBox(height: 30),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 20,
+            tablet: 25,
+            desktop: 30,
+          ),
+        ),
         InputField(
           controller: passwordController,
           hintText: "Contraseña",
@@ -507,7 +647,7 @@ class _RegisterContratistaState extends State<RegisterContratista> {
           obscureText: _obscurePassword,
           errorText: _passwordError,
           toggleVisibility: () => setState(() => _obscurePassword = !_obscurePassword),
-          width: fieldWidth,
+          width: _getFieldWidth(context),
           onChanged: (value) {
             _validatePassword(value);
             if (confirmPasswordController.text.isNotEmpty) {
@@ -519,7 +659,14 @@ class _RegisterContratistaState extends State<RegisterContratista> {
             }
           },
         ),
-        const SizedBox(height: 30),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 20,
+            tablet: 25,
+            desktop: 30,
+          ),
+        ),
         InputField(
           controller: confirmPasswordController,
           hintText: "Confirmar contraseña",
@@ -528,7 +675,7 @@ class _RegisterContratistaState extends State<RegisterContratista> {
           obscureText: _obscureConfirmPassword,
           errorText: _confirmPasswordError,
           toggleVisibility: () => setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
-          width: fieldWidth,
+          width: _getFieldWidth(context),
           onChanged: (value) {
             if (value == passwordController.text) {
               setState(() => _confirmPasswordError = null);
@@ -537,7 +684,14 @@ class _RegisterContratistaState extends State<RegisterContratista> {
             }
           },
         ),
-        const SizedBox(height: 60),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 40,
+            tablet: 50,
+            desktop: 60,
+          ),
+        ),
         NextButton(
           text: "Registrar",
           onPressed: _validateStep2,

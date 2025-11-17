@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/utils/responsive.dart';
 
 class SearchAndFilterBar extends StatelessWidget {
   final TextEditingController searchController;
@@ -17,7 +18,9 @@ class SearchAndFilterBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+      padding: EdgeInsets.symmetric(
+        horizontal: Responsive.getHorizontalPadding(context),
+      ),
       child: Row(
         children: [
           Expanded(
@@ -46,7 +49,14 @@ class SearchAndFilterBar extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 10),
+          SizedBox(
+            width: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 8,
+              tablet: 9,
+              desktop: 10,
+            ),
+          ),
           Expanded(
             flex: 1,
             child: DropdownButtonFormField<String>(

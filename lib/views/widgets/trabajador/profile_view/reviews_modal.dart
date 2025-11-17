@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import '../../../../services/api_service.dart';
 import '../../../../services/format_service.dart';
+import '../../../../core/utils/responsive.dart';
 
 class ReviewsModal {
   // Paleta del usuario
@@ -24,9 +25,14 @@ class ReviewsModal {
           future: ApiService.obtenerCalificacionesTrabajador(emailTrabajador),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const SizedBox(
-                height: 240,
-                child: Center(child: CircularProgressIndicator()),
+              return SizedBox(
+                height: Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 200,
+                  tablet: 220,
+                  desktop: 240,
+                ),
+                child: const Center(child: CircularProgressIndicator()),
               );
             }
 
@@ -76,49 +82,116 @@ class ReviewsModal {
                       )
                     ],
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 15,
+                      tablet: 16,
+                      desktop: 18,
+                    ),
+                    vertical: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 10,
+                      tablet: 11,
+                      desktop: 12,
+                    ),
+                  ),
                   child: Column(
                     children: [
                       Container(
-                        width: 42,
-                        height: 6,
+                        width: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 38,
+                          tablet: 40,
+                          desktop: 42,
+                        ),
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 5,
+                          tablet: 5.5,
+                          desktop: 6,
+                        ),
                         decoration: BoxDecoration(
                           color: lightGray,
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      const SizedBox(height: 14),
+                      SizedBox(
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 12,
+                          tablet: 13,
+                          desktop: 14,
+                        ),
+                      ),
                       Row(
                         children: [
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
+                                Text(
                                   'Reseñas del trabajador',
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: Responsive.getResponsiveFontSize(
+                                      context,
+                                      mobile: 18,
+                                      tablet: 19,
+                                      desktop: 20,
+                                    ),
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(height: 4),
+                                SizedBox(
+                                  height: Responsive.getResponsiveSpacing(
+                                    context,
+                                    mobile: 3,
+                                    tablet: 3.5,
+                                    desktop: 4,
+                                  ),
+                                ),
                                 Row(
                                   children: [
-                                    _buildStars(promedio, size: 16),
-                                    const SizedBox(width: 8),
+                                    _buildStars(context, promedio, size: 16),
+                                    SizedBox(
+                                      width: Responsive.getResponsiveSpacing(
+                                        context,
+                                        mobile: 6,
+                                        tablet: 7,
+                                        desktop: 8,
+                                      ),
+                                    ),
                                     Text(
                                       promedio.toStringAsFixed(1),
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         color: Colors.grey[700],
+                                        fontSize: Responsive.getResponsiveFontSize(
+                                          context,
+                                          mobile: 14,
+                                          tablet: 15,
+                                          desktop: 16,
+                                        ),
                                       ),
                                     ),
-                                    const SizedBox(width: 6),
+                                    SizedBox(
+                                      width: Responsive.getResponsiveSpacing(
+                                        context,
+                                        mobile: 5,
+                                        tablet: 5.5,
+                                        desktop: 6,
+                                      ),
+                                    ),
                                     Text(
                                       '(${reviews.length} reseñas)',
                                       style: TextStyle(
                                         color: Colors.grey[500],
-                                        fontSize: 13,
+                                        fontSize: Responsive.getResponsiveFontSize(
+                                          context,
+                                          mobile: 11,
+                                          tablet: 12,
+                                          desktop: 13,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -129,18 +202,40 @@ class ReviewsModal {
                           GestureDetector(
                             onTap: () => Navigator.of(context).pop(),
                             child: Container(
-                              padding: const EdgeInsets.all(8),
+                              padding: EdgeInsets.all(
+                                Responsive.getResponsiveSpacing(
+                                  context,
+                                  mobile: 6,
+                                  tablet: 7,
+                                  desktop: 8,
+                                ),
+                              ),
                               decoration: BoxDecoration(
                                 color: lightGray,
                                 shape: BoxShape.circle,
                               ),
-                              child: Icon(Icons.close,
-                                  size: 18, color: Colors.grey[700]),
+                              child: Icon(
+                                Icons.close,
+                                size: Responsive.getResponsiveFontSize(
+                                  context,
+                                  mobile: 16,
+                                  tablet: 17,
+                                  desktop: 18,
+                                ),
+                                color: Colors.grey[700],
+                              ),
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 10,
+                          tablet: 11,
+                          desktop: 12,
+                        ),
+                      ),
                       Expanded(
                         child: reviews.isEmpty
                             ? Center(
@@ -148,14 +243,32 @@ class ReviewsModal {
                                   'Aún no hay reseñas para este trabajador.',
                                   style: TextStyle(
                                     color: Colors.grey[600],
+                                    fontSize: Responsive.getResponsiveFontSize(
+                                      context,
+                                      mobile: 12,
+                                      tablet: 13,
+                                      desktop: 14,
+                                    ),
                                   ),
                                 ),
                               )
                             : ListView.builder(
                                 controller: scrollController,
                                 itemCount: reviews.length,
-                                padding:
-                                    const EdgeInsets.only(bottom: 20, top: 6),
+                                padding: EdgeInsets.only(
+                                  bottom: Responsive.getResponsiveSpacing(
+                                    context,
+                                    mobile: 15,
+                                    tablet: 18,
+                                    desktop: 20,
+                                  ),
+                                  top: Responsive.getResponsiveSpacing(
+                                    context,
+                                    mobile: 5,
+                                    tablet: 5.5,
+                                    desktop: 6,
+                                  ),
+                                ),
                                 itemBuilder: (context, index) {
                                   final r = reviews[index];
                                   final nombre = [
@@ -171,9 +284,22 @@ class ReviewsModal {
                                   final foto = r['foto_contratista'] as String?;
 
                                   return Container(
-                                    margin:
-                                        const EdgeInsets.symmetric(vertical: 8),
-                                    padding: const EdgeInsets.all(14),
+                                    margin: EdgeInsets.symmetric(
+                                      vertical: Responsive.getResponsiveSpacing(
+                                        context,
+                                        mobile: 6,
+                                        tablet: 7,
+                                        desktop: 8,
+                                      ),
+                                    ),
+                                    padding: EdgeInsets.all(
+                                      Responsive.getResponsiveSpacing(
+                                        context,
+                                        mobile: 12,
+                                        tablet: 13,
+                                        desktop: 14,
+                                      ),
+                                    ),
                                     decoration: BoxDecoration(
                                       color: lightGray.withOpacity(0.4),
                                       borderRadius: BorderRadius.circular(14),
@@ -182,20 +308,38 @@ class ReviewsModal {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         CircleAvatar(
-                                          radius: 26,
+                                          radius: Responsive.getResponsiveFontSize(
+                                            context,
+                                            mobile: 22,
+                                            tablet: 24,
+                                            desktop: 26,
+                                          ),
                                           backgroundImage: _buildAvatar(foto),
                                           backgroundColor: primaryYellow,
                                           child: foto == null
                                               ? Text(
                                                   _initials(nombre),
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                     color: whiteColor,
                                                     fontWeight: FontWeight.bold,
+                                                    fontSize: Responsive.getResponsiveFontSize(
+                                                      context,
+                                                      mobile: 14,
+                                                      tablet: 15,
+                                                      desktop: 16,
+                                                    ),
                                                   ),
                                                 )
                                               : null,
                                         ),
-                                        const SizedBox(width: 12),
+                                        SizedBox(
+                                          width: Responsive.getResponsiveSpacing(
+                                            context,
+                                            mobile: 10,
+                                            tablet: 11,
+                                            desktop: 12,
+                                          ),
+                                        ),
                                         Expanded(
                                           child: Column(
                                             crossAxisAlignment:
@@ -215,24 +359,41 @@ class ReviewsModal {
                                                                   ?.toString() ??
                                                               'Contratista'
                                                           : nombre,
-                                                      style: const TextStyle(
+                                                      style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 15,
+                                                        fontSize: Responsive.getResponsiveFontSize(
+                                                          context,
+                                                          mobile: 13,
+                                                          tablet: 14,
+                                                          desktop: 15,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                  _buildStars(calificacion,
+                                                  _buildStars(context, calificacion,
                                                       size: 16),
                                                 ],
                                               ),
-                                              const SizedBox(height: 6),
+                                              SizedBox(
+                                                height: Responsive.getResponsiveSpacing(
+                                                  context,
+                                                  mobile: 5,
+                                                  tablet: 5.5,
+                                                  desktop: 6,
+                                                ),
+                                              ),
                                               Text(
                                                 resena.isEmpty
                                                     ? 'Sin reseña.'
                                                     : resena,
                                                 style: TextStyle(
-                                                  fontSize: 14,
+                                                  fontSize: Responsive.getResponsiveFontSize(
+                                                    context,
+                                                    mobile: 12,
+                                                    tablet: 13,
+                                                    desktop: 14,
+                                                  ),
                                                   color: Colors.grey[800],
                                                 ),
                                               ),
@@ -260,7 +421,14 @@ class ReviewsModal {
 
   static Widget _buildErrorContent(BuildContext context, String message) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(
+        Responsive.getResponsiveSpacing(
+          context,
+          mobile: 18,
+          tablet: 21,
+          desktop: 24,
+        ),
+      ),
       decoration: BoxDecoration(
         color: whiteColor,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
@@ -268,22 +436,69 @@ class ReviewsModal {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(height: 12),
-          const Icon(Icons.error_outline, color: Colors.redAccent, size: 42),
-          const SizedBox(height: 12),
+          SizedBox(
+            height: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 10,
+              tablet: 11,
+              desktop: 12,
+            ),
+          ),
+          Icon(
+            Icons.error_outline,
+            color: Colors.redAccent,
+            size: Responsive.getResponsiveFontSize(
+              context,
+              mobile: 38,
+              tablet: 40,
+              desktop: 42,
+            ),
+          ),
+          SizedBox(
+            height: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 10,
+              tablet: 11,
+              desktop: 12,
+            ),
+          ),
           Text(
             message,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 15),
+            style: TextStyle(
+              fontSize: Responsive.getResponsiveFontSize(
+                context,
+                mobile: 13,
+                tablet: 14,
+                desktop: 15,
+              ),
+            ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(
+            height: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 12,
+              tablet: 14,
+              desktop: 16,
+            ),
+          ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(),
             style: ElevatedButton.styleFrom(
               backgroundColor: primaryYellow,
               foregroundColor: Colors.black,
             ),
-            child: const Text('Cerrar'),
+            child: Text(
+              'Cerrar',
+              style: TextStyle(
+                fontSize: Responsive.getResponsiveFontSize(
+                  context,
+                  mobile: 14,
+                  tablet: 15,
+                  desktop: 16,
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -313,18 +528,24 @@ class ReviewsModal {
   }
 
   // Construye estrellas (rellenas según el valor)
-  static Widget _buildStars(double rating, {double size = 18}) {
+  static Widget _buildStars(BuildContext context, double rating, {double size = 18}) {
     final fullStars = rating.floor();
     final hasHalf = (rating - fullStars) >= 0.5;
     final List<Widget> stars = [];
+    final starSize = Responsive.getResponsiveFontSize(
+      context,
+      mobile: 14,
+      tablet: 15,
+      desktop: size,
+    );
 
     for (var i = 0; i < 5; i++) {
       if (i < fullStars) {
-        stars.add(Icon(Icons.star, size: size, color: primaryYellow));
+        stars.add(Icon(Icons.star, size: starSize, color: primaryYellow));
       } else if (i == fullStars && hasHalf) {
-        stars.add(Icon(Icons.star_half, size: size, color: primaryYellow));
+        stars.add(Icon(Icons.star_half, size: starSize, color: primaryYellow));
       } else {
-        stars.add(Icon(Icons.star_border, size: size, color: primaryYellow.withOpacity(0.7)));
+        stars.add(Icon(Icons.star_border, size: starSize, color: primaryYellow.withOpacity(0.7)));
       }
     }
 

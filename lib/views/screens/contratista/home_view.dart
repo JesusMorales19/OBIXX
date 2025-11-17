@@ -23,6 +23,7 @@ import '../../../services/api_wrapper.dart';
 import '../../../services/format_service.dart';
 import '../../../models/trabajo_largo_model.dart';
 import '../../../models/trabajo_corto_model.dart';
+import '../../../core/utils/responsive.dart';
 
 class HomeViewContractor extends StatefulWidget {
   const HomeViewContractor({super.key});
@@ -273,9 +274,23 @@ class _HomeViewContractorState extends State<HomeViewContractor> {
         child: Column(
           children: [
             const HeaderBar(tipoUsuario: 'contratista'),
-            const SizedBox(height: 15),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 10,
+                tablet: 15,
+                desktop: 20,
+              ),
+            ),
             const MainBanner(),
-            const SizedBox(height: 25),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 15,
+                tablet: 20,
+                desktop: 25,
+              ),
+            ),
             SearchAndFilterBar(
               searchController: _searchController,
               selectedFilter: _selectedFilter,
@@ -290,7 +305,14 @@ class _HomeViewContractorState extends State<HomeViewContractor> {
               },
               onSearchChanged: (_) => _filterWorkers(),
             ),
-            const SizedBox(height: 20),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 15,
+                tablet: 18,
+                desktop: 20,
+              ),
+            ),
             Expanded(
               child: (_isLoadingWorkers || (_selectedFilter == 'Favoritos' && _isLoadingFavoritos))
                   ? const Center(child: CircularProgressIndicator())
@@ -307,23 +329,44 @@ class _HomeViewContractorState extends State<HomeViewContractor> {
                               ),
                             )
                           : SingleChildScrollView(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: Responsive.getHorizontalPadding(context),
+                              ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
+                                  Text(
                                     'Mis Favoritos',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 22,
+                                      fontSize: Responsive.getResponsiveFontSize(
+                                        context,
+                                        mobile: 20,
+                                        tablet: 22,
+                                        desktop: 24,
+                                      ),
                                       color: Colors.black,
                                     ),
                                   ),
-                                  const SizedBox(height: 15),
+                                  SizedBox(
+                                    height: Responsive.getResponsiveSpacing(
+                                      context,
+                                      mobile: 10,
+                                      tablet: 12,
+                                      desktop: 15,
+                                    ),
+                                  ),
                                   // Lista de todos los trabajadores favoritos
                                   ...filteredWorkers.map((worker) {
                                     return Padding(
-                                      padding: const EdgeInsets.only(bottom: 10),
+                                      padding: EdgeInsets.only(
+                                        bottom: Responsive.getResponsiveSpacing(
+                                          context,
+                                          mobile: 8,
+                                          tablet: 10,
+                                          desktop: 12,
+                                        ),
+                                      ),
                                       child: WorkerCard(
                                         name: worker['name'] ?? '',
                                         edad: worker['edad'] ?? 0,
@@ -349,35 +392,61 @@ class _HomeViewContractorState extends State<HomeViewContractor> {
                                       ),
                                     );
                                   }).toList(),
-                                  const SizedBox(height: 70),
+                                  SizedBox(
+                                    height: Responsive.getResponsiveSpacing(
+                                      context,
+                                      mobile: 50,
+                                      tablet: 60,
+                                      desktop: 70,
+                                    ),
+                                  ),
                                 ],
                               ),
                             )
                       // VISTA NORMAL - AGRUPADO POR CATEGORÍAS
                       : groupedWorkers.isEmpty
-                          ? const Center(
+                          ? Center(
                               child: Text(
                                 'No se encontraron trabajadores cercanos',
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: Responsive.getResponsiveFontSize(
+                                    context,
+                                    mobile: 14,
+                                    tablet: 15,
+                                    desktop: 16,
+                                  ),
                                   color: Colors.grey,
                                 ),
                               ),
                             )
                           : SingleChildScrollView(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: Responsive.getHorizontalPadding(context),
+                              ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
+                                  Text(
                                     'Servicios A Ofrecer',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 20,
+                                      fontSize: Responsive.getResponsiveFontSize(
+                                        context,
+                                        mobile: 18,
+                                        tablet: 20,
+                                        desktop: 22,
+                                      ),
                                     ),
                                   ),
-                                  const SizedBox(height: 10),
+                                  SizedBox(
+                                    height: Responsive.getResponsiveSpacing(
+                                      context,
+                                      mobile: 8,
+                                      tablet: 10,
+                                      desktop: 12,
+                                    ),
+                                  ),
                                   ...groupedWorkers.entries.map((entry) {
                                     return ServiceCategory(
                                       title: entry.key,
@@ -408,7 +477,14 @@ class _HomeViewContractorState extends State<HomeViewContractor> {
                                       }).toList(),
                                     );
                                   }).toList(),
-                                  const SizedBox(height: 70),
+                                  SizedBox(
+                                    height: Responsive.getResponsiveSpacing(
+                                      context,
+                                      mobile: 50,
+                                      tablet: 60,
+                                      desktop: 70,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -653,7 +729,14 @@ class _RegistroCortoPlazoModalState extends State<RegistroCortoPlazoModal> {
             ),
           ],
         ),
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(
+          Responsive.getResponsiveSpacing(
+            context,
+            mobile: 15,
+            tablet: 20,
+            desktop: 25,
+          ),
+        ),
         child: SingleChildScrollView(
           controller: scrollController,
           child: Form(
@@ -668,16 +751,35 @@ class _RegistroCortoPlazoModalState extends State<RegistroCortoPlazoModal> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                const SizedBox(height: 15),
-                const Text(
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 10,
+                    tablet: 12,
+                    desktop: 15,
+                  ),
+                ),
+                Text(
                   'Registrar Trabajo Corto Plazo',
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 20,
+                      tablet: 22,
+                      desktop: 24,
+                    ),
                     fontWeight: FontWeight.bold,
                     color: Colors.blueAccent,
                   ),
                 ),
-                const SizedBox(height: 25),
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 15,
+                    tablet: 20,
+                    desktop: 25,
+                  ),
+                ),
                 CustomTextField(
                   controller: _tituloController,
                   label: 'Título del trabajo',
@@ -705,7 +807,14 @@ class _RegistroCortoPlazoModalState extends State<RegistroCortoPlazoModal> {
                         borderColor: Colors.blueAccent,
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(
+                      width: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 8,
+                        tablet: 10,
+                        desktop: 12,
+                      ),
+                    ),
                     Expanded(
                       child: CustomDropdown<String>(
                         label: 'Moneda',

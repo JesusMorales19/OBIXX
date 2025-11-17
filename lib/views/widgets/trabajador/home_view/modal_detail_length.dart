@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/utils/responsive.dart';
 
 class ModalTrabajoLargo {
   static const Color primaryYellow = Color(0xFFF5B400);
@@ -25,7 +26,14 @@ class ModalTrabajoLargo {
       builder: (_) {
         // Margen superior visible
         return Padding(
-          padding: const EdgeInsets.only(top: 60), // 👈 margen superior visible
+          padding: EdgeInsets.only(
+            top: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 50,
+              tablet: 55,
+              desktop: 60,
+            ),
+          ),
           child: Container(
             decoration: BoxDecoration(
               color: whiteColor,
@@ -46,59 +54,141 @@ class ModalTrabajoLargo {
               builder: (context, scrollController) {
                 return SingleChildScrollView(
                   controller: scrollController,
-                  padding: const EdgeInsets.all(18),
+                  padding: EdgeInsets.all(
+                    Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 15,
+                      tablet: 16,
+                      desktop: 18,
+                    ),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(
                         child: Container(
-                          width: 50,
-                          height: 6,
+                          width: Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 45,
+                            tablet: 47,
+                            desktop: 50,
+                          ),
+                          height: Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 5,
+                            tablet: 5.5,
+                            desktop: 6,
+                          ),
                           decoration: BoxDecoration(
                             color: lightGray,
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 12,
+                          tablet: 14,
+                          desktop: 16,
+                        ),
+                      ),
 
                       Text(
                         titulo,
-                        style: const TextStyle(
-                          fontSize: 22,
+                        style: TextStyle(
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 20,
+                            tablet: 21,
+                            desktop: 22,
+                          ),
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 8,
+                          tablet: 9,
+                          desktop: 10,
+                        ),
+                      ),
 
                       Text(
                         descripcion,
-                        style: const TextStyle(fontSize: 15, color: Colors.black87),
+                        style: TextStyle(
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 13,
+                            tablet: 14,
+                            desktop: 15,
+                          ),
+                          color: Colors.black87,
+                        ),
                       ),
 
-                      const SizedBox(height: 18),
+                      SizedBox(
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 15,
+                          tablet: 16,
+                          desktop: 18,
+                        ),
+                      ),
 
                       if (contratistaNombre != null)
-                        _info(Icons.person, 'Contratista', contratistaNombre, primaryYellow),
-                      _info(Icons.people, 'Vacantes', '$vacantes', primaryYellow),
-                      _info(Icons.schedule, 'Frecuencia de trabajo', frecuenciaPago, secondaryOrange),
-                      _info(Icons.date_range, 'Fecha de inicio', fechaInicio, primaryYellow),
-                      _info(Icons.calendar_today, 'Fecha final', fechaFinal, secondaryOrange),
-                      _info(Icons.apartment, 'Tipo de obra', tipoObra, primaryYellow),
+                        _info(context, Icons.person, 'Contratista', contratistaNombre, primaryYellow),
+                      _info(context, Icons.people, 'Vacantes', '$vacantes', primaryYellow),
+                      _info(context, Icons.schedule, 'Frecuencia de trabajo', frecuenciaPago, secondaryOrange),
+                      _info(context, Icons.date_range, 'Fecha de inicio', fechaInicio, primaryYellow),
+                      _info(context, Icons.calendar_today, 'Fecha final', fechaFinal, secondaryOrange),
+                      _info(context, Icons.apartment, 'Tipo de obra', tipoObra, primaryYellow),
 
-                      const SizedBox(height: 25),
+                      SizedBox(
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 20,
+                          tablet: 22,
+                          desktop: 25,
+                        ),
+                      ),
                       Center(
                         child: ElevatedButton(
                           onPressed: () => Navigator.pop(context),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: primaryYellow,
-                            padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 14),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: Responsive.getResponsiveSpacing(
+                                context,
+                                mobile: 50,
+                                tablet: 55,
+                                desktop: 60,
+                              ),
+                              vertical: Responsive.getResponsiveSpacing(
+                                context,
+                                mobile: 12,
+                                tablet: 13,
+                                desktop: 14,
+                              ),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
                           ),
-                          child: const Text(
+                          child: Text(
                             'Cerrar',
-                            style: TextStyle(color: whiteColor, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              color: whiteColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: Responsive.getResponsiveFontSize(
+                                context,
+                                mobile: 14,
+                                tablet: 15,
+                                desktop: 16,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -113,22 +203,60 @@ class ModalTrabajoLargo {
     );
   }
 
-  static Widget _info(IconData icon, String label, String value, Color color) {
+  static Widget _info(BuildContext context, IconData icon, String label, String value, Color color) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 6),
-      padding: const EdgeInsets.all(12),
+      margin: EdgeInsets.symmetric(
+        vertical: Responsive.getResponsiveSpacing(
+          context,
+          mobile: 5,
+          tablet: 5.5,
+          desktop: 6,
+        ),
+      ),
+      padding: EdgeInsets.all(
+        Responsive.getResponsiveSpacing(
+          context,
+          mobile: 10,
+          tablet: 11,
+          desktop: 12,
+        ),
+      ),
       decoration: BoxDecoration(
         color: lightGray.withOpacity(0.4),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
-          Icon(icon, color: color),
-          const SizedBox(width: 10),
+          Icon(
+            icon,
+            color: color,
+            size: Responsive.getResponsiveFontSize(
+              context,
+              mobile: 18,
+              tablet: 19,
+              desktop: 20,
+            ),
+          ),
+          SizedBox(
+            width: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 8,
+              tablet: 9,
+              desktop: 10,
+            ),
+          ),
           Expanded(
             child: Text(
               '$label: $value',
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                fontSize: Responsive.getResponsiveFontSize(
+                  context,
+                  mobile: 12,
+                  tablet: 13,
+                  desktop: 14,
+                ),
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ],

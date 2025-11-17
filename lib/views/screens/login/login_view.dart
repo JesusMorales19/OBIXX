@@ -14,6 +14,7 @@ import '../../../services/storage_service.dart';
 import '../../../services/location_service.dart';
 import '../../../services/notification_service.dart';
 import '../../../services/validation_service.dart';
+import '../../../core/utils/responsive.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -238,37 +239,75 @@ class _LoginViewState extends State<LoginView> {
           const BackgroundHeader(),
 
           // ---------- CONTENIDO ----------
-          Center(
+          ResponsiveContainer(
+            padding: EdgeInsets.symmetric(
+              horizontal: Responsive.getHorizontalPadding(context),
+              vertical: 20,
+            ),
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   Image.asset(
                     'assets/images/logo_obix.png',
-                    height: 280,
+                    height: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 200,
+                      tablet: 250,
+                      desktop: 280,
+                    ),
                   ),
-                  const SizedBox(height: 20),
                   SizedBox(
-                    width: 400,
-                    child: Card(
-                      elevation: 8,
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                    height: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 20,
+                      tablet: 30,
+                      desktop: 40,
+                    ),
+                  ),
+                  Card(
+                    elevation: 8,
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(
+                        Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 25,
+                          tablet: 30,
+                          desktop: 35,
+                        ),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(25),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: Responsive.isMobile(context) 
+                              ? double.infinity 
+                              : 450,
+                        ),
                         child: Column(
                           children: [
-                            const Text(
+                            Text(
                               "Welcome!!",
                               style: TextStyle(
-                                color: Color(0xFFE67E22),
-                                fontSize: 36,
+                                color: const Color(0xFFE67E22),
+                                fontSize: Responsive.getResponsiveFontSize(
+                                  context,
+                                  mobile: 32,
+                                  tablet: 36,
+                                  desktop: 40,
+                                ),
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const SizedBox(height: 60),
+                            SizedBox(
+                              height: Responsive.getResponsiveSpacing(
+                                context,
+                                mobile: 40,
+                                tablet: 50,
+                                desktop: 60,
+                              ),
+                            ),
 
                             // ---------- INPUT EMAIL/USERNAME ----------
                             InputField(
@@ -281,7 +320,14 @@ class _LoginViewState extends State<LoginView> {
                                 _validateEmailOrUsername(value.trim());
                               },
                             ),
-                            const SizedBox(height: 40),
+                            SizedBox(
+                              height: Responsive.getResponsiveSpacing(
+                                context,
+                                mobile: 30,
+                                tablet: 35,
+                                desktop: 40,
+                              ),
+                            ),
 
                             // ---------- INPUT PASSWORD ----------
                             InputField(
@@ -300,7 +346,14 @@ class _LoginViewState extends State<LoginView> {
                                 _validatePassword(value);
                               },
                             ),
-                            const SizedBox(height: 40),
+                            SizedBox(
+                              height: Responsive.getResponsiveSpacing(
+                                context,
+                                mobile: 30,
+                                tablet: 35,
+                                desktop: 40,
+                              ),
+                            ),
 
                             // ---------- BOTÓN LOGIN ----------
                             _isLoading
@@ -310,7 +363,14 @@ class _LoginViewState extends State<LoginView> {
                                     onPressed: _handleLogin,
                                     enabled: _isFormValid && !_isLoading,
                                   ),
-                            const SizedBox(height: 60),
+                            SizedBox(
+                              height: Responsive.getResponsiveSpacing(
+                                context,
+                                mobile: 40,
+                                tablet: 50,
+                                desktop: 60,
+                              ),
+                            ),
 
                             // ---------- TEXTO REGISTRO ----------
                             RegisterRedirectText(
@@ -325,7 +385,14 @@ class _LoginViewState extends State<LoginView> {
                                 );
                               },
                             ),
-                            const SizedBox(height: 20),
+                            SizedBox(
+                              height: Responsive.getResponsiveSpacing(
+                                context,
+                                mobile: 10,
+                                tablet: 15,
+                                desktop: 20,
+                              ),
+                            ),
                             
                           ],
                         ),

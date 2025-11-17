@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../custom_notification.dart';
+import '../../../../core/utils/responsive.dart';
 
 //
 // 🔹 CARD LARGO PLAZO
@@ -48,9 +49,9 @@ class JobCardLargo extends StatelessWidget {
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _infoRow('Frecuencia de pago:', frecuenciaPago, 'Vacantes disponibles:', vacantesDisponibles),
+          _infoRow(context, 'Frecuencia de pago:', frecuenciaPago, 'Vacantes disponibles:', vacantesDisponibles),
           _dividerLine(),
-          _infoRow('Fecha Inicio:', fechaInicio, 'Fecha Final:', fechaFinal),
+          _infoRow(context, 'Fecha Inicio:', fechaInicio, 'Fecha Final:', fechaFinal),
         ],
       ),
       onVerTrabajadores: onVerTrabajadores,
@@ -105,9 +106,9 @@ class JobCardCorto extends StatelessWidget {
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _infoRow('Rango de Precio:', rangoPrecio, 'Vacantes disponibles:', vacantesDisponibles),
+          _infoRow(context, 'Rango de Precio:', rangoPrecio, 'Vacantes disponibles:', vacantesDisponibles),
           _dividerLine(),
-          _infoRow('Especialidad Requerida:', especialidad,
+          _infoRow(context, 'Especialidad Requerida:', especialidad,
               'Trabajo creado:', fechaCreacion ?? 'No especificada'),
         ],
       ),
@@ -132,8 +133,40 @@ Widget _buildBaseCard({
   required Color badgeColor,
 }) {
   return Container(
-    margin: const EdgeInsets.only(bottom: 25),
-    padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
+    margin: EdgeInsets.only(
+      bottom: Responsive.getResponsiveSpacing(
+        context,
+        mobile: 20,
+        tablet: 22,
+        desktop: 25,
+      ),
+    ),
+    padding: EdgeInsets.fromLTRB(
+      Responsive.getResponsiveSpacing(
+        context,
+        mobile: 12,
+        tablet: 13,
+        desktop: 15,
+      ),
+      Responsive.getResponsiveSpacing(
+        context,
+        mobile: 15,
+        tablet: 18,
+        desktop: 20,
+      ),
+      Responsive.getResponsiveSpacing(
+        context,
+        mobile: 12,
+        tablet: 13,
+        desktop: 15,
+      ),
+      Responsive.getResponsiveSpacing(
+        context,
+        mobile: 15,
+        tablet: 18,
+        desktop: 20,
+      ),
+    ),
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(15),
@@ -150,32 +183,70 @@ Widget _buildBaseCard({
     child: Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 15),
+          padding: EdgeInsets.only(
+            top: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 12,
+              tablet: 13,
+              desktop: 15,
+            ),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(right: 70),
+                padding: EdgeInsets.only(
+                  right: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 60,
+                    tablet: 65,
+                    desktop: 70,
+                  ),
+                ),
                 child: Text(
                   title,
-                  style: const TextStyle(
-                    fontSize: 20,
+                  style: TextStyle(
+                    fontSize: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 18,
+                      tablet: 19,
+                      desktop: 20,
+                    ),
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF1F4E79),
+                    color: const Color(0xFF1F4E79),
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(
+                height: Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 6,
+                  tablet: 7,
+                  desktop: 8,
+                ),
+              ),
               content,
-              const SizedBox(height: 25),
+              SizedBox(
+                height: Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 20,
+                  tablet: 22,
+                  desktop: 25,
+                ),
+              ),
 
               // Botones más cortos y delgados
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    width: 150,
-                    height: 30,
+                    width: Responsive.isMobile(context) ? 140 : 150,
+                    height: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 28,
+                      tablet: 29,
+                      desktop: 30,
+                    ),
                     child: ElevatedButton(
                       onPressed: onVerTrabajadores,
                       style: ElevatedButton.styleFrom(
@@ -184,22 +255,39 @@ Widget _buildBaseCard({
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 8),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 0,
+                          horizontal: Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 6,
+                            tablet: 7,
+                            desktop: 8,
+                          ),
+                        ),
                       ),
-                      child: const Text(
+                      child: Text(
                         'Ver Trabajadores',
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 12,
+                            tablet: 13,
+                            desktop: 14,
+                          ),
                         ),
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: 150,
-                    height: 30,
+                    width: Responsive.isMobile(context) ? 140 : 150,
+                    height: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 28,
+                      tablet: 29,
+                      desktop: 30,
+                    ),
                     child: ElevatedButton(
                       onPressed: onTerminar,
                       style: ElevatedButton.styleFrom(
@@ -208,15 +296,27 @@ Widget _buildBaseCard({
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 8),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 0,
+                          horizontal: Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 6,
+                            tablet: 7,
+                            desktop: 8,
+                          ),
+                        ),
                       ),
-                      child: const Text(
+                      child: Text(
                         'Terminar',
                         style: TextStyle(
                           color: Colors.black54,
                           fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 12,
+                            tablet: 13,
+                            desktop: 14,
+                          ),
                         ),
                       ),
                     ),
@@ -232,16 +332,34 @@ Widget _buildBaseCard({
           top: 0,
           right: 0,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
+            padding: EdgeInsets.symmetric(
+              horizontal: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 6,
+                tablet: 7,
+                desktop: 8,
+              ),
+              vertical: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 0.5,
+                tablet: 0.75,
+                desktop: 1,
+              ),
+            ),
             decoration: BoxDecoration(
               color: badgeColor,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Text(
               badgeText,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
-                fontSize: 14,
+                fontSize: Responsive.getResponsiveFontSize(
+                  context,
+                  mobile: 12,
+                  tablet: 13,
+                  desktop: 14,
+                ),
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -266,7 +384,7 @@ Widget _dividerLine() {
 //
 // 🔹 Filas de información
 //
-Widget _infoRow(String label1, String value1, String label2, String value2) {
+Widget _infoRow(BuildContext context, String label1, String value1, String label2, String value2) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -289,7 +407,14 @@ Widget _infoRow(String label1, String value1, String label2, String value2) {
           ),
         ),
       ),
-      const SizedBox(width: 10),
+      SizedBox(
+        width: Responsive.getResponsiveSpacing(
+          context,
+          mobile: 8,
+          tablet: 9,
+          desktop: 10,
+        ),
+      ),
       Expanded(
         flex: 1,
         child: RichText(

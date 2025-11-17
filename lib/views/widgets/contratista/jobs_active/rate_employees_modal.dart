@@ -3,6 +3,7 @@ import '../../../../services/api_service.dart';
 import '../../../../services/format_service.dart';
 import '../../custom_notification.dart';
 import '../../common/custom_text_field.dart';
+import '../../../../core/utils/responsive.dart';
 
 class RateEmployeesModal extends StatefulWidget {
   final BuildContext parentContext;
@@ -95,35 +96,98 @@ class _RateEmployeesModalState extends State<RateEmployeesModal> {
     return Card(
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      margin: const EdgeInsets.symmetric(vertical: 8),
+      margin: EdgeInsets.symmetric(
+        vertical: Responsive.getResponsiveSpacing(
+          context,
+          mobile: 6,
+          tablet: 7,
+          desktop: 8,
+        ),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(
+          Responsive.getResponsiveSpacing(
+            context,
+            mobile: 12,
+            tablet: 14,
+            desktop: 16,
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               nombre.isEmpty ? email : nombre,
-              style: const TextStyle(
-                fontSize: 18,
+              style: TextStyle(
+                fontSize: Responsive.getResponsiveFontSize(
+                  context,
+                  mobile: 16,
+                  tablet: 17,
+                  desktop: 18,
+                ),
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF1F4E79),
+                color: const Color(0xFF1F4E79),
               ),
             ),
-            const SizedBox(height: 4),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 3,
+                tablet: 3.5,
+                desktop: 4,
+              ),
+            ),
             Text(
               especialidad,
-              style: const TextStyle(color: Colors.black87),
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: Responsive.getResponsiveFontSize(
+                  context,
+                  mobile: 13,
+                  tablet: 14,
+                  desktop: 15,
+                ),
+              ),
             ),
-            const SizedBox(height: 6),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 5,
+                tablet: 5.5,
+                desktop: 6,
+              ),
+            ),
             _buildStars(idAsignacion),
             if (email.isNotEmpty) ...[
-              const SizedBox(height: 4),
+              SizedBox(
+                height: Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 3,
+                  tablet: 3.5,
+                  desktop: 4,
+                ),
+              ),
               Text(
                 email,
-                style: const TextStyle(color: Colors.black54, fontSize: 12),
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: Responsive.getResponsiveFontSize(
+                    context,
+                    mobile: 11,
+                    tablet: 11.5,
+                    desktop: 12,
+                  ),
+                ),
               ),
             ],
-            const SizedBox(height: 12),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 10,
+                tablet: 11,
+                desktop: 12,
+              ),
+            ),
             CustomTextField(
               controller: _reviewControllers[idAsignacion]!,
               label: 'Reseña (opcional)',
@@ -212,25 +276,51 @@ class _RateEmployeesModalState extends State<RateEmployeesModal> {
 
     return Dialog(
       backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.all(16),
+      insetPadding: EdgeInsets.all(
+        Responsive.getResponsiveSpacing(
+          context,
+          mobile: 12,
+          tablet: 14,
+          desktop: 16,
+        ),
+      ),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
         ),
-        padding: const EdgeInsets.all(18),
+        padding: EdgeInsets.all(
+          Responsive.getResponsiveSpacing(
+            context,
+            mobile: 14,
+            tablet: 16,
+            desktop: 18,
+          ),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
+            Text(
               'Calificar trabajadores',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: Responsive.getResponsiveFontSize(
+                  context,
+                  mobile: 18,
+                  tablet: 20,
+                  desktop: 22,
+                ),
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF1F4E79),
+                color: const Color(0xFF1F4E79),
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 10,
+                tablet: 11,
+                desktop: 12,
+              ),
+            ),
             if (trabajadores.isEmpty)
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 40),
@@ -242,7 +332,12 @@ class _RateEmployeesModalState extends State<RateEmployeesModal> {
               )
             else
               SizedBox(
-                height: 320,
+                height: Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 280,
+                  tablet: 300,
+                  desktop: 320,
+                ),
                 child: SingleChildScrollView(
                   child: Column(
                     children: trabajadores
@@ -251,32 +346,61 @@ class _RateEmployeesModalState extends State<RateEmployeesModal> {
                   ),
                 ),
               ),
-            const SizedBox(height: 16),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 12,
+                tablet: 14,
+                desktop: 16,
+              ),
+            ),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed:
                     trabajadores.isEmpty || _isSubmitting ? null : _enviarCalificaciones,
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  padding: EdgeInsets.symmetric(
+                    vertical: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 12,
+                      tablet: 13,
+                      desktop: 14,
+                    ),
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                   backgroundColor: const Color(0xFF1F4E79),
                 ),
                 child: _isSubmitting
-                    ? const SizedBox(
-                        width: 22,
-                        height: 22,
-                        child: CircularProgressIndicator(
+                    ? SizedBox(
+                        width: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 20,
+                          tablet: 21,
+                          desktop: 22,
+                        ),
+                        height: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 20,
+                          tablet: 21,
+                          desktop: 22,
+                        ),
+                        child: const CircularProgressIndicator(
                           strokeWidth: 2,
                           color: Colors.white,
                         ),
                       )
-                    : const Text(
+                    : Text(
                         'Calificar y finalizar',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 14,
+                            tablet: 15,
+                            desktop: 16,
+                          ),
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../services/storage_service.dart';
 import '../../services/notification_service.dart';
 import 'custom_notification.dart';
+import '../../core/utils/responsive.dart';
 
 class LogoutDialog {
   static Future<void> show(BuildContext context, VoidCallback onConfirm) {
@@ -11,8 +12,23 @@ class LogoutDialog {
       builder: (BuildContext context) {
         return Dialog(
           backgroundColor: Colors.transparent, // fondo transparente
+          insetPadding: EdgeInsets.symmetric(
+            horizontal: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 20,
+              tablet: 25,
+              desktop: 30,
+            ),
+          ),
           child: Container(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(
+              Responsive.getResponsiveSpacing(
+                context,
+                mobile: 18,
+                tablet: 21,
+                desktop: 24,
+              ),
+            ),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -29,40 +45,83 @@ class LogoutDialog {
               children: [
                 // Icono de advertencia
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(
+                    Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 12,
+                      tablet: 14,
+                      desktop: 16,
+                    ),
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.orange.withOpacity(0.2),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.logout,
                     color: Colors.orange,
-                    size: 36,
+                    size: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 30,
+                      tablet: 33,
+                      desktop: 36,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 12,
+                    tablet: 14,
+                    desktop: 16,
+                  ),
+                ),
 
                 // Título
-                const Text(
+                Text(
                   'Cerrar sesión',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Color(0xFF1F4E79),
+                    fontSize: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 18,
+                      tablet: 19,
+                      desktop: 20,
+                    ),
+                    color: const Color(0xFF1F4E79),
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 10,
+                    tablet: 11,
+                    desktop: 12,
+                  ),
+                ),
 
                 // Mensaje
-                const Text(
+                Text(
                   '¿Estás seguro de que quieres cerrar sesión?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 14,
+                      tablet: 15,
+                      desktop: 16,
+                    ),
                     color: Colors.black87,
                   ),
                 ),
-                const SizedBox(height: 24),
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 20,
+                    tablet: 22,
+                    desktop: 24,
+                  ),
+                ),
 
                 // Botones
                 Row(
@@ -76,13 +135,32 @@ class LogoutDialog {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 12),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 20,
+                            tablet: 22,
+                            desktop: 24,
+                          ),
+                          vertical: Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 10,
+                            tablet: 11,
+                            desktop: 12,
+                          ),
+                        ),
                       ),
                       onPressed: () => Navigator.pop(context),
-                      child: const Text(
+                      child: Text(
                         'Cancelar',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 14,
+                            tablet: 15,
+                            desktop: 16,
+                          ),
+                        ),
                       ),
                     ),
 
@@ -94,8 +172,20 @@ class LogoutDialog {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 12),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 20,
+                            tablet: 22,
+                            desktop: 24,
+                          ),
+                          vertical: Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 10,
+                            tablet: 11,
+                            desktop: 12,
+                          ),
+                        ),
                         elevation: 6,
                         shadowColor: Colors.orangeAccent,
                       ),
@@ -111,9 +201,16 @@ class LogoutDialog {
                         }
                         onConfirm();
                       },
-                      child: const Text(
+                      child: Text(
                         'Cerrar sesión',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 14,
+                            tablet: 15,
+                            desktop: 16,
+                          ),
+                        ),
                       ),
                     ),
                   ],

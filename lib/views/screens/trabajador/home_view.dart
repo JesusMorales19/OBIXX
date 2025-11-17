@@ -11,6 +11,7 @@ import '../../../services/format_service.dart';
 import '../../../services/api_wrapper.dart';
 import '../../../models/trabajo_largo_model.dart';
 import '../../../models/trabajo_corto_model.dart';
+import '../../../core/utils/responsive.dart';
 
 class HomeViewEmployee extends StatefulWidget {
   const HomeViewEmployee({super.key});
@@ -130,7 +131,8 @@ class _HomeViewEmployeeState extends State<HomeViewEmployee> with WidgetsBinding
       _tieneSolicitudPendiente = tieneSolicitud;
       _numeroSolicitudesActivas = numeroSolicitudes;
       _trabajosAplicados = trabajosAplicadosSet;
-      _tieneAsignacionActiva = (trabajoActualResult?['data']?['data']) != null;
+      // El endpoint devuelve { success: true, data: null | { ...asignacion... } }
+      _tieneAsignacionActiva = (trabajoActualResult?['data']) != null;
       if (!tieneSolicitud) {
         _claveAplicando = null;
       }
@@ -239,35 +241,69 @@ class _HomeViewEmployeeState extends State<HomeViewEmployee> with WidgetsBinding
         child: Column(
           children: [
             const HeaderBar(tipoUsuario: 'trabajador'),
-            const SizedBox(height: 15),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 12,
+                tablet: 13,
+                desktop: 15,
+              ),
+            ),
             const MainBanner(),
-            const SizedBox(height: 25),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 20,
+                tablet: 22,
+                desktop: 25,
+              ),
+            ),
             
             Expanded(
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : _trabajosLargo.isEmpty && _trabajosCorto.isEmpty
-                      ? const Center(
+                      ? Center(
                           child: Text(
                             'No hay trabajos cercanos disponibles',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: Responsive.getResponsiveFontSize(
+                                context,
+                                mobile: 14,
+                                tablet: 15,
+                                desktop: 16,
+                              ),
                               color: Colors.grey,
                             ),
                           ),
                         )
                       : SingleChildScrollView(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Responsive.getHorizontalPadding(context),
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Padding(
-                                padding: EdgeInsets.only(left: 0, bottom: 20),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: 0,
+                                  bottom: Responsive.getResponsiveSpacing(
+                                    context,
+                                    mobile: 15,
+                                    tablet: 18,
+                                    desktop: 20,
+                                  ),
+                                ),
                                 child: Text(
                                   'Trabajos disponibles',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: Responsive.getResponsiveFontSize(
+                                      context,
+                                      mobile: 18,
+                                      tablet: 19,
+                                      desktop: 20,
+                                    ),
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -335,7 +371,14 @@ class _HomeViewEmployeeState extends State<HomeViewEmployee> with WidgetsBinding
                                       ],
                               ),
                               
-                              const SizedBox(height: 25),
+                              SizedBox(
+                                height: Responsive.getResponsiveSpacing(
+                                  context,
+                                  mobile: 20,
+                                  tablet: 22,
+                                  desktop: 25,
+                                ),
+                              ),
                               
                               // Trabajos de Largo Plazo - Solo mostrar el primero
                               if (_trabajosLargo.isNotEmpty)
@@ -386,7 +429,14 @@ class _HomeViewEmployeeState extends State<HomeViewEmployee> with WidgetsBinding
                                     );
                                   }).toList(),
                                 ),
-                              const SizedBox(height: 80),
+                              SizedBox(
+                                height: Responsive.getResponsiveSpacing(
+                                  context,
+                                  mobile: 60,
+                                  tablet: 70,
+                                  desktop: 80,
+                                ),
+                              ),
                             ],
                           ),
                         ),

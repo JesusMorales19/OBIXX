@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import'../login/login_view.dart';
 import 'register_trabajador.dart';
 import 'register_contratista.dart';
+import '../../../core/utils/responsive.dart';
 
 class RolesView extends StatefulWidget {
   const RolesView({super.key});
@@ -44,121 +45,209 @@ Container(
 
 
           // 🔹 Contenido principal
-          Center(
+          ResponsiveContainer(
+            padding: EdgeInsets.symmetric(
+              horizontal: Responsive.getHorizontalPadding(context),
+              vertical: 20,
+            ),
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   Image.asset(
                     'assets/images/logo_obix.png',
-                    height: 280,
+                    height: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 200,
+                      tablet: 250,
+                      desktop: 280,
+                    ),
                   ),
-                  const SizedBox(height: 20),
                   SizedBox(
-                    width: 400, // Mantiene tu ancho original
-                    child: Card(
-                      elevation: 8,
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                    height: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 20,
+                      tablet: 30,
+                      desktop: 40,
+                    ),
+                  ),
+                  Card(
+                    elevation: 8,
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(
+                        Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 25,
+                          tablet: 30,
+                          desktop: 35,
+                        ),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(25),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: Responsive.isMobile(context) 
+                              ? double.infinity 
+                              : 450,
+                        ),
                         child: Column(
                           children: [
-                            const Text(
+                            Text(
                               "Register",
                               style: TextStyle(
-                                color: Color(0xFFE67E22),
-                                fontSize: 36,
+                                color: const Color(0xFFE67E22),
+                                fontSize: Responsive.getResponsiveFontSize(
+                                  context,
+                                  mobile: 32,
+                                  tablet: 36,
+                                  desktop: 40,
+                                ),
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const SizedBox(height: 60),
-                            DecoratedBox(
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [
-                                    Color(0xFFE67E22),
-                                    Color(0xFFF5B400),
-                                  ],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                ),
-                                borderRadius: BorderRadius.circular(20),
+                            SizedBox(
+                              height: Responsive.getResponsiveSpacing(
+                                context,
+                                mobile: 40,
+                                tablet: 50,
+                                desktop: 60,
                               ),
-                              child: ElevatedButton(
-                                onPressed: () {Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const RegisterContratista(),
+                            ),
+                            SizedBox(
+                              width: double.infinity,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      Color(0xFFE67E22),
+                                      Color(0xFFF5B400),
+                                    ],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
                                   ),
-                                );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  shadowColor: Colors.transparent,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 100,
-                                    vertical: 40,
-                                  ),
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
-                                child: const Text(
-                                  "Contratista",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
+                                child: ElevatedButton(
+                                  onPressed: () {Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const RegisterContratista(),
+                                    ),
+                                  );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    shadowColor: Colors.transparent,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: Responsive.getResponsiveSpacing(
+                                        context,
+                                        mobile: 60,
+                                        tablet: 80,
+                                        desktop: 100,
+                                      ),
+                                      vertical: Responsive.getResponsiveSpacing(
+                                        context,
+                                        mobile: 30,
+                                        tablet: 35,
+                                        desktop: 40,
+                                      ),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    "Contratista",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: Responsive.getResponsiveFontSize(
+                                        context,
+                                        mobile: 16,
+                                        tablet: 17,
+                                        desktop: 18,
+                                      ),
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 40),
-                            DecoratedBox(
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [
-                                    Color(0xFFE67E22),
-                                    Color(0xFFF5B400),
-                                  ],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                ),
-                                borderRadius: BorderRadius.circular(20),
+                            SizedBox(
+                              height: Responsive.getResponsiveSpacing(
+                                context,
+                                mobile: 30,
+                                tablet: 35,
+                                desktop: 40,
                               ),
-                              child: ElevatedButton(
-                                onPressed: () {Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const RegisterTrabajador(),
+                            ),
+                            SizedBox(
+                              width: double.infinity,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      Color(0xFFE67E22),
+                                      Color(0xFFF5B400),
+                                    ],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
                                   ),
-                                );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  shadowColor: Colors.transparent,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 100,
-                                    vertical: 40,
-                                  ),
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
-                                child: const Text(
-                                  "Trabajador",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
+                                child: ElevatedButton(
+                                  onPressed: () {Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const RegisterTrabajador(),
+                                    ),
+                                  );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    shadowColor: Colors.transparent,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: Responsive.getResponsiveSpacing(
+                                        context,
+                                        mobile: 60,
+                                        tablet: 80,
+                                        desktop: 100,
+                                      ),
+                                      vertical: Responsive.getResponsiveSpacing(
+                                        context,
+                                        mobile: 30,
+                                        tablet: 35,
+                                        desktop: 40,
+                                      ),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    "Trabajador",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: Responsive.getResponsiveFontSize(
+                                        context,
+                                        mobile: 16,
+                                        tablet: 17,
+                                        desktop: 18,
+                                      ),
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 60),
+                            SizedBox(
+                              height: Responsive.getResponsiveSpacing(
+                                context,
+                                mobile: 40,
+                                tablet: 50,
+                                desktop: 60,
+                              ),
+                            ),
                             GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -168,18 +257,30 @@ Container(
                                   ),
                                 );
                               },
-                              child: const Text.rich(
+                              child: Text.rich(
                                 TextSpan(
                                   text: "I have account? ",
                                   style: TextStyle(
                                     color: Colors.black,
+                                    fontSize: Responsive.getResponsiveFontSize(
+                                      context,
+                                      mobile: 14,
+                                      tablet: 15,
+                                      desktop: 16,
+                                    ),
                                     fontWeight: FontWeight.bold,
                                   ),
                                   children: [
                                     TextSpan(
                                       text: "Login",
                                       style: TextStyle(
-                                        color: Color(0xFFE67E22),
+                                        color: const Color(0xFFE67E22),
+                                        fontSize: Responsive.getResponsiveFontSize(
+                                          context,
+                                          mobile: 14,
+                                          tablet: 15,
+                                          desktop: 16,
+                                        ),
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),

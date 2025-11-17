@@ -17,6 +17,7 @@ import '../../widgets/header_bar.dart';
 import '../../widgets/logout_dialog.dart'; // Tu modal de confirmación de logout
 import '../../widgets/custom_notification.dart';
 import '../../../services/notification_service.dart';
+import '../../../core/utils/responsive.dart';
 
 class ProfileViewEmployees extends StatefulWidget {
   const ProfileViewEmployees({Key? key}) : super(key: key);
@@ -444,19 +445,55 @@ class _ProfileViewEmployeesState extends State<ProfileViewEmployees> {
             const CustomBottomNav(role: 'trabajador', currentIndex: 2),
         body: Center(
           child: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(
+              Responsive.getResponsiveSpacing(
+                context,
+                mobile: 18,
+                tablet: 21,
+                desktop: 24,
+              ),
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.error_outline,
-                    color: Colors.redAccent, size: 48),
-                const SizedBox(height: 16),
+                Icon(
+                  Icons.error_outline,
+                  color: Colors.redAccent,
+                  size: Responsive.getResponsiveFontSize(
+                    context,
+                    mobile: 42,
+                    tablet: 45,
+                    desktop: 48,
+                  ),
+                ),
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 12,
+                    tablet: 14,
+                    desktop: 16,
+                  ),
+                ),
                 Text(
                   _errorMessage!,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 16),
+                  style: TextStyle(
+                    fontSize: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 14,
+                      tablet: 15,
+                      desktop: 16,
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 12,
+                    tablet: 14,
+                    desktop: 16,
+                  ),
+                ),
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -465,7 +502,17 @@ class _ProfileViewEmployeesState extends State<ProfileViewEmployees> {
                     });
                     _fetchPerfilTrabajador();
                   },
-                  child: const Text('Reintentar'),
+                  child: Text(
+                    'Reintentar',
+                    style: TextStyle(
+                      fontSize: Responsive.getResponsiveFontSize(
+                        context,
+                        mobile: 14,
+                        tablet: 15,
+                        desktop: 16,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -482,19 +529,71 @@ class _ProfileViewEmployeesState extends State<ProfileViewEmployees> {
           child: Column(
             children: [
               const HeaderBar(tipoUsuario: 'trabajador'),
-              const SizedBox(height: 15),
-              const Divider(
-                  color: Colors.black26, thickness: 1, indent: 20, endIndent: 20),
-              const SizedBox(height: 20),
-              const Text('Mi Perfil',
-                  style: TextStyle(
-                      fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black)),
-              const SizedBox(height: 25),
+              SizedBox(
+                height: Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 12,
+                  tablet: 13,
+                  desktop: 15,
+                ),
+              ),
+              Divider(
+                color: Colors.black26,
+                thickness: 1,
+                indent: Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 15,
+                  tablet: 17,
+                  desktop: 20,
+                ),
+                endIndent: Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 15,
+                  tablet: 17,
+                  desktop: 20,
+                ),
+              ),
+              SizedBox(
+                height: Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 15,
+                  tablet: 18,
+                  desktop: 20,
+                ),
+              ),
+              Text(
+                'Mi Perfil',
+                style: TextStyle(
+                  fontSize: Responsive.getResponsiveFontSize(
+                    context,
+                    mobile: 26,
+                    tablet: 28,
+                    desktop: 30,
+                  ),
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(
+                height: Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 20,
+                  tablet: 22,
+                  desktop: 25,
+                ),
+              ),
 
               // 🔹 Card principal (perfil)
               Container(
                 width: MediaQuery.of(context).size.width * 0.90,
-                padding: const EdgeInsets.all(15),
+                padding: EdgeInsets.all(
+                  Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 12,
+                    tablet: 13,
+                    desktop: 15,
+                  ),
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
@@ -513,7 +612,14 @@ class _ProfileViewEmployeesState extends State<ProfileViewEmployees> {
                       children: [
                         Column(
                           children: [
-                            const SizedBox(height: 6),
+                            SizedBox(
+                              height: Responsive.getResponsiveSpacing(
+                                context,
+                                mobile: 5,
+                                tablet: 5.5,
+                                desktop: 6,
+                              ),
+                            ),
                             Stack(
                               children: [
                                 GestureDetector(
@@ -522,10 +628,22 @@ class _ProfileViewEmployeesState extends State<ProfileViewEmployees> {
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(
-                                          color: const Color(0xFF1F4E79), width: 5),
+                                        color: const Color(0xFF1F4E79),
+                                        width: Responsive.getResponsiveSpacing(
+                                          context,
+                                          mobile: 4,
+                                          tablet: 4.5,
+                                          desktop: 5,
+                                        ),
+                                      ),
                                     ),
                                     child: CircleAvatar(
-                                      radius: 45,
+                                      radius: Responsive.getResponsiveFontSize(
+                                        context,
+                                        mobile: 40,
+                                        tablet: 42,
+                                        desktop: 45,
+                                      ),
                                       backgroundImage: _getProfileImage(),
                                     ),
                                   ),
@@ -535,63 +653,167 @@ class _ProfileViewEmployeesState extends State<ProfileViewEmployees> {
                                   right: 0,
                                   child: Container(
                                     decoration: const BoxDecoration(
-                                        color: Colors.orange, shape: BoxShape.circle),
-                                    padding: const EdgeInsets.all(5),
-                                    child:
-                                        const Icon(Icons.edit, color: Colors.white, size: 18),
+                                      color: Colors.orange,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    padding: EdgeInsets.all(
+                                      Responsive.getResponsiveSpacing(
+                                        context,
+                                        mobile: 4,
+                                        tablet: 4.5,
+                                        desktop: 5,
+                                      ),
+                                    ),
+                                    child: Icon(
+                                      Icons.edit,
+                                      color: Colors.white,
+                                      size: Responsive.getResponsiveFontSize(
+                                        context,
+                                        mobile: 16,
+                                        tablet: 17,
+                                        desktop: 18,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 10),
-                            Text(categoriaLabel,
-                                style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black)),
+                            SizedBox(
+                              height: Responsive.getResponsiveSpacing(
+                                context,
+                                mobile: 8,
+                                tablet: 9,
+                                desktop: 10,
+                              ),
+                            ),
+                            Text(
+                              categoriaLabel,
+                              style: TextStyle(
+                                fontSize: Responsive.getResponsiveFontSize(
+                                  context,
+                                  mobile: 12,
+                                  tablet: 13,
+                                  desktop: 14,
+                                ),
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
                           ],
                         ),
-                        const SizedBox(width: 15),
+                        SizedBox(
+                          width: Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 12,
+                            tablet: 13,
+                            desktop: 15,
+                          ),
+                        ),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Center(
-                                child: Text(usernameLabel,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xFF1F4E79))),
+                                child: Text(
+                                  usernameLabel,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: Responsive.getResponsiveFontSize(
+                                      context,
+                                      mobile: 18,
+                                      tablet: 19,
+                                      desktop: 20,
+                                    ),
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xFF1F4E79),
+                                  ),
+                                ),
                               ),
-                              const SizedBox(height: 6),
+                              SizedBox(
+                                height: Responsive.getResponsiveSpacing(
+                                  context,
+                                  mobile: 5,
+                                  tablet: 5.5,
+                                  desktop: 6,
+                                ),
+                              ),
                               Text.rich(
                                 TextSpan(
                                   children: [
-                                    const TextSpan(text: 'Nombre: '),
                                     TextSpan(
-                                        text: nombreCompleto.isNotEmpty
-                                            ? nombreCompleto
-                                            : 'Sin nombre',
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black)),
+                                      text: 'Nombre: ',
+                                      style: TextStyle(
+                                        fontSize: Responsive.getResponsiveFontSize(
+                                          context,
+                                          mobile: 12,
+                                          tablet: 13,
+                                          desktop: 14,
+                                        ),
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: nombreCompleto.isNotEmpty
+                                          ? nombreCompleto
+                                          : 'Sin nombre',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        fontSize: Responsive.getResponsiveFontSize(
+                                          context,
+                                          mobile: 12,
+                                          tablet: 13,
+                                          desktop: 14,
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
-                              const SizedBox(height: 8),
-                              Text('Fecha de nacimiento: $fechaStr',
-                                  style: const TextStyle(fontSize: 14, color: Colors.black)),
-                              const SizedBox(height: 15),
+                              SizedBox(
+                                height: Responsive.getResponsiveSpacing(
+                                  context,
+                                  mobile: 6,
+                                  tablet: 7,
+                                  desktop: 8,
+                                ),
+                              ),
+                              Text(
+                                'Fecha de nacimiento: $fechaStr',
+                                style: TextStyle(
+                                  fontSize: Responsive.getResponsiveFontSize(
+                                    context,
+                                    mobile: 12,
+                                    tablet: 13,
+                                    desktop: 14,
+                                  ),
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(
+                                height: Responsive.getResponsiveSpacing(
+                                  context,
+                                  mobile: 12,
+                                  tablet: 13,
+                                  desktop: 15,
+                                ),
+                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Edad: $edadTexto',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                          color: Colors.black)),
+                                  Text(
+                                    'Edad: $edadTexto',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: Responsive.getResponsiveFontSize(
+                                        context,
+                                        mobile: 12,
+                                        tablet: 13,
+                                        desktop: 14,
+                                      ),
+                                      color: Colors.black,
+                                    ),
+                                  ),
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
@@ -606,11 +828,31 @@ class _ProfileViewEmployeesState extends State<ProfileViewEmployees> {
                                                 ),
                                         style: TextButton.styleFrom(
                                           padding: EdgeInsets.zero,
-                                          minimumSize: const Size(50, 20),
+                                          minimumSize: Size(
+                                            Responsive.getResponsiveSpacing(
+                                              context,
+                                              mobile: 45,
+                                              tablet: 47,
+                                              desktop: 50,
+                                            ),
+                                            Responsive.getResponsiveSpacing(
+                                              context,
+                                              mobile: 18,
+                                              tablet: 19,
+                                              desktop: 20,
+                                            ),
+                                          ),
                                         ),
-                                        child: const Text(
+                                        child: Text(
                                           'ver reseñas',
-                                          style: TextStyle(fontSize: 12),
+                                          style: TextStyle(
+                                            fontSize: Responsive.getResponsiveFontSize(
+                                              context,
+                                              mobile: 11,
+                                              tablet: 11.5,
+                                              desktop: 12,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -622,53 +864,147 @@ class _ProfileViewEmployeesState extends State<ProfileViewEmployees> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(
+                      height: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 8,
+                        tablet: 9,
+                        desktop: 10,
+                      ),
+                    ),
                     Align(
                       alignment: Alignment.centerRight,
-                      child: Text('Miembro desde $miembroDesdeTexto',
-                          style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+                      child: Text(
+                        'Miembro desde $miembroDesdeTexto',
+                        style: TextStyle(
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 11,
+                            tablet: 11.5,
+                            desktop: 12,
+                          ),
+                          color: Colors.grey[600],
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
 
-              const SizedBox(height: 30),
+              SizedBox(
+                height: Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 25,
+                  tablet: 27,
+                  desktop: 30,
+                ),
+              ),
 
               // 🔹 Datos de contacto
               Container(
                 width: MediaQuery.of(context).size.width * 0.90,
-                padding: const EdgeInsets.all(15),
+                padding: EdgeInsets.all(
+                  Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 12,
+                    tablet: 13,
+                    desktop: 15,
+                  ),
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 6,
-                        offset: const Offset(0, 3))
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 6,
+                      offset: const Offset(0, 3),
+                    ),
                   ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      children: const [
-                        Icon(Icons.message_outlined, color: Colors.blue),
-                        SizedBox(width: 8),
-                        Text('Datos de Contacto',
-                            style:
-                                TextStyle(fontWeight: FontWeight.bold, fontSize: 16))
+                      children: [
+                        Icon(
+                          Icons.message_outlined,
+                          color: Colors.blue,
+                          size: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 20,
+                            tablet: 21,
+                            desktop: 22,
+                          ),
+                        ),
+                        SizedBox(
+                          width: Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 6,
+                            tablet: 7,
+                            desktop: 8,
+                          ),
+                        ),
+                        Text(
+                          'Datos de Contacto',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 14,
+                              tablet: 15,
+                              desktop: 16,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(
+                      height: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 10,
+                        tablet: 11,
+                        desktop: 12,
+                      ),
+                    ),
                     Row(
                       children: [
-                        const Text('Email: ',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text(
+                          'Email: ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 12,
+                              tablet: 13,
+                              desktop: 14,
+                            ),
+                          ),
+                        ),
                         Expanded(
-                            child: Text(emailLabel, style: const TextStyle(color: Colors.grey))),
+                          child: Text(
+                            emailLabel,
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: Responsive.getResponsiveFontSize(
+                                context,
+                                mobile: 12,
+                                tablet: 13,
+                                desktop: 14,
+                              ),
+                            ),
+                          ),
+                        ),
                         IconButton(
-                          icon: const Icon(Icons.edit, size: 18),
+                          icon: Icon(
+                            Icons.edit,
+                            size: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 16,
+                              tablet: 17,
+                              desktop: 18,
+                            ),
+                          ),
                           onPressed: () async {
                             await EditDialog.show(
                               context,
@@ -702,15 +1038,52 @@ class _ProfileViewEmployeesState extends State<ProfileViewEmployees> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 6,
+                        tablet: 7,
+                        desktop: 8,
+                      ),
+                    ),
                     Row(
                       children: [
-                        const Text('Teléfono: ',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text(
+                          'Teléfono: ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 12,
+                              tablet: 13,
+                              desktop: 14,
+                            ),
+                          ),
+                        ),
                         Expanded(
-                            child: Text(telefonoLabel, style: const TextStyle(color: Colors.grey))),
+                          child: Text(
+                            telefonoLabel,
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: Responsive.getResponsiveFontSize(
+                                context,
+                                mobile: 12,
+                                tablet: 13,
+                                desktop: 14,
+                              ),
+                            ),
+                          ),
+                        ),
                         IconButton(
-                          icon: const Icon(Icons.edit, size: 18),
+                          icon: Icon(
+                            Icons.edit,
+                            size: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 16,
+                              tablet: 17,
+                              desktop: 18,
+                            ),
+                          ),
                           onPressed: () async {
                             await EditDialog.show(
                               context,
@@ -750,42 +1123,108 @@ class _ProfileViewEmployeesState extends State<ProfileViewEmployees> {
                 ),
               ),
 
-              const SizedBox(height: 20),
+              SizedBox(
+                height: Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 15,
+                  tablet: 18,
+                  desktop: 20,
+                ),
+              ),
 
               // 🔹 Descripción
               Container(
                 width: MediaQuery.of(context).size.width * 0.90,
-                padding: const EdgeInsets.all(15),
+                padding: EdgeInsets.all(
+                  Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 12,
+                    tablet: 13,
+                    desktop: 15,
+                  ),
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 6,
-                        offset: const Offset(0, 3))
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 6,
+                      offset: const Offset(0, 3),
+                    ),
                   ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      children: const [
-                        Icon(Icons.description, color: Colors.blue),
-                        SizedBox(width: 8),
-                        Text('Descripción',
-                            style:
-                                TextStyle(fontWeight: FontWeight.bold, fontSize: 16))
+                      children: [
+                        Icon(
+                          Icons.description,
+                          color: Colors.blue,
+                          size: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 20,
+                            tablet: 21,
+                            desktop: 22,
+                          ),
+                        ),
+                        SizedBox(
+                          width: Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 6,
+                            tablet: 7,
+                            desktop: 8,
+                          ),
+                        ),
+                        Text(
+                          'Descripción',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 14,
+                              tablet: 15,
+                              desktop: 16,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 6,
+                        tablet: 7,
+                        desktop: 8,
+                      ),
+                    ),
                     Row(
                       children: [
                         Expanded(
-                            child: Text(descripcion,
-                                style: const TextStyle(color: Colors.grey))),
+                          child: Text(
+                            descripcion,
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: Responsive.getResponsiveFontSize(
+                                context,
+                                mobile: 12,
+                                tablet: 13,
+                                desktop: 14,
+                              ),
+                            ),
+                          ),
+                        ),
                         IconButton(
-                          icon: const Icon(Icons.edit, size: 18),
+                          icon: Icon(
+                            Icons.edit,
+                            size: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 16,
+                              tablet: 17,
+                              desktop: 18,
+                            ),
+                          ),
                           onPressed: () async {
                             await EditDialog.show(
                               context,
@@ -806,32 +1245,81 @@ class _ProfileViewEmployeesState extends State<ProfileViewEmployees> {
                 ),
               ),
 
-              const SizedBox(height: 30),
+              SizedBox(
+                height: Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 25,
+                  tablet: 27,
+                  desktop: 30,
+                ),
+              ),
 
               // 🔹 Configuración de cuenta / Logout
               Container(
                 width: MediaQuery.of(context).size.width * 0.90,
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                padding: EdgeInsets.symmetric(
+                  vertical: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 8,
+                    tablet: 9,
+                    desktop: 10,
+                  ),
+                  horizontal: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 12,
+                    tablet: 13,
+                    desktop: 15,
+                  ),
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 6,
-                        offset: const Offset(0, 3))
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 6,
+                      offset: const Offset(0, 3),
+                    ),
                   ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Configuración de Cuenta',
-                        style:
-                            TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    Text(
+                      'Configuración de Cuenta',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 14,
+                          tablet: 15,
+                          desktop: 16,
+                        ),
+                      ),
+                    ),
                     const Divider(),
                     ListTile(
-                      leading: const Icon(Icons.settings, color: Colors.grey),
-                      title: const Text('Cambiar contraseña'),
+                      leading: Icon(
+                        Icons.settings,
+                        color: Colors.grey,
+                        size: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 20,
+                          tablet: 21,
+                          desktop: 22,
+                        ),
+                      ),
+                      title: Text(
+                        'Cambiar contraseña',
+                        style: TextStyle(
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 14,
+                            tablet: 15,
+                            desktop: 16,
+                          ),
+                        ),
+                      ),
                       onTap: () {
                         ChangePasswordDialogModern.show(
                           context,
@@ -852,7 +1340,14 @@ class _ProfileViewEmployeesState extends State<ProfileViewEmployees> {
                         );
                       },
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(
+                      height: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 8,
+                        tablet: 9,
+                        desktop: 10,
+                      ),
+                    ),
                     Center(
                       child: ElevatedButton(
                         onPressed: () {
@@ -860,7 +1355,8 @@ class _ProfileViewEmployeesState extends State<ProfileViewEmployees> {
                             WidgetsBinding.instance.addPostFrameCallback((_) {
                               Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
-                                    builder: (_) => const LoginView()),
+                                  builder: (_) => const LoginView(),
+                                ),
                                 (route) => false,
                               );
                             });
@@ -869,19 +1365,49 @@ class _ProfileViewEmployeesState extends State<ProfileViewEmployees> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orange,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30)),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 40, vertical: 12),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Responsive.getResponsiveSpacing(
+                              context,
+                              mobile: 35,
+                              tablet: 37,
+                              desktop: 40,
+                            ),
+                            vertical: Responsive.getResponsiveSpacing(
+                              context,
+                              mobile: 10,
+                              tablet: 11,
+                              desktop: 12,
+                            ),
+                          ),
                         ),
-                        child: const Text('Cerrar sesión',
-                            style: TextStyle(color: Colors.white, fontSize: 16)),
+                        child: Text(
+                          'Cerrar sesión',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 14,
+                              tablet: 15,
+                              desktop: 16,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
 
-              const SizedBox(height: 25),
+              SizedBox(
+                height: Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 20,
+                  tablet: 22,
+                  desktop: 25,
+                ),
+              ),
             ],
           ),
         ),

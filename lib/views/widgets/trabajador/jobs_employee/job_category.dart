@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../screens/trabajador/see_more_jobs.dart';
+import '../../../../core/utils/responsive.dart';
 
 class JobCategory extends StatelessWidget {
   final String title;
@@ -23,10 +24,15 @@ class JobCategory extends StatelessWidget {
           children: [
             Text(
               title,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
-                fontSize: 16,
+                fontSize: Responsive.getResponsiveFontSize(
+                  context,
+                  mobile: 14,
+                  tablet: 15,
+                  desktop: 16,
+                ),
               ),
             ),
             TextButton(
@@ -44,21 +50,46 @@ class JobCategory extends StatelessWidget {
               },
               style: TextButton.styleFrom(
                 padding: EdgeInsets.zero,
-                minimumSize: const Size(40, 25),
+                minimumSize: Size(
+                  Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 35,
+                    tablet: 37,
+                    desktop: 40,
+                  ),
+                  Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 22,
+                    tablet: 23,
+                    desktop: 25,
+                  ),
+                ),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
-              child: const Text(
+              child: Text(
                 'Ver más',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 13,
+                  fontSize: Responsive.getResponsiveFontSize(
+                    context,
+                    mobile: 11,
+                    tablet: 12,
+                    desktop: 13,
+                  ),
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 10),
+        SizedBox(
+          height: Responsive.getResponsiveSpacing(
+            context,
+            mobile: 8,
+            tablet: 9,
+            desktop: 10,
+          ),
+        ),
         ...jobs,
       ],
     );

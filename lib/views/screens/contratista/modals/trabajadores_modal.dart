@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../services/api_service.dart';
 import 'sueldo_modal.dart';
+import '../../../../core/utils/responsive.dart';
 
 class TrabajadoresModal {
   static void mostrar(
@@ -23,29 +24,63 @@ class TrabajadoresModal {
           ),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Padding(
-                padding: EdgeInsets.all(24.0),
-                child: Center(child: CircularProgressIndicator()),
+              return Padding(
+                padding: EdgeInsets.all(
+                  Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 20,
+                    tablet: 22,
+                    desktop: 24,
+                  ),
+                ),
+                child: const Center(child: CircularProgressIndicator()),
               );
             }
 
             if (snapshot.hasError || snapshot.data?['success'] != true) {
               return Padding(
-                padding: const EdgeInsets.all(24.0),
+                padding: EdgeInsets.all(
+                  Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 20,
+                    tablet: 22,
+                    desktop: 24,
+                  ),
+                ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
+                    Text(
                       'Trabajadores',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 18,
+                          tablet: 20,
+                          desktop: 22,
+                        ),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(
+                      height: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 10,
+                        tablet: 11,
+                        desktop: 12,
+                      ),
+                    ),
                     Text(
                       'Error al cargar trabajadores',
-                      style: TextStyle(color: Colors.grey[600]),
+                      style: TextStyle(
+                        fontSize: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 13,
+                          tablet: 14,
+                          desktop: 15,
+                        ),
+                        color: Colors.grey[600],
+                      ),
                     ),
                   ],
                 ),
@@ -60,14 +95,26 @@ class TrabajadoresModal {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.all(
+                    Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 15,
+                      tablet: 18,
+                      desktop: 20,
+                    ),
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Trabajadores',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 18,
+                            tablet: 20,
+                            desktop: 22,
+                          ),
                           fontWeight: FontWeight.bold,
                         ),
                       ),

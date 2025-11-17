@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../services/format_service.dart';
+import '../../../../core/utils/responsive.dart';
 
 class FilterContent extends StatelessWidget {
   final String selectedFilter;
@@ -33,16 +34,53 @@ class FilterContent extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Selecciona un rango de edad:", style: TextStyle(fontSize:16,fontWeight: FontWeight.bold)),
-          RangeSlider(values: RangeValues(minEdad,maxEdad), min:18,max:60,divisions:42, labels: RangeLabels('${minEdad.round()}','${maxEdad.round()}'), activeColor: Colors.blueAccent, onChanged: onChangedEdad),
+          Text(
+            "Selecciona un rango de edad:",
+            style: TextStyle(
+              fontSize: Responsive.getResponsiveFontSize(
+                context,
+                mobile: 14,
+                tablet: 15,
+                desktop: 16,
+              ),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          RangeSlider(
+            values: RangeValues(minEdad,maxEdad),
+            min:18,
+            max:60,
+            divisions:42,
+            labels: RangeLabels('${minEdad.round()}','${maxEdad.round()}'),
+            activeColor: Colors.blueAccent,
+            onChanged: onChangedEdad,
+          ),
         ],
       );
     } else if(selectedFilter=='Experiencia'){
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Años mínimos de experiencia:", style: TextStyle(fontSize:16,fontWeight: FontWeight.bold)),
-          const SizedBox(height: 8),
+          Text(
+            "Años mínimos de experiencia:",
+            style: TextStyle(
+              fontSize: Responsive.getResponsiveFontSize(
+                context,
+                mobile: 14,
+                tablet: 15,
+                desktop: 16,
+              ),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(
+            height: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 6,
+              tablet: 7,
+              desktop: 8,
+            ),
+          ),
           TextField(
             controller: experienciaController,
             focusNode: experienciaFocusNode,
@@ -61,9 +99,40 @@ class FilterContent extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Valoración mínima (0.0 - 5.0):", style: TextStyle(fontSize:16,fontWeight: FontWeight.bold)),
-          Slider(value: rating, min:0,max:5,divisions:50,label: rating.toStringAsFixed(1), activeColor: Colors.blueAccent, onChanged: onChangedRating),
-          Center(child: Text("${rating.toStringAsFixed(1)} ⭐", style: const TextStyle(fontSize:16))),
+          Text(
+            "Valoración mínima (0.0 - 5.0):",
+            style: TextStyle(
+              fontSize: Responsive.getResponsiveFontSize(
+                context,
+                mobile: 14,
+                tablet: 15,
+                desktop: 16,
+              ),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Slider(
+            value: rating,
+            min:0,
+            max:5,
+            divisions:50,
+            label: rating.toStringAsFixed(1),
+            activeColor: Colors.blueAccent,
+            onChanged: onChangedRating,
+          ),
+          Center(
+            child: Text(
+              "${rating.toStringAsFixed(1)} ⭐",
+              style: TextStyle(
+                fontSize: Responsive.getResponsiveFontSize(
+                  context,
+                  mobile: 14,
+                  tablet: 15,
+                  desktop: 16,
+                ),
+              ),
+            ),
+          ),
         ],
       );
     }

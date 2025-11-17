@@ -6,6 +6,7 @@ import '../../../../services/api_service.dart';
 import '../../../../services/format_service.dart';
 import '../../custom_notification.dart';
 import 'confirm_dismiss_modal.dart';
+import '../../../../core/utils/responsive.dart';
 
 void showModalTrabajadores(
   BuildContext context, {
@@ -149,9 +150,24 @@ void showModalTrabajadores(
 
                 return Dialog(
                   backgroundColor: Colors.transparent,
-                  insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+                  insetPadding: EdgeInsets.symmetric(
+                    horizontal: Responsive.getHorizontalPadding(context),
+                    vertical: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 25,
+                      tablet: 32,
+                      desktop: 40,
+                    ),
+                  ),
                   child: Container(
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.all(
+                      Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 15,
+                        tablet: 18,
+                        desktop: 20,
+                      ),
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(25),
@@ -174,12 +190,17 @@ void showModalTrabajadores(
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
+                              Text(
                                 'Trabajadores asignados',
                                 style: TextStyle(
-                                  color: Color(0xFF1F4E79),
+                                  color: const Color(0xFF1F4E79),
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 20,
+                                  fontSize: Responsive.getResponsiveFontSize(
+                                    context,
+                                    mobile: 18,
+                                    tablet: 20,
+                                    desktop: 22,
+                                  ),
                                 ),
                               ),
                               Row(
@@ -201,7 +222,14 @@ void showModalTrabajadores(
                               ),
                             ],
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(
+                            height: Responsive.getResponsiveSpacing(
+                              context,
+                              mobile: 12,
+                              tablet: 14,
+                              desktop: 16,
+                            ),
+                          ),
                           if (isLoading)
                             const Expanded(
                               child: Center(child: CircularProgressIndicator()),
@@ -212,16 +240,45 @@ void showModalTrabajadores(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   const Icon(Icons.error_outline, color: Colors.redAccent, size: 40),
-                                  const SizedBox(height: 12),
+                                  SizedBox(
+                                    height: Responsive.getResponsiveSpacing(
+                                      context,
+                                      mobile: 10,
+                                      tablet: 11,
+                                      desktop: 12,
+                                    ),
+                                  ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: Responsive.getResponsiveSpacing(
+                                        context,
+                                        mobile: 12,
+                                        tablet: 14,
+                                        desktop: 16,
+                                      ),
+                                    ),
                                     child: Text(
                                       errorMessage!,
                                       textAlign: TextAlign.center,
-                                      style: const TextStyle(color: Colors.black87),
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: Responsive.getResponsiveFontSize(
+                                          context,
+                                          mobile: 13,
+                                          tablet: 14,
+                                          desktop: 15,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                  const SizedBox(height: 12),
+                                  SizedBox(
+                                    height: Responsive.getResponsiveSpacing(
+                                      context,
+                                      mobile: 10,
+                                      tablet: 11,
+                                      desktop: 12,
+                                    ),
+                                  ),
                                   ElevatedButton(
                                     onPressed: () => cargarDatos(innerSetState),
                                     child: const Text('Reintentar'),
@@ -243,7 +300,14 @@ void showModalTrabajadores(
                               child: ListView.separated(
                                 physics: const BouncingScrollPhysics(),
                                 itemCount: trabajadores.length,
-                                separatorBuilder: (_, __) => const SizedBox(height: 15),
+                                separatorBuilder: (_, __) => SizedBox(
+                                  height: Responsive.getResponsiveSpacing(
+                                    context,
+                                    mobile: 12,
+                                    tablet: 13,
+                                    desktop: 15,
+                                  ),
+                                ),
                                 itemBuilder: (context, index) {
                                   final trabajador = trabajadores[index];
                                   final nombre = '${trabajador['nombre'] ?? ''} ${trabajador['apellido'] ?? ''}'.trim();
@@ -263,7 +327,14 @@ void showModalTrabajadores(
                                     clipBehavior: Clip.none,
                                     children: [
                                       Container(
-                                        padding: const EdgeInsets.all(16),
+                                        padding: EdgeInsets.all(
+                                          Responsive.getResponsiveSpacing(
+                                            context,
+                                            mobile: 12,
+                                            tablet: 14,
+                                            desktop: 16,
+                                          ),
+                                        ),
                                         decoration: BoxDecoration(
                                           color: const Color(0xFFF9F9F9),
                                           borderRadius: BorderRadius.circular(20),
@@ -283,36 +354,73 @@ void showModalTrabajadores(
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 _buildAvatar(
+                                                  context,
                                                   fotoPerfil: trabajador['foto_perfil'],
                                                   nombre: nombre,
                                                 ),
-                                                const SizedBox(width: 14),
+                                                SizedBox(
+                                                  width: Responsive.getResponsiveSpacing(
+                                                    context,
+                                                    mobile: 10,
+                                                    tablet: 12,
+                                                    desktop: 14,
+                                                  ),
+                                                ),
                                                 Expanded(
                                                   child: Column(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(
                                                         nombre.isEmpty ? 'Nombre no disponible' : nombre,
-                                                        style: const TextStyle(
-                                                          color: Color(0xFF1F4E79),
+                                                        style: TextStyle(
+                                                          color: const Color(0xFF1F4E79),
                                                           fontWeight: FontWeight.bold,
-                                                          fontSize: 20,
+                                                          fontSize: Responsive.getResponsiveFontSize(
+                                                            context,
+                                                            mobile: 18,
+                                                            tablet: 19,
+                                                            desktop: 20,
+                                                          ),
                                                         ),
                                                       ),
-                                                      const SizedBox(height: 4),
+                                                      SizedBox(
+                                                        height: Responsive.getResponsiveSpacing(
+                                                          context,
+                                                          mobile: 3,
+                                                          tablet: 3.5,
+                                                          desktop: 4,
+                                                        ),
+                                                      ),
                                                       Text(
                                                         especialidad,
-                                                        style: const TextStyle(
+                                                        style: TextStyle(
                                                           color: Colors.black87,
-                                                          fontSize: 16,
+                                                          fontSize: Responsive.getResponsiveFontSize(
+                                                            context,
+                                                            mobile: 14,
+                                                            tablet: 15,
+                                                            desktop: 16,
+                                                          ),
                                                         ),
                                                       ),
-                                                      const SizedBox(height: 4),
+                                                      SizedBox(
+                                                        height: Responsive.getResponsiveSpacing(
+                                                          context,
+                                                          mobile: 3,
+                                                          tablet: 3.5,
+                                                          desktop: 4,
+                                                        ),
+                                                      ),
                                                       Text(
                                                         'Asignado: $fechaAsignacion',
-                                                        style: const TextStyle(
+                                                        style: TextStyle(
                                                           color: Colors.black54,
-                                                          fontSize: 14,
+                                                          fontSize: Responsive.getResponsiveFontSize(
+                                                            context,
+                                                            mobile: 12,
+                                                            tablet: 13,
+                                                            desktop: 14,
+                                                          ),
                                                         ),
                                                       ),
                                                     ],
@@ -320,7 +428,14 @@ void showModalTrabajadores(
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(height: 12),
+                                            SizedBox(
+                                              height: Responsive.getResponsiveSpacing(
+                                                context,
+                                                mobile: 10,
+                                                tablet: 11,
+                                                desktop: 12,
+                                              ),
+                                            ),
                                             SizedBox(
                                               width: double.infinity,
                                               child: ElevatedButton(
@@ -423,7 +538,7 @@ void showModalTrabajadores(
   );
 }
 
-Widget _buildAvatar({required String? fotoPerfil, required String nombre}) {
+Widget _buildAvatar(BuildContext context, {required String? fotoPerfil, required String nombre}) {
   ImageProvider? imageProvider;
   
   if (fotoPerfil != null && fotoPerfil.isNotEmpty) {
@@ -439,7 +554,12 @@ Widget _buildAvatar({required String? fotoPerfil, required String nombre}) {
   }
 
   return CircleAvatar(
-    radius: 32,
+    radius: Responsive.getResponsiveFontSize(
+      context,
+      mobile: 28,
+      tablet: 30,
+      desktop: 32,
+    ),
     backgroundColor: imageProvider == null
         ? const Color(0xFFFFF3E0)
         : Colors.transparent,
@@ -447,9 +567,14 @@ Widget _buildAvatar({required String? fotoPerfil, required String nombre}) {
     child: imageProvider == null
         ? Text(
             nombre.isNotEmpty ? nombre[0].toUpperCase() : '?',
-            style: const TextStyle(
-              fontSize: 24,
-              color: Color(0xFF1F4E79),
+            style: TextStyle(
+              fontSize: Responsive.getResponsiveFontSize(
+                context,
+                mobile: 20,
+                tablet: 22,
+                desktop: 24,
+              ),
+              color: const Color(0xFF1F4E79),
               fontWeight: FontWeight.bold,
             ),
           )

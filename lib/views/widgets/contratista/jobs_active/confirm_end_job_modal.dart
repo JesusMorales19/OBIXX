@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/utils/responsive.dart';
 
 class ConfirmEndJobModal extends StatelessWidget {
   final VoidCallback onConfirm;
@@ -9,7 +10,14 @@ class ConfirmEndJobModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.all(16),
+      insetPadding: EdgeInsets.all(
+        Responsive.getResponsiveSpacing(
+          context,
+          mobile: 12,
+          tablet: 14,
+          desktop: 16,
+        ),
+      ),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -22,25 +30,59 @@ class ConfirmEndJobModal extends StatelessWidget {
             ),
           ],
         ),
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(
+          Responsive.getResponsiveSpacing(
+            context,
+            mobile: 15,
+            tablet: 18,
+            desktop: 20,
+          ),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
+            Text(
               '¿Estás seguro?',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: Responsive.getResponsiveFontSize(
+                  context,
+                  mobile: 18,
+                  tablet: 19,
+                  desktop: 20,
+                ),
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF1F4E79),
+                color: const Color(0xFF1F4E79),
               ),
             ),
-            const SizedBox(height: 12),
-            const Text(
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 10,
+                tablet: 11,
+                desktop: 12,
+              ),
+            ),
+            Text(
               '¿Quieres terminar este trabajo?',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: Colors.black87),
+              style: TextStyle(
+                fontSize: Responsive.getResponsiveFontSize(
+                  context,
+                  mobile: 14,
+                  tablet: 15,
+                  desktop: 16,
+                ),
+                color: Colors.black87,
+              ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 15,
+                tablet: 18,
+                desktop: 20,
+              ),
+            ),
             Row(
               children: [
                 Expanded(
@@ -51,18 +93,38 @@ class ConfirmEndJobModal extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: EdgeInsets.symmetric(
+                        vertical: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 12,
+                          tablet: 13,
+                          desktop: 14,
+                        ),
+                      ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Cancelar',
                       style: TextStyle(
-                        color: Color(0xFF1F4E79),
+                        color: const Color(0xFF1F4E79),
                         fontWeight: FontWeight.bold,
+                        fontSize: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 14,
+                          tablet: 15,
+                          desktop: 16,
+                        ),
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(
+                  width: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 10,
+                    tablet: 11,
+                    desktop: 12,
+                  ),
+                ),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
@@ -70,16 +132,31 @@ class ConfirmEndJobModal extends StatelessWidget {
                       onConfirm();
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: EdgeInsets.symmetric(
+                        vertical: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 12,
+                          tablet: 13,
+                          desktop: 14,
+                        ),
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                       backgroundColor: const Color(0xFF1F4E79),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Aceptar',
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 14,
+                          tablet: 15,
+                          desktop: 16,
+                        ),
+                      ),
                     ),
                   ),
                 ),

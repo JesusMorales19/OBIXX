@@ -8,6 +8,7 @@ import '../../../services/storage_service.dart';
 import '../../../services/format_service.dart';
 import '../../../services/api_wrapper.dart';
 import '../../widgets/custom_notification.dart';
+import '../../../core/utils/responsive.dart';
 
 class VerMasScreen extends StatefulWidget {
   final String tipoUsuario; // 'trabajador' o 'contratista'
@@ -390,12 +391,27 @@ class _VerMasScreenState extends State<VerMasScreen> {
     
     if (filteredJobs.isEmpty) {
       return [
-        const Center(
+        Center(
           child: Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(
+              Responsive.getResponsiveSpacing(
+                context,
+                mobile: 15,
+                tablet: 18,
+                desktop: 20,
+              ),
+            ),
             child: Text(
               'No se encontraron trabajos',
-              style: TextStyle(color: Colors.grey, fontSize: 16),
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: Responsive.getResponsiveFontSize(
+                  context,
+                  mobile: 14,
+                  tablet: 15,
+                  desktop: 16,
+                ),
+              ),
             ),
           ),
         ),
@@ -467,35 +483,77 @@ class _VerMasScreenState extends State<VerMasScreen> {
         child: Column(
           children: [
             HeaderBar(tipoUsuario: widget.tipoUsuario),
-            const SizedBox(height: 10),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 8,
+                tablet: 9,
+                desktop: 10,
+              ),
+            ),
             const MainBanner(),
-            const SizedBox(height: 15),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 12,
+                tablet: 13,
+                desktop: 15,
+              ),
+            ),
             CustomSearchBar(
               searchController: _searchController,
               onSearchChanged: (_) => _filterJobs(),
             ),
-            const SizedBox(height: 30),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 25,
+                tablet: 27,
+                desktop: 30,
+              ),
+            ),
             Expanded(
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: Responsive.getHorizontalPadding(context),
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               widget.categoria,
-                              style: const TextStyle(
-                                fontSize: 20,
+                              style: TextStyle(
+                                fontSize: Responsive.getResponsiveFontSize(
+                                  context,
+                                  mobile: 18,
+                                  tablet: 19,
+                                  desktop: 20,
+                                ),
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
                               ),
                             ),
-                            const SizedBox(height: 30),
+                            SizedBox(
+                              height: Responsive.getResponsiveSpacing(
+                                context,
+                                mobile: 25,
+                                tablet: 27,
+                                desktop: 30,
+                              ),
+                            ),
                             ..._getTrabajos(), // 👈 Aquí se muestran dinámicamente
-                            const SizedBox(height: 25),
+                            SizedBox(
+                              height: Responsive.getResponsiveSpacing(
+                                context,
+                                mobile: 20,
+                                tablet: 22,
+                                desktop: 25,
+                              ),
+                            ),
                           ],
                         ),
                       ),

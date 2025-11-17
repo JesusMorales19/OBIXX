@@ -8,6 +8,7 @@ import '../../../services/api_service.dart';
 import '../../../services/storage_service.dart';
 import '../../../services/format_service.dart';
 import '../../../services/api_wrapper.dart';
+import '../../../core/utils/responsive.dart';
 
 class SeeMoreEmployees extends StatefulWidget {
   final String category;
@@ -277,30 +278,98 @@ class _SeeMoreEmployeesState extends State<SeeMoreEmployees> {
         child: Column(
           children: [
             const HeaderBar(tipoUsuario: 'contratista'),
-            const SizedBox(height: 15),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 12,
+                tablet: 13,
+                desktop: 15,
+              ),
+            ),
             const MainBanner(),
-            const SizedBox(height: 20),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 15,
+                tablet: 18,
+                desktop: 20,
+              ),
+            ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: EdgeInsets.symmetric(
+                horizontal: Responsive.getHorizontalPadding(context),
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("Filtrar empleados", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: Colors.black)),
-                  IconButton(icon: const Icon(Icons.filter_list,color: Colors.blueAccent,size: 30), onPressed: _openFilterSheet),
+                  Text(
+                    "Filtrar empleados",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: Responsive.getResponsiveFontSize(
+                        context,
+                        mobile: 16,
+                        tablet: 17,
+                        desktop: 18,
+                      ),
+                      color: Colors.black,
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.filter_list,
+                      color: Colors.blueAccent,
+                      size: Responsive.getResponsiveFontSize(
+                        context,
+                        mobile: 26,
+                        tablet: 28,
+                        desktop: 30,
+                      ),
+                    ),
+                    onPressed: _openFilterSheet,
+                  ),
                 ],
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 8,
+                tablet: 9,
+                desktop: 10,
+              ),
+            ),
             Expanded(
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: Responsive.getHorizontalPadding(context),
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(widget.category, style: const TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 22)),
-                          const SizedBox(height: 20),
+                          Text(
+                            widget.category,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: Responsive.getResponsiveFontSize(
+                                context,
+                                mobile: 20,
+                                tablet: 21,
+                                desktop: 22,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: Responsive.getResponsiveSpacing(
+                              context,
+                              mobile: 15,
+                              tablet: 18,
+                              desktop: 20,
+                            ),
+                          ),
                           if (filteredWorkers.isEmpty)
                             const Text('No hay empleados cercanos en esta categoría.', style: TextStyle(color: Colors.grey)),
                           for (var worker in filteredWorkers)

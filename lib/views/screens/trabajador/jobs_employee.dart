@@ -11,6 +11,7 @@ import '../../../services/api_service.dart';
 import '../../../services/storage_service.dart';
 import '../../../services/format_service.dart';
 import '../../../services/api_wrapper.dart';
+import '../../../core/utils/responsive.dart';
 
 class JobsViewEmployee extends StatefulWidget {
   const JobsViewEmployee({super.key});
@@ -168,23 +169,53 @@ class _JobsViewEmployeeState extends State<JobsViewEmployee> {
     if (_error != null) {
       return Center(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(
+            Responsive.getResponsiveSpacing(
+              context,
+              mobile: 15,
+              tablet: 18,
+              desktop: 20,
+            ),
+          ),
           child: Text(
             _error!,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.redAccent),
+            style: TextStyle(
+              color: Colors.redAccent,
+              fontSize: Responsive.getResponsiveFontSize(
+                context,
+                mobile: 14,
+                tablet: 15,
+                desktop: 16,
+              ),
+            ),
           ),
         ),
       );
     }
 
     if (_trabajoActual == null) {
-      return const Center(
+      return Center(
         child: Padding(
-          padding: EdgeInsets.all(24),
+          padding: EdgeInsets.all(
+            Responsive.getResponsiveSpacing(
+              context,
+              mobile: 18,
+              tablet: 21,
+              desktop: 24,
+            ),
+          ),
           child: Text(
             'No tienes un trabajo asignado actualmente.',
-            style: TextStyle(fontSize: 16, color: Colors.black54),
+            style: TextStyle(
+              fontSize: Responsive.getResponsiveFontSize(
+                context,
+                mobile: 14,
+                tablet: 15,
+                desktop: 16,
+              ),
+              color: Colors.black54,
+            ),
           ),
         ),
       );
@@ -272,22 +303,51 @@ class _JobsViewEmployeeState extends State<JobsViewEmployee> {
         child: Column(
           children: [
             const HeaderBar(tipoUsuario: 'trabajador'),
-            const SizedBox(height: 15),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 12,
+                tablet: 13,
+                desktop: 15,
+              ),
+            ),
             const MainBanner(),
-            const SizedBox(height: 25),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 20,
+                tablet: 22,
+                desktop: 25,
+              ),
+            ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
+                padding: EdgeInsets.symmetric(
+                  horizontal: Responsive.getHorizontalPadding(context),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.only(left: 0, bottom: 20),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: 0,
+                        bottom: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 15,
+                          tablet: 18,
+                          desktop: 20,
+                        ),
+                      ),
                       child: Text(
                         'Trabajo Activo',
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 18,
+                            tablet: 19,
+                            desktop: 20,
+                          ),
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),

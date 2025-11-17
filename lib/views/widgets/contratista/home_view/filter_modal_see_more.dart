@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'filter_content.dart';
 import 'filter_choice_chips.dart';
+import '../../../../core/utils/responsive.dart';
 
 class FilterModal extends StatefulWidget {
   final double? minEdad;
@@ -55,16 +56,84 @@ class _FilterModalState extends State<FilterModal> {
       builder: (context, scrollController) {
         return AnimatedPadding(
           duration: const Duration(milliseconds: 200),
-          padding: EdgeInsets.only(left: 20,right: 20,top: 20,bottom: MediaQuery.of(context).viewInsets.bottom + 20),
+          padding: EdgeInsets.only(
+            left: Responsive.getHorizontalPadding(context),
+            right: Responsive.getHorizontalPadding(context),
+            top: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 15,
+              tablet: 18,
+              desktop: 20,
+            ),
+            bottom: MediaQuery.of(context).viewInsets.bottom + Responsive.getResponsiveSpacing(
+              context,
+              mobile: 15,
+              tablet: 18,
+              desktop: 20,
+            ),
+          ),
           child: SingleChildScrollView(
             controller: scrollController,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Center(child: SizedBox(height: 5, width: 50, child: DecoratedBox(decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.all(Radius.circular(5)))))),
-                const SizedBox(height: 10),
-                const Text("Filtrar empleados", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 15),
+                Center(
+                  child: SizedBox(
+                    height: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 4,
+                      tablet: 4.5,
+                      desktop: 5,
+                    ),
+                    width: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 45,
+                      tablet: 47,
+                      desktop: 50,
+                    ),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 4,
+                            tablet: 4.5,
+                            desktop: 5,
+                          )),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 8,
+                    tablet: 9,
+                    desktop: 10,
+                  ),
+                ),
+                Text(
+                  "Filtrar empleados",
+                  style: TextStyle(
+                    fontSize: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 18,
+                      tablet: 19,
+                      desktop: 20,
+                    ),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 12,
+                    tablet: 13,
+                    desktop: 15,
+                  ),
+                ),
                 FilterChoiceChips(selectedFilter: selectedFilter, onChanged: (val) {
                   setState(() => selectedFilter = val);
                   if (val == 'Experiencia') {
@@ -75,7 +144,14 @@ class _FilterModalState extends State<FilterModal> {
                     });
                   }
                 }),
-                const SizedBox(height: 25),
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 20,
+                    tablet: 22,
+                    desktop: 25,
+                  ),
+                ),
                 FilterContent(
                   selectedFilter: selectedFilter,
                   minEdad: tempMinEdad,
@@ -88,16 +164,61 @@ class _FilterModalState extends State<FilterModal> {
                   onChangedExperiencia: (v) => setState(() => tempExperiencia = v),
                   onChangedRating: (v) => setState(() => tempRating = v),
                 ),
-                const SizedBox(height: 30),
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 25,
+                    tablet: 27,
+                    desktop: 30,
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TextButton(onPressed: () { widget.onClear(); Navigator.pop(context); }, child: const Text("Limpiar", style: TextStyle(color: Colors.red))),
+                    TextButton(
+                      onPressed: () { widget.onClear(); Navigator.pop(context); },
+                      child: Text(
+                        "Limpiar",
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 14,
+                            tablet: 15,
+                            desktop: 16,
+                          ),
+                        ),
+                      ),
+                    ),
                     ElevatedButton.icon(
                       onPressed: () { widget.onApply(RangeValues(tempMinEdad,tempMaxEdad), tempExperiencia, tempRating); Navigator.pop(context); },
-                      icon: const Icon(Icons.check),
-                      label: const Text("Aplicar filtro"),
-                      style: ElevatedButton.styleFrom(backgroundColor: Color(0xFFE67E22),foregroundColor: Colors.white,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                      icon: Icon(
+                        Icons.check,
+                        size: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 18,
+                          tablet: 19,
+                          desktop: 20,
+                        ),
+                      ),
+                      label: Text(
+                        "Aplicar filtro",
+                        style: TextStyle(
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 14,
+                            tablet: 15,
+                            desktop: 16,
+                          ),
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFE67E22),
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
                     )
                   ],
                 )

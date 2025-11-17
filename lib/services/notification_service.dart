@@ -12,6 +12,7 @@ import 'api_service.dart';
 import 'navigation_service.dart';
 import 'storage_service.dart';
 import '../views/widgets/notifications_overlay.dart';
+import '../views/widgets/custom_notification.dart';
 
 class NotificationService {
   NotificationService._();
@@ -196,7 +197,7 @@ class NotificationService {
     unreadCount.value = filtered.where((n) => !n.leida).length;
   }
 
-  Future<bool> aceptarSolicitud(AppNotificationModel notification) async {
+  Future<Map<String, dynamic>?> aceptarSolicitud(AppNotificationModel notification) async {
     final solicitudIdRaw = notification.data['solicitudId'];
     final tipoTrabajo = notification.data['tipoTrabajo']?.toString();
     final idTrabajoRaw = notification.data['idTrabajo'];
@@ -207,16 +208,14 @@ class NotificationService {
         tipoTrabajo == null ||
         idTrabajoRaw == null ||
         emailTrabajador == null) {
-      showNotificationSnack('No se pudo procesar la solicitud.');
-      return false;
+      return {'success': false, 'error': 'No se pudo procesar la solicitud.'};
     }
 
     final idSolicitud = int.tryParse(solicitudIdRaw.toString());
     final idTrabajo = int.tryParse(idTrabajoRaw.toString());
 
     if (idSolicitud == null || idTrabajo == null) {
-      showNotificationSnack('Datos incompletos para asignar el trabajo.');
-      return false;
+      return {'success': false, 'error': 'Datos incompletos para asignar el trabajo.'};
     }
 
     final asignacion = AsignacionTrabajoModel(
@@ -231,21 +230,19 @@ class NotificationService {
       final response = await ApiService.asignarTrabajo(asignacion);
       if (response['success'] == true) {
         removeNotificationById(notification.id);
-        showNotificationSnack('Trabajador asignado correctamente.');
-        await _abrirWhatsAppTrabajador(
-          emailTrabajador: emailTrabajador,
-          telefonoNotificacion: notification.data['telefonoTrabajador']?.toString(),
-        );
-        return true;
+        // Retornar información para que el overlay maneje la notificación y WhatsApp
+        return {
+          'success': true,
+          'emailTrabajador': emailTrabajador,
+          'telefonoTrabajador': notification.data['telefonoTrabajador']?.toString(),
+        };
       } else {
         final errorMsg =
             response['error']?.toString() ?? 'No se pudo asignar el trabajo. Intenta de nuevo.';
-        showNotificationSnack(errorMsg);
-        return false;
+        return {'success': false, 'error': errorMsg};
       }
     } catch (error) {
-      showNotificationSnack('Error al asignar el trabajo: $error');
-      return false;
+      return {'success': false, 'error': 'Error al asignar el trabajo: $error'};
     }
   }
 
@@ -317,9 +314,10 @@ class NotificationService {
     }
   }
 
-  Future<void> _abrirWhatsAppTrabajador({
+  Future<void> abrirWhatsAppTrabajador({
     required String emailTrabajador,
     String? telefonoNotificacion,
+    BuildContext? context,
   }) async {
     String? telefono = telefonoNotificacion;
     if (telefono == null || telefono.trim().isEmpty) {
@@ -331,19 +329,39 @@ class NotificationService {
             telefono = data['telefono']?.toString();
           }
         }
-      } catch (_) {
-        // Silenciar errores, se manejarán abajo
+      } catch (e) {
+        // Si hay error al obtener el perfil, mostrar notificación
+        final ctx = context ?? NavigationService.context;
+        if (ctx != null && ctx.mounted) {
+          CustomNotification.showError(
+            ctx,
+            'Error al obtener perfil del trabajador.',
+          );
+        }
+        return;
       }
     }
 
     if (telefono == null || telefono.trim().isEmpty) {
-      showNotificationSnack('El trabajador no tiene un número de teléfono registrado.');
+      final ctx = context ?? NavigationService.context;
+      if (ctx != null && ctx.mounted) {
+        CustomNotification.showError(
+          ctx,
+          'El trabajador no tiene un número de teléfono registrado.',
+        );
+      }
       return;
     }
 
     final sanitized = telefono.replaceAll(RegExp(r'[^0-9+]'), '');
     if (sanitized.isEmpty) {
-      showNotificationSnack('El número de teléfono del trabajador no es válido.');
+      final ctx = context ?? NavigationService.context;
+      if (ctx != null && ctx.mounted) {
+        CustomNotification.showError(
+          ctx,
+          'El número de teléfono del trabajador no es válido.',
+        );
+      }
       return;
     }
 
@@ -354,10 +372,22 @@ class NotificationService {
         mode: LaunchMode.externalApplication,
       );
       if (!launched) {
-        showNotificationSnack('No se pudo abrir WhatsApp para contactar al trabajador.');
+        final ctx = context ?? NavigationService.context;
+        if (ctx != null && ctx.mounted) {
+          CustomNotification.showError(
+            ctx,
+            'No se pudo abrir WhatsApp para contactar al trabajador.',
+          );
+        }
       }
-    } catch (_) {
-      showNotificationSnack('No se pudo abrir WhatsApp para contactar al trabajador.');
+    } catch (e) {
+      final ctx = context ?? NavigationService.context;
+      if (ctx != null && ctx.mounted) {
+        CustomNotification.showError(
+          ctx,
+          'Error al abrir WhatsApp: ${e.toString()}',
+        );
+      }
     }
   }
 

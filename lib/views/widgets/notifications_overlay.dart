@@ -5,6 +5,7 @@ import '../../services/notification_service.dart';
 import '../../services/format_service.dart';
 import 'contratista/home_view/profile_modal.dart';
 import 'custom_notification.dart';
+import '../../core/utils/responsive.dart';
 
 Future<void> showNotificationsOverlay({
   required BuildContext context,
@@ -47,14 +48,44 @@ Future<void> showNotificationsOverlay({
               ),
               SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 12,
+                      tablet: 14,
+                      desktop: 16,
+                    ),
+                    vertical: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 15,
+                      tablet: 18,
+                      desktop: 20,
+                    ),
+                  ),
                   child: Column(
                     children: [
                       // Indicador visual para deslizar hacia arriba
                       Container(
-                        width: 40,
-                        height: 4,
-                        margin: const EdgeInsets.only(bottom: 16),
+                        width: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 35,
+                          tablet: 37,
+                          desktop: 40,
+                        ),
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 3,
+                          tablet: 3.5,
+                          desktop: 4,
+                        ),
+                        margin: EdgeInsets.only(
+                          bottom: Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 12,
+                            tablet: 14,
+                            desktop: 16,
+                          ),
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.5),
                           borderRadius: BorderRadius.circular(2),
@@ -63,18 +94,46 @@ Future<void> showNotificationsOverlay({
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Image.asset('assets/images/Casa.png', height: 50),
-                          Image.asset('assets/images/obix.png', height: 50),
+                          Image.asset(
+                            'assets/images/Casa.png',
+                            height: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 45,
+                              tablet: 47,
+                              desktop: 50,
+                            ),
+                          ),
+                          Image.asset(
+                            'assets/images/obix.png',
+                            height: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 45,
+                              tablet: 47,
+                              desktop: 50,
+                            ),
+                          ),
                           GestureDetector(
                             onTap: () => Navigator.pop(context),
                             child: Image.asset(
                               'assets/images/notificacion.png',
-                              height: 40,
+                              height: Responsive.getResponsiveFontSize(
+                                context,
+                                mobile: 36,
+                                tablet: 38,
+                                desktop: 40,
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    const SizedBox(height: 24),
+                    SizedBox(
+                      height: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 20,
+                        tablet: 22,
+                        desktop: 24,
+                      ),
+                    ),
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton.icon(
@@ -84,22 +143,52 @@ Future<void> showNotificationsOverlay({
                         onPressed: () async {
                           await notificationService.deleteAll();
                         },
-                        icon: const Icon(Icons.close),
-                        label: const Text('Borrar notificaciones'),
+                        icon: Icon(
+                          Icons.close,
+                          size: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 18,
+                            tablet: 19,
+                            desktop: 20,
+                          ),
+                        ),
+                        label: Text(
+                          'Borrar notificaciones',
+                          style: TextStyle(
+                            fontSize: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 14,
+                              tablet: 15,
+                              desktop: 16,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(
+                      height: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 12,
+                        tablet: 14,
+                        desktop: 16,
+                      ),
+                    ),
                     Expanded(
                       child: ValueListenableBuilder<List<AppNotificationModel>>(
                         valueListenable: notificationService.notifications,
                         builder: (context, notificaciones, _) {
                           if (notificaciones.isEmpty) {
-                            return const Center(
+                            return Center(
                               child: Text(
                                 'No tienes notificaciones pendientes.',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 18,
+                                  fontSize: Responsive.getResponsiveFontSize(
+                                    context,
+                                    mobile: 16,
+                                    tablet: 17,
+                                    desktop: 18,
+                                  ),
                                 ),
                               ),
                             );
@@ -107,7 +196,14 @@ Future<void> showNotificationsOverlay({
 
                           return ListView.separated(
                             physics: const BouncingScrollPhysics(),
-                            separatorBuilder: (_, __) => const SizedBox(height: 20),
+                            separatorBuilder: (_, __) => SizedBox(
+                              height: Responsive.getResponsiveSpacing(
+                                context,
+                                mobile: 15,
+                                tablet: 17,
+                                desktop: 20,
+                              ),
+                            ),
                             itemCount: notificaciones.length,
                             itemBuilder: (context, index) {
                               final notification = notificaciones[index];
@@ -221,9 +317,50 @@ class _NotificationCardItemState extends State<_NotificationCardItem> {
   Future<void> _aceptarSolicitud() async {
     if (_isProcessing) return;
     setState(() => _isProcessing = true);
-    await _service.aceptarSolicitud(widget.notification);
-    if (mounted) {
-      setState(() => _isProcessing = false);
+    
+    final resultado = await _service.aceptarSolicitud(widget.notification);
+    
+    if (!mounted) return;
+    
+    setState(() => _isProcessing = false);
+    
+    if (resultado == null || resultado['success'] != true) {
+      // Mostrar error si falló
+      final errorMsg = resultado?['error']?.toString() ?? 'No se pudo asignar el trabajo.';
+      CustomNotification.showError(context, errorMsg);
+      return;
+    }
+    
+    // Obtener datos del trabajador ANTES de esperar
+    final emailTrabajador = resultado['emailTrabajador']?.toString();
+    final telefonoTrabajador = resultado['telefonoTrabajador']?.toString();
+    
+    // Obtener el contexto del navegador raíz ANTES de esperar
+    final rootContext = Navigator.of(context, rootNavigator: true).context;
+    
+    // Si fue exitoso, mostrar la alerta de éxito usando CustomNotification
+    CustomNotification.showSuccess(context, 'Trabajador asignado correctamente.');
+    
+    // Esperar a que la notificación se quite (3 segundos) y luego abrir WhatsApp
+    await Future.delayed(const Duration(seconds: 3));
+    
+    // Abrir WhatsApp después de que se quite la alerta usando el contexto raíz
+    if (emailTrabajador != null && emailTrabajador.isNotEmpty) {
+      // Usar el contexto raíz que guardamos antes
+      if (rootContext.mounted) {
+        await _service.abrirWhatsAppTrabajador(
+          emailTrabajador: emailTrabajador,
+          telefonoNotificacion: telefonoTrabajador,
+          context: rootContext,
+        );
+      } else {
+        // Fallback: usar NavigationService
+        await _service.abrirWhatsAppTrabajador(
+          emailTrabajador: emailTrabajador,
+          telefonoNotificacion: telefonoTrabajador,
+          context: null, // Esto hará que use NavigationService.context
+        );
+      }
     }
   }
 
@@ -264,7 +401,14 @@ class _NotificationCardItemState extends State<_NotificationCardItem> {
     final tituloTrabajo = widget.notification.data['tituloTrabajo']?.toString() ?? '';
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(
+        Responsive.getResponsiveSpacing(
+          context,
+          mobile: 12,
+          tablet: 14,
+          desktop: 16,
+        ),
+      ),
       decoration: BoxDecoration(
         color: Colors.black.withOpacity(0.6),
         borderRadius: BorderRadius.circular(20),
@@ -275,22 +419,46 @@ class _NotificationCardItemState extends State<_NotificationCardItem> {
         children: [
           Text(
             _encabezado(),
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.w600,
-              fontSize: 17,
+              fontSize: Responsive.getResponsiveFontSize(
+                context,
+                mobile: 15,
+                tablet: 16,
+                desktop: 17,
+              ),
               color: Colors.white,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(
+            height: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 6,
+              tablet: 7,
+              desktop: 8,
+            ),
+          ),
           Text(
             widget.notification.cuerpo,
-            style: const TextStyle(
-              fontSize: 15,
+            style: TextStyle(
+              fontSize: Responsive.getResponsiveFontSize(
+                context,
+                mobile: 13,
+                tablet: 14,
+                desktop: 15,
+              ),
               color: Colors.white70,
             ),
           ),
           if (_esSolicitudPendiente) ...[
-            const SizedBox(height: 16),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 12,
+                tablet: 14,
+                desktop: 16,
+              ),
+            ),
             Row(
               children: [
                 Expanded(
@@ -299,40 +467,87 @@ class _NotificationCardItemState extends State<_NotificationCardItem> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black87,
-                      minimumSize: const Size(0, 42),
+                      minimumSize: Size(
+                        0,
+                        Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 38,
+                          tablet: 40,
+                          desktop: 42,
+                        ),
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
                     ),
                     child: _isProcessing
-                        ? const SizedBox(
-                            height: 18,
-                            width: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                        ? SizedBox(
+                            height: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 16,
+                              tablet: 17,
+                              desktop: 18,
+                            ),
+                            width: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 16,
+                              tablet: 17,
+                              desktop: 18,
+                            ),
+                            child: const CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Text(
+                        : Text(
                             'Aceptar',
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
+                              fontSize: Responsive.getResponsiveFontSize(
+                                context,
+                                mobile: 14,
+                                tablet: 15,
+                                desktop: 16,
+                              ),
                             ),
                           ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(
+                  width: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 10,
+                    tablet: 11,
+                    desktop: 12,
+                  ),
+                ),
                 Expanded(
                   child: OutlinedButton(
                     onPressed: _abrirPerfil,
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.white,
                       side: const BorderSide(color: Colors.white54),
-                      minimumSize: const Size(0, 42),
+                      minimumSize: Size(
+                        0,
+                        Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 38,
+                          tablet: 40,
+                          desktop: 42,
+                        ),
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Ver Perfil',
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 14,
+                          tablet: 15,
+                          desktop: 16,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -340,9 +555,23 @@ class _NotificationCardItemState extends State<_NotificationCardItem> {
             ),
           ],
           if (_esCalificacionPendiente) ...[
-            const SizedBox(height: 18),
+            SizedBox(
+              height: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 15,
+                tablet: 16,
+                desktop: 18,
+              ),
+            ),
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(
+                Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 12,
+                  tablet: 14,
+                  desktop: 16,
+                ),
+              ),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.12),
                 borderRadius: BorderRadius.circular(18),
@@ -354,14 +583,26 @@ class _NotificationCardItemState extends State<_NotificationCardItem> {
                   Center(
                     child: Text(
                       '${_rating.toInt()}/5.0',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontSize: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 14,
+                          tablet: 15,
+                          desktop: 16,
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 6,
+                      tablet: 7,
+                      desktop: 8,
+                    ),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
@@ -371,12 +612,24 @@ class _NotificationCardItemState extends State<_NotificationCardItem> {
                         icon: Icon(
                           Icons.star,
                           color: index < _rating ? Colors.amber : Colors.white38,
-                          size: 28,
+                          size: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 24,
+                            tablet: 26,
+                            desktop: 28,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(
+                    height: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 10,
+                      tablet: 11,
+                      desktop: 12,
+                    ),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -385,9 +638,14 @@ class _NotificationCardItemState extends State<_NotificationCardItem> {
                           tituloTrabajo.isNotEmpty
                               ? 'Trabajo: "$tituloTrabajo"'
                               : 'Trabajo desvinculado',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Colors.white70,
-                            fontSize: 13,
+                            fontSize: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 11,
+                              tablet: 12,
+                              desktop: 13,
+                            ),
                           ),
                         ),
                       ),
@@ -395,52 +653,134 @@ class _NotificationCardItemState extends State<_NotificationCardItem> {
                         contextoNotificacion == 'cancelado'
                             ? 'Desvinculación'
                             : 'Trabajo finalizado',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white54,
-                          fontSize: 12,
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 11,
+                            tablet: 11.5,
+                            desktop: 12,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 6),
+                  SizedBox(
+                    height: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 5,
+                      tablet: 5.5,
+                      desktop: 6,
+                    ),
+                  ),
                   TextField(
                     controller: _comentarioController,
                     maxLength: 100,
                     maxLines: 3,
                     decoration: InputDecoration(
-                      counterStyle: const TextStyle(color: Colors.white54),
+                      counterStyle: TextStyle(
+                        color: Colors.white54,
+                        fontSize: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 11,
+                          tablet: 12,
+                          desktop: 13,
+                        ),
+                      ),
                       filled: true,
                       fillColor: Colors.white.withOpacity(0.15),
                       hintText: 'Ayuda al trabajador con una reseña.',
-                      hintStyle: const TextStyle(color: Colors.white54),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      hintStyle: TextStyle(
+                        color: Colors.white54,
+                        fontSize: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 12,
+                          tablet: 13,
+                          desktop: 14,
+                        ),
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 10,
+                          tablet: 11,
+                          desktop: 12,
+                        ),
+                        vertical: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 8,
+                          tablet: 9,
+                          desktop: 10,
+                        ),
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
                         borderSide: BorderSide.none,
                       ),
                     ),
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: Responsive.getResponsiveFontSize(
+                        context,
+                        mobile: 12,
+                        tablet: 13,
+                        desktop: 14,
+                      ),
+                    ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(
+                    height: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 10,
+                      tablet: 11,
+                      desktop: 12,
+                    ),
+                  ),
                   ElevatedButton(
                     onPressed: _isProcessing ? null : _calificarTrabajador,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black87,
-                      minimumSize: const Size(0, 42),
+                      minimumSize: Size(
+                        0,
+                        Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 38,
+                          tablet: 40,
+                          desktop: 42,
+                        ),
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
                     ),
                     child: _isProcessing
-                        ? const SizedBox(
-                            height: 18,
-                            width: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                        ? SizedBox(
+                            height: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 16,
+                              tablet: 17,
+                              desktop: 18,
+                            ),
+                            width: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 16,
+                              tablet: 17,
+                              desktop: 18,
+                            ),
+                            child: const CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Text(
+                        : Text(
                             'Calificar',
-                            style: TextStyle(fontWeight: FontWeight.w700),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: Responsive.getResponsiveFontSize(
+                                context,
+                                mobile: 14,
+                                tablet: 15,
+                                desktop: 16,
+                              ),
+                            ),
                           ),
                   ),
                 ],

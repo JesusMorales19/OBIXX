@@ -17,6 +17,7 @@ import '../../widgets/logout_dialog.dart';
 import 'package:intl/intl.dart';
 import '../../widgets/custom_notification.dart';
 import '../../../services/notification_service.dart';
+import '../../../core/utils/responsive.dart';
 
 class ProfileView extends StatefulWidget {
   final bool abrirPlanesPremium;
@@ -415,7 +416,15 @@ class _ProfileViewState extends State<ProfileView> {
           initialChildSize: 0.65,
           minChildSize: 0.4,
           builder: (_, controller) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            padding: EdgeInsets.symmetric(
+              horizontal: Responsive.getHorizontalPadding(context),
+              vertical: Responsive.getResponsiveSpacing(
+                context,
+                mobile: 12,
+                tablet: 14,
+                desktop: 16,
+              ),
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -429,23 +438,54 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
-                const Text(
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 12,
+                    tablet: 14,
+                    desktop: 16,
+                  ),
+                ),
+                Text(
                   'Planes Premium para Contratistas',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 18,
+                      tablet: 20,
+                      desktop: 22,
+                    ),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 8),
-                const Text(
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 6,
+                    tablet: 7,
+                    desktop: 8,
+                  ),
+                ),
+                Text(
                   'Desbloquea herramientas avanzadas para llevar un control profesional de tus proyectos y equipos.',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 13,
+                      tablet: 14,
+                      desktop: 15,
+                    ),
                     color: Colors.black87,
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 15,
+                    tablet: 18,
+                    desktop: 20,
+                  ),
+                ),
                 Expanded(
                   child: ListView(
                     controller: controller,
@@ -467,7 +507,14 @@ class _ProfileViewState extends State<ProfileView> {
                           );
                         },
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 12,
+                          tablet: 14,
+                          desktop: 16,
+                        ),
+                      ),
                       _buildPremiumPlanCard(
                         titulo: 'Plan Anual',
                         precio: '\$2,500 MXN',
@@ -487,9 +534,23 @@ class _ProfileViewState extends State<ProfileView> {
                         },
                       ),
                       if (_tienePremium) ...[
-                        const SizedBox(height: 24),
+                        SizedBox(
+                          height: Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 18,
+                            tablet: 21,
+                            desktop: 24,
+                          ),
+                        ),
                         Container(
-                          padding: const EdgeInsets.all(16),
+                          padding: EdgeInsets.all(
+                            Responsive.getResponsiveSpacing(
+                              context,
+                              mobile: 12,
+                              tablet: 14,
+                              desktop: 16,
+                            ),
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.red.shade50,
                             borderRadius: BorderRadius.circular(12),
@@ -501,11 +562,23 @@ class _ProfileViewState extends State<ProfileView> {
                               Row(
                                 children: [
                                   Icon(Icons.info_outline, color: Colors.red.shade700, size: 20),
-                                  const SizedBox(width: 8),
+                                  SizedBox(
+                                    width: Responsive.getResponsiveSpacing(
+                                      context,
+                                      mobile: 6,
+                                      tablet: 7,
+                                      desktop: 8,
+                                    ),
+                                  ),
                                   Text(
                                     'Suscripción Premium Activa',
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: Responsive.getResponsiveFontSize(
+                                        context,
+                                        mobile: 14,
+                                        tablet: 15,
+                                        desktop: 16,
+                                      ),
                                       fontWeight: FontWeight.bold,
                                       color: Colors.red.shade700,
                                     ),

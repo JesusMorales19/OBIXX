@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:typed_data';
+import '../../../../core/utils/responsive.dart';
 
 class ModalTrabajoCorto {
   static const Color primaryYellow = Color(0xFFF5B400);
@@ -25,7 +26,14 @@ class ModalTrabajoCorto {
       builder: (_) {
         // Agregamos un padding superior para que el modal no suba hasta arriba
         return Padding(
-          padding: const EdgeInsets.only(top: 60), // 👈 margen superior visible
+          padding: EdgeInsets.only(
+            top: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 50,
+              tablet: 55,
+              desktop: 60,
+            ),
+          ),
           child: Container(
             decoration: BoxDecoration(
               color: whiteColor,
@@ -46,53 +54,123 @@ class ModalTrabajoCorto {
               builder: (context, scrollController) {
                 return SingleChildScrollView(
                   controller: scrollController,
-                  padding: const EdgeInsets.all(18),
+                  padding: EdgeInsets.all(
+                    Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 15,
+                      tablet: 16,
+                      desktop: 18,
+                    ),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(
                         child: Container(
-                          width: 50,
-                          height: 6,
+                          width: Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 45,
+                            tablet: 47,
+                            desktop: 50,
+                          ),
+                          height: Responsive.getResponsiveSpacing(
+                            context,
+                            mobile: 5,
+                            tablet: 5.5,
+                            desktop: 6,
+                          ),
                           decoration: BoxDecoration(
                             color: lightGray,
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 12,
+                          tablet: 14,
+                          desktop: 16,
+                        ),
+                      ),
 
                       Text(
                         titulo,
-                        style: const TextStyle(
-                          fontSize: 22,
+                        style: TextStyle(
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 20,
+                            tablet: 21,
+                            desktop: 22,
+                          ),
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 8,
+                          tablet: 9,
+                          desktop: 10,
+                        ),
+                      ),
 
                       Text(
                         descripcion,
-                        style: const TextStyle(
-                          fontSize: 15,
+                        style: TextStyle(
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 13,
+                            tablet: 14,
+                            desktop: 15,
+                          ),
                           color: Colors.black87,
                         ),
                       ),
 
-                      const SizedBox(height: 18),
-                      if (contratistaNombre != null && contratistaNombre.isNotEmpty)
-                        _buildInfo(Icons.person, 'Contratista', contratistaNombre, primaryYellow),
-                      _buildInfo(Icons.attach_money, 'Rango de precio', rangoPrecio, primaryYellow),
-                      _buildInfo(Icons.access_time, 'Disponibilidad', disponibilidad, primaryYellow),
-                      _buildInfo(Icons.build, 'Especialidad requerida', especialidad, secondaryOrange),
-
-                      const SizedBox(height: 18),
-                      const Text(
-                        'Fotos del trabajo:',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      SizedBox(
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 15,
+                          tablet: 16,
+                          desktop: 18,
+                        ),
                       ),
-                      const SizedBox(height: 10),
+                      if (contratistaNombre != null && contratistaNombre.isNotEmpty)
+                        _buildInfo(context, Icons.person, 'Contratista', contratistaNombre, primaryYellow),
+                      _buildInfo(context, Icons.attach_money, 'Rango de precio', rangoPrecio, primaryYellow),
+                      _buildInfo(context, Icons.access_time, 'Disponibilidad', disponibilidad, primaryYellow),
+                      _buildInfo(context, Icons.build, 'Especialidad requerida', especialidad, secondaryOrange),
+
+                      SizedBox(
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 15,
+                          tablet: 16,
+                          desktop: 18,
+                        ),
+                      ),
+                      Text(
+                        'Fotos del trabajo:',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: Responsive.getResponsiveFontSize(
+                            context,
+                            mobile: 14,
+                            tablet: 15,
+                            desktop: 16,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 8,
+                          tablet: 9,
+                          desktop: 10,
+                        ),
+                      ),
 
                       fotos.isEmpty
                           ? const Text(
@@ -100,11 +178,23 @@ class ModalTrabajoCorto {
                               style: TextStyle(color: Colors.grey),
                             )
                           : SizedBox(
-                              height: 110,
+                              height: Responsive.getResponsiveSpacing(
+                                context,
+                                mobile: 100,
+                                tablet: 105,
+                                desktop: 110,
+                              ),
                               child: ListView.separated(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: fotos.length,
-                                separatorBuilder: (_, __) => const SizedBox(width: 12),
+                                separatorBuilder: (_, __) => SizedBox(
+                                  width: Responsive.getResponsiveSpacing(
+                                    context,
+                                    mobile: 10,
+                                    tablet: 11,
+                                    desktop: 12,
+                                  ),
+                                ),
                                 itemBuilder: (context, index) {
                                   final base64Data = fotos[index];
                                   try {
@@ -115,40 +205,101 @@ class ModalTrabajoCorto {
                                         borderRadius: BorderRadius.circular(14),
                                         child: Image.memory(
                                           bytes,
-                                          width: 150,
-                                          height: 100,
+                                          width: Responsive.getResponsiveSpacing(
+                                            context,
+                                            mobile: 140,
+                                            tablet: 145,
+                                            desktop: 150,
+                                          ),
+                                          height: Responsive.getResponsiveSpacing(
+                                            context,
+                                            mobile: 90,
+                                            tablet: 95,
+                                            desktop: 100,
+                                          ),
                                           fit: BoxFit.cover,
                                         ),
                                       ),
                                     );
                                   } catch (_) {
                                     return Container(
-                                      width: 150,
-                                      height: 100,
+                                      width: Responsive.getResponsiveSpacing(
+                                        context,
+                                        mobile: 140,
+                                        tablet: 145,
+                                        desktop: 150,
+                                      ),
+                                      height: Responsive.getResponsiveSpacing(
+                                        context,
+                                        mobile: 90,
+                                        tablet: 95,
+                                        desktop: 100,
+                                      ),
                                       decoration: BoxDecoration(
                                         color: Colors.grey[300],
                                         borderRadius: BorderRadius.circular(14),
                                       ),
                                       alignment: Alignment.center,
-                                      child: const Text('Imagen inválida'),
+                                      child: Text(
+                                        'Imagen inválida',
+                                        style: TextStyle(
+                                          fontSize: Responsive.getResponsiveFontSize(
+                                            context,
+                                            mobile: 11,
+                                            tablet: 12,
+                                            desktop: 13,
+                                          ),
+                                        ),
+                                      ),
                                     );
                                   }
                                 },
                               ),
                             ),
 
-                      const SizedBox(height: 25),
+                      SizedBox(
+                        height: Responsive.getResponsiveSpacing(
+                          context,
+                          mobile: 20,
+                          tablet: 22,
+                          desktop: 25,
+                        ),
+                      ),
                       Center(
                         child: ElevatedButton(
                           onPressed: () => Navigator.pop(context),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: secondaryOrange,
-                            padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 14),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: Responsive.getResponsiveSpacing(
+                                context,
+                                mobile: 50,
+                                tablet: 55,
+                                desktop: 60,
+                              ),
+                              vertical: Responsive.getResponsiveSpacing(
+                                context,
+                                mobile: 12,
+                                tablet: 13,
+                                desktop: 14,
+                              ),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
                           ),
-                          child: const Text(
+                          child: Text(
                             'Cerrar',
-                            style: TextStyle(color: whiteColor, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              color: whiteColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: Responsive.getResponsiveFontSize(
+                                context,
+                                mobile: 14,
+                                tablet: 15,
+                                desktop: 16,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -163,22 +314,60 @@ class ModalTrabajoCorto {
     );
   }
 
-  static Widget _buildInfo(IconData icon, String title, String value, Color color) {
+  static Widget _buildInfo(BuildContext context, IconData icon, String title, String value, Color color) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 6),
-      padding: const EdgeInsets.all(12),
+      margin: EdgeInsets.symmetric(
+        vertical: Responsive.getResponsiveSpacing(
+          context,
+          mobile: 5,
+          tablet: 5.5,
+          desktop: 6,
+        ),
+      ),
+      padding: EdgeInsets.all(
+        Responsive.getResponsiveSpacing(
+          context,
+          mobile: 10,
+          tablet: 11,
+          desktop: 12,
+        ),
+      ),
       decoration: BoxDecoration(
         color: lightGray.withOpacity(0.4),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
-          Icon(icon, color: color),
-          const SizedBox(width: 10),
+          Icon(
+            icon,
+            color: color,
+            size: Responsive.getResponsiveFontSize(
+              context,
+              mobile: 18,
+              tablet: 19,
+              desktop: 20,
+            ),
+          ),
+          SizedBox(
+            width: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 8,
+              tablet: 9,
+              desktop: 10,
+            ),
+          ),
           Expanded(
             child: Text(
               '$title: $value',
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                fontSize: Responsive.getResponsiveFontSize(
+                  context,
+                  mobile: 12,
+                  tablet: 13,
+                  desktop: 14,
+                ),
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ],

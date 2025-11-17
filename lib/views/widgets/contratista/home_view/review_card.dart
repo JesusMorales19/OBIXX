@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import '../../../../core/utils/responsive.dart';
 
 class ReviewCard extends StatelessWidget {
   final String nombre;
@@ -25,8 +26,22 @@ class ReviewCard extends StatelessWidget {
     final initials = _buildInitials();
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin: EdgeInsets.only(
+        bottom: Responsive.getResponsiveSpacing(
+          context,
+          mobile: 10,
+          tablet: 11,
+          desktop: 12,
+        ),
+      ),
+      padding: EdgeInsets.all(
+        Responsive.getResponsiveSpacing(
+          context,
+          mobile: 10,
+          tablet: 11,
+          desktop: 12,
+        ),
+      ),
       decoration: BoxDecoration(
         color: Colors.grey.shade100,
         borderRadius: BorderRadius.circular(15),
@@ -35,49 +50,106 @@ class ReviewCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
-            radius: 24,
+            radius: Responsive.getResponsiveFontSize(
+              context,
+              mobile: 20,
+              tablet: 22,
+              desktop: 24,
+            ),
             backgroundImage: bytes != null ? MemoryImage(bytes) : null,
             backgroundColor: Colors.orangeAccent,
             child: bytes == null
                 ? Text(
                     initials,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
+                      fontSize: Responsive.getResponsiveFontSize(
+                        context,
+                        mobile: 12,
+                        tablet: 13,
+                        desktop: 14,
+                      ),
                     ),
                   )
                 : null,
           ),
-          const SizedBox(width: 10),
+          SizedBox(
+            width: Responsive.getResponsiveSpacing(
+              context,
+              mobile: 8,
+              tablet: 9,
+              desktop: 10,
+            ),
+          ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   nombre,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 13.5,
+                    fontSize: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 12,
+                      tablet: 13,
+                      desktop: 13.5,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 3,
+                    tablet: 3.5,
+                    desktop: 4,
+                  ),
+                ),
                 Row(
                   children: [
-                    ..._buildStars(),
-                    const SizedBox(width: 4),
+                    ..._buildStars(context),
+                    SizedBox(
+                      width: Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 3,
+                        tablet: 3.5,
+                        desktop: 4,
+                      ),
+                    ),
                     Text(
                       rating.toStringAsFixed(1),
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: Responsive.getResponsiveFontSize(
+                          context,
+                          mobile: 11,
+                          tablet: 11.5,
+                          desktop: 12,
+                        ),
                         color: Colors.grey.shade700,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 6),
+                SizedBox(
+                  height: Responsive.getResponsiveSpacing(
+                    context,
+                    mobile: 5,
+                    tablet: 5.5,
+                    desktop: 6,
+                  ),
+                ),
                 Text(
                   comentario,
-                  style: const TextStyle(fontSize: 12, color: Colors.black87),
+                  style: TextStyle(
+                    fontSize: Responsive.getResponsiveFontSize(
+                      context,
+                      mobile: 11,
+                      tablet: 11.5,
+                      desktop: 12,
+                    ),
+                    color: Colors.black87,
+                  ),
                 ),
               ],
             ),
@@ -110,19 +182,25 @@ class ReviewCard extends StatelessWidget {
     return '$first$second';
   }
 
-  List<Widget> _buildStars() {
+  List<Widget> _buildStars(BuildContext context) {
     final stars = <Widget>[];
     final fullStars = rating.floor();
     final hasHalf = (rating - fullStars) >= 0.5;
+    final starSize = Responsive.getResponsiveFontSize(
+      context,
+      mobile: 12,
+      tablet: 13,
+      desktop: 14,
+    );
 
     for (var i = 0; i < 5; i++) {
       if (i < fullStars) {
-        stars.add(const Icon(Icons.star, size: 14, color: Colors.amber));
+        stars.add(Icon(Icons.star, size: starSize, color: Colors.amber));
       } else if (i == fullStars && hasHalf) {
-        stars.add(const Icon(Icons.star_half, size: 14, color: Colors.amber));
+        stars.add(Icon(Icons.star_half, size: starSize, color: Colors.amber));
       } else {
         stars.add(Icon(Icons.star_border,
-            size: 14, color: Colors.amber.withOpacity(0.7)));
+            size: starSize, color: Colors.amber.withOpacity(0.7)));
       }
     }
 

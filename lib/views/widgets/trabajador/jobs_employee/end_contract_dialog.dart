@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/utils/responsive.dart';
 
 class EndContractDialog {
   static void show(BuildContext context, VoidCallback onConfirm) {
@@ -11,7 +12,14 @@ class EndContractDialog {
             color: Colors.transparent,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 250),
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(
+                Responsive.getResponsiveSpacing(
+                  context,
+                  mobile: 15,
+                  tablet: 18,
+                  desktop: 20,
+                ),
+              ),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
@@ -33,36 +41,79 @@ class EndContractDialog {
                       color: Colors.orange.shade100,
                       shape: BoxShape.circle,
                     ),
-                    padding: const EdgeInsets.all(16),
-                    child: const Icon(
+                    padding: EdgeInsets.all(
+                      Responsive.getResponsiveSpacing(
+                        context,
+                        mobile: 12,
+                        tablet: 14,
+                        desktop: 16,
+                      ),
+                    ),
+                    child: Icon(
                       Icons.warning_amber_rounded,
                       color: Colors.orange,
-                      size: 50,
+                      size: Responsive.getResponsiveFontSize(
+                        context,
+                        mobile: 45,
+                        tablet: 47,
+                        desktop: 50,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 12,
+                      tablet: 14,
+                      desktop: 16,
+                    ),
+                  ),
 
                   // 🔹 Título
-                  const Text(
+                  Text(
                     "¿Estás seguro?",
                     style: TextStyle(
-                      fontSize: 22,
+                      fontSize: Responsive.getResponsiveFontSize(
+                        context,
+                        mobile: 20,
+                        tablet: 21,
+                        desktop: 22,
+                      ),
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF1F4E79),
+                      color: const Color(0xFF1F4E79),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(
+                    height: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 8,
+                      tablet: 9,
+                      desktop: 10,
+                    ),
+                  ),
 
                   // 🔹 Descripción
-                  const Text(
+                  Text(
                     "¿Deseas terminar este contrato? Esta acción no se puede deshacer.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: Responsive.getResponsiveFontSize(
+                        context,
+                        mobile: 13,
+                        tablet: 14,
+                        desktop: 15,
+                      ),
                       color: Colors.black87,
                     ),
                   ),
-                  const SizedBox(height: 25),
+                  SizedBox(
+                    height: Responsive.getResponsiveSpacing(
+                      context,
+                      mobile: 20,
+                      tablet: 22,
+                      desktop: 25,
+                    ),
+                  ),
 
                   // 🔹 Botones de acción
                   Row(
@@ -76,11 +127,33 @@ class EndContractDialog {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 10),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Responsive.getResponsiveSpacing(
+                              context,
+                              mobile: 20,
+                              tablet: 22,
+                              desktop: 24,
+                            ),
+                            vertical: Responsive.getResponsiveSpacing(
+                              context,
+                              mobile: 8,
+                              tablet: 9,
+                              desktop: 10,
+                            ),
+                          ),
                         ),
                         onPressed: () => Navigator.pop(context),
-                        child: const Text("Cancelar"),
+                        child: Text(
+                          "Cancelar",
+                          style: TextStyle(
+                            fontSize: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 14,
+                              tablet: 15,
+                              desktop: 16,
+                            ),
+                          ),
+                        ),
                       ),
 
                       // Botón confirmar
@@ -91,14 +164,36 @@ class EndContractDialog {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 10),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Responsive.getResponsiveSpacing(
+                              context,
+                              mobile: 20,
+                              tablet: 22,
+                              desktop: 24,
+                            ),
+                            vertical: Responsive.getResponsiveSpacing(
+                              context,
+                              mobile: 8,
+                              tablet: 9,
+                              desktop: 10,
+                            ),
+                          ),
                         ),
                         onPressed: () {
                           Navigator.pop(context);
                           onConfirm();
                         },
-                        child: const Text("Sí, terminar"),
+                        child: Text(
+                          "Sí, terminar",
+                          style: TextStyle(
+                            fontSize: Responsive.getResponsiveFontSize(
+                              context,
+                              mobile: 14,
+                              tablet: 15,
+                              desktop: 16,
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
